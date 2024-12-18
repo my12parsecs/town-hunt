@@ -40,7 +40,7 @@ const CitySelect = ({ setSelectedCity }) => {
         }
     } catch (error) {
       console.error('Error fetching cities:', error);
-      return [{ value: "lived", label: "Lived" }];
+      return [];
     }
   };
 
@@ -51,8 +51,14 @@ const CitySelect = ({ setSelectedCity }) => {
 
   useEffect(() => {
     setPrefersDarkScheme(window.matchMedia("(prefers-color-scheme: dark)"))
-    setDataTheme(prefersDarkScheme.matches ? "dark" : "light")
   }, []);
+
+  useEffect(() => {
+    setDataTheme(prefersDarkScheme.matches ? "dark" : "light")
+  }, [prefersDarkScheme]);
+
+  console.log(dataTheme);
+  
 
   const countrySelectStyle = {
     control: (provided, state) => ({
