@@ -279,3 +279,8 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
 .edit-icon{
     font-size: 12px;
 }
+@media (prefers-color-scheme: light) {
+    .edit-icon{
+        color: white;
+    }
+}

@@ -92,7 +92,7 @@ const CitySelect = ({ setSelectedCity }) => {
       color: dataTheme === "dark" ? "#fff" : "black",
       padding: '5px 0px',
       borderRadius: '4px',
-      fontSize: "16px",
+      fontSize: "14px",
       whiteSpace: 'nowrap',
       overflow: 'visible',
       textOverflow: 'clip',
