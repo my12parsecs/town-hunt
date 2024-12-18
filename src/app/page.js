@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faCircleInfo, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import CitySelect from "./components/CitySelect";
 import getFlagEmoji from "./components/GetFlagEmoji";
@@ -11,6 +11,7 @@ import "./stylesheets/home.css"
 export default function Home() {
   const [selectedCity, setSelectedCity] = useState(null);
   const [cityArr, setCityArr] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
 
 
   const handleAdd = () => {
@@ -45,19 +46,28 @@ export default function Home() {
         </div> :
         <div className="city-list">
           {cityArr.map((city, index) => (
-            <div key={index} className="city-list-row">
-              <div className="city-name">
-                <div className="city-cityname">{city.cityName}</div>
-                <div className="city-countryname">{getFlagEmoji(city.countryCode)} {city.countryName}</div>
+            <div className="city-list-container" key={index}>
+              <div className="city-list-row">
+                <div className="city-name">
+                  <div className="city-cityname">{city.cityName}</div>
+                  <div className="city-countryname">{getFlagEmoji(city.countryCode)} {city.countryName}</div>
+                </div>
+                <div className="city-button">
+                  <a href={`https://en.wikipedia.org/wiki/${city.cityName}`} target="_blank" rel="noreferrer" className="city-wiki-link">
+                    <FontAwesomeIcon icon={faCircleInfo} className="info-icon" />
+                  </a>
+                  <a href={`https://www.google.com/maps/search/${city.cityName}`} target="_blank" rel="noreferrer" className="city-map-link">
+                    <FontAwesomeIcon icon={faLocationDot} className="map-icon" />
+                  </a>
+                </div>
               </div>
-              <div className="city-button">
-                <a href={`https://en.wikipedia.org/wiki/${city.cityName}`} target="_blank" rel="noreferrer" className="city-wiki-link">
-                  <FontAwesomeIcon icon={faCircleInfo} className="info-icon" />
-                </a>
-                <a href={`https://www.google.com/maps/search/${city.cityName}`} target="_blank" rel="noreferrer" className="city-map-link">
-                  <FontAwesomeIcon icon={faLocationDot} className="map-icon" />
-                </a>
-              </div>
+              {isEditing && (
+                <div className="city-delete-container">
+                  <div className="city-delete">
+                    <FontAwesomeIcon icon={faTrash} className="delete-icon" />
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -71,6 +81,9 @@ export default function Home() {
           <CitySelect setSelectedCity={setSelectedCity} />
         </div>
         <div className='city-add-button' onClick={handleAdd}>Add</div>
+        <div className="city-edit-button" onClick={() => setIsEditing(!isEditing)}>
+          <FontAwesomeIcon icon={faPen} className="edit-icon" />
+        </div>
       </div>
 
     </div>

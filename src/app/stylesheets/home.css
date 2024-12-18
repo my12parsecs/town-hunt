@@ -68,19 +68,26 @@
 
 
 .city-list{
-    width: 94%;
+    width: 92%;
     max-width: 500px;
     margin: auto;
     display: block;
+}
+.city-list-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 15px auto 15px auto;
 }
 .city-list-row{
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 60px;
+    width: 100%;
     background-color: #181818;
     border-radius: 10px;
-    margin: 15px auto 15px auto;
 }
 @media (prefers-color-scheme: light) {
     .city-list-row{
@@ -127,6 +134,32 @@
     width: 17px;
     height: 17px;
 }
+.city-delete-container{
+    width: 35px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-right: 5px;
+}
+.city-delete{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.delete-icon{
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -142,7 +175,7 @@
     transform: translateX(-50%);
     height: 50px;
     /* width: 100%; */
-    width: 275px;
+    width: 290px;
     padding-left: 5px;
     border-radius: 500px;
     display: flex;
@@ -170,7 +203,7 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
 }
 
 .loading-select{
-    width: 170px;
+    width: 150px;
     height: 30px;
     border-radius: 5px;
     /* background-color: #181818; */
@@ -199,7 +232,7 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
 }
 .city-add-button{
     height: 32px;
-    width: 65px;
+    width: 55px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -230,4 +263,19 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
         color: white;
         border: none;
     }
+}
+
+.city-edit-button{
+    width: 32px;
+    height: 32px;
+    background-color: black;
+    border-radius: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.edit-icon{
+    font-size: 12px;
 }
