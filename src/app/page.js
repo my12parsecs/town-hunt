@@ -38,24 +38,30 @@ export default function Home() {
       {/* <h1>Welcome to the Town Hunt</h1> */}
 
     <div className="home-content">
-      <div className="city-list">
-        {cityArr.map((city, index) => (
-          <div key={index} className="city-list-row">
-            <div className="city-name">
-              <div className="city-cityname">{city.cityName}</div>
-              <div className="city-countryname">{getFlagEmoji(city.countryCode)} {city.countryName}</div>
+      {cityArr.length === 0 ? 
+        <div className="no-city-div">
+          <h1 className="title-h1">Town Hunt</h1>
+          <h2 className="title-h2">Quickly record towns.</h2>
+        </div> :
+        <div className="city-list">
+          {cityArr.map((city, index) => (
+            <div key={index} className="city-list-row">
+              <div className="city-name">
+                <div className="city-cityname">{city.cityName}</div>
+                <div className="city-countryname">{getFlagEmoji(city.countryCode)} {city.countryName}</div>
+              </div>
+              <div className="city-button">
+                <a href={`https://en.wikipedia.org/wiki/${city.cityName}`} target="_blank" rel="noreferrer" className="city-wiki-link">
+                  <FontAwesomeIcon icon={faCircleInfo} className="info-icon" />
+                </a>
+                <a href={`https://www.google.com/maps/search/${city.cityName}`} target="_blank" rel="noreferrer" className="city-map-link">
+                  <FontAwesomeIcon icon={faLocationDot} className="map-icon" />
+                </a>
+              </div>
             </div>
-            <div className="city-button">
-              <a href={`https://en.wikipedia.org/wiki/${city.cityName}`} target="_blank" rel="noreferrer" className="city-wiki-link">
-                <FontAwesomeIcon icon={faCircleInfo} className="info-icon" />
-              </a>
-              <a href={`https://www.google.com/maps/search/${city.cityName}`} target="_blank" rel="noreferrer" className="city-map-link">
-                <FontAwesomeIcon icon={faLocationDot} className="map-icon" />
-              </a>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      }
     </div>
 
 

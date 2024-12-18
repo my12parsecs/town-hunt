@@ -1,5 +1,5 @@
 
 
-#Town Hunt
+# Town Hunt
 
-## Quickly record towns.
+Quickly record towns.
