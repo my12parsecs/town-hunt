@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+
 
 // Dynamically import AsyncSelect to disable SSR
 const AsyncSelect = dynamic(() => import('react-select/async'), {
@@ -73,7 +76,7 @@ const CitySelect = ({ setSelectedCity }) => {
       border: "#696969 0.5px solid",
       boxShadow: 'none',
       width: "150px",
-      height: "30px",
+      height: "35px",
 
       background: "rgba(255, 255, 255, 0.04)",
       boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
@@ -85,7 +88,7 @@ const CitySelect = ({ setSelectedCity }) => {
       height: '28px',
       paddingLeft: "10px",
       paddingTop: "2px",
-      fontSize: "14px",
+      fontSize: "16px",
     }),
     singleValue: (provided, state) => ({
       ...provided,

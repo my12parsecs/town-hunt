@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faCircleInfo, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faCircleInfo, faPlus,faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import CitySelect from "./components/CitySelect";
 import getFlagEmoji from "./components/GetFlagEmoji";
@@ -80,7 +80,9 @@ export default function Home() {
         <div style={{ display: "flex" }}>
           <CitySelect setSelectedCity={setSelectedCity} />
         </div>
-        <div className='city-add-button' onClick={handleAdd}>Add</div>
+        <div className='city-add-button' onClick={handleAdd}>
+          <FontAwesomeIcon icon={faPlus} className="add-icon" />
+        </div>
         <div className="city-edit-button" onClick={() => setIsEditing(!isEditing)}>
           <FontAwesomeIcon icon={faPen} className="edit-icon" />
         </div>
