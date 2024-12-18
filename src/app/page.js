@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faCircleInfo, faPlus,faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faCircleInfo, faPlus,faPen, faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import CitySelect from "./components/CitySelect";
 import getFlagEmoji from "./components/GetFlagEmoji";
@@ -84,7 +84,8 @@ export default function Home() {
           <FontAwesomeIcon icon={faPlus} className="add-icon" />
         </div>
         <div className="city-edit-button" onClick={() => setIsEditing(!isEditing)}>
-          <FontAwesomeIcon icon={faPen} className="edit-icon" />
+          {/* <FontAwesomeIcon icon={faPen} className="edit-icon" /> */}
+          {isEditing ? (<FontAwesomeIcon icon={faCheck} className="edit-icon" />) : (<FontAwesomeIcon icon={faPen} className="edit-icon" />)}
         </div>
       </div>
 

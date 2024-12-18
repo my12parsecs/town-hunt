@@ -85,7 +85,7 @@ const CitySelect = ({ setSelectedCity }) => {
     }),
     valueContainer: (provided, state) => ({
       ...provided,
-      height: '28px',
+      height: '30px',
       paddingLeft: "10px",
       paddingTop: "2px",
       fontSize: "16px",
