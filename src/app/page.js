@@ -1,95 +1,72 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client"
+
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLocationDot, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+
+import CitySelect from "./components/CitySelect";
+import getFlagEmoji from "./components/GetFlagEmoji";
+import "./stylesheets/home.css"
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [cityArr, setCityArr] = useState([]);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+
+  const handleAdd = () => {
+    console.log(selectedCity);
+    if(!selectedCity) return;
+    const isCityExist = cityArr.some(city => city.label === selectedCity.label);
+    if (isCityExist) return;
+
+    const updatedCityArr = [...cityArr, selectedCity];
+    setCityArr(updatedCityArr);
+    setSelectedCity(null);
+    
+    localStorage.setItem('town-hunt-cities', JSON.stringify(updatedCityArr))
+  };
+
+  useEffect(() => {
+    const storedCities = localStorage.getItem('town-hunt-cities');
+    if (storedCities) {
+      setCityArr(JSON.parse(storedCities));
+    }
+  }, []);
+
+  return (
+    <div className="home-page">
+      {/* <h1>Welcome to the Town Hunt</h1> */}
+
+    <div className="home-content">
+      <div className="city-list">
+        {cityArr.map((city, index) => (
+          <div key={index} className="city-list-row">
+            <div className="city-name">
+              <div className="city-cityname">{city.cityName}</div>
+              <div className="city-countryname">{getFlagEmoji(city.countryCode)} {city.countryName}</div>
+            </div>
+            <div className="city-button">
+              <a href={`https://en.wikipedia.org/wiki/${city.cityName}`} target="_blank" rel="noreferrer" className="city-wiki-link">
+                <FontAwesomeIcon icon={faCircleInfo} className="info-icon" />
+              </a>
+              <a href={`https://www.google.com/maps/search/${city.cityName}`} target="_blank" rel="noreferrer" className="city-map-link">
+                <FontAwesomeIcon icon={faLocationDot} className="map-icon" />
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+
+
+      <div className="add-city-row">
+        <div style={{ display: "flex" }}>
+          <CitySelect setSelectedCity={setSelectedCity} />
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className='city-add-button' onClick={handleAdd}>Add</div>
+      </div>
+
     </div>
   );
 }
