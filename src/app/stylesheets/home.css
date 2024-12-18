@@ -173,9 +173,9 @@
     bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
-    height: 55px;
+    height: 60px;
     /* width: 100%; */
-    width: 285px;
+    width: 290px;
     padding-left: 5px;
     border-radius: 500px;
     display: flex;
@@ -203,8 +203,8 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
 }
 
 .loading-select{
-    width: 150px;
-    height: 30px;
+    width: 163px;
+    height: 39px;
     border-radius: 5px;
     /* background-color: #181818; */
     display: flex;
@@ -218,8 +218,9 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
     -webkit-backdrop-filter: blur(5.4px);
 }
 .loading-placeholder{
-    font-size: 14px;
+    font-size: 16px;
     margin-left: 12px;
+    margin-top: 1px;
     color: gray;
 }
 .loading-icon{
@@ -231,9 +232,9 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
     fill: white;
 }
 .city-add-button{
-    height: 35px;
+    height: 40px;
     /* width: 55px; */
-    width: 35px;
+    width: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -271,8 +272,8 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
 }
 
 .city-edit-button{
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     background-color: black;
     border-radius: 500px;
     display: flex;

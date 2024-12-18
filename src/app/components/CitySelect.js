@@ -75,8 +75,8 @@ const CitySelect = ({ setSelectedCity }) => {
       borderRadius: "5px",
       border: "#696969 0.5px solid",
       boxShadow: 'none',
-      width: "150px",
-      height: "35px",
+      width: "163px",
+      height: "39px",
 
       background: "rgba(255, 255, 255, 0.04)",
       boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
