@@ -120,7 +120,7 @@ const CitySelect = ({ setSelectedCity }) => {
     menu: (provided) => ({
       ...provided,
       backgroundColor: dataTheme === "dark" ? "#181818" : '#fff',
-      width: "170px",
+      width: "163px",
     }),
     indicatorSeparator: () => ({
       display: 'none'
