@@ -60,7 +60,7 @@ const CitySelect = ({ setSelectedCity }) => {
     setDataTheme(prefersDarkScheme.matches ? "dark" : "light")
   }, [prefersDarkScheme]);
 
-  console.log(dataTheme);
+  // console.log(dataTheme);
   
 
   const countrySelectStyle = {

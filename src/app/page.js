@@ -15,7 +15,7 @@ export default function Home() {
 
 
   const handleAdd = () => {
-    console.log(selectedCity);
+    // console.log(selectedCity);
     if(!selectedCity) return;
     const isCityExist = cityArr.some(city => city.label === selectedCity.label);
     if (isCityExist) return;
@@ -24,6 +24,12 @@ export default function Home() {
     setCityArr(updatedCityArr);
     setSelectedCity(null);
     
+    localStorage.setItem('town-hunt-cities', JSON.stringify(updatedCityArr))
+  };
+
+  const handleDelete = (city) => {
+    const updatedCityArr = cityArr.filter(c => c.value !== city.value);
+    setCityArr(updatedCityArr);
     localStorage.setItem('town-hunt-cities', JSON.stringify(updatedCityArr))
   };
 
@@ -36,7 +42,6 @@ export default function Home() {
 
   return (
     <div className="home-page">
-      {/* <h1>Welcome to the Town Hunt</h1> */}
 
     <div className="home-content">
       {cityArr.length === 0 ? 
@@ -45,6 +50,7 @@ export default function Home() {
           <h2 className="title-h2">Quickly record towns.</h2>
         </div> :
         <div className="city-list">
+          {console.log(cityArr)}
           {cityArr.map((city, index) => (
             <div className="city-list-container" key={index}>
               <div className="city-list-row">
@@ -64,7 +70,7 @@ export default function Home() {
               {isEditing && (
                 <div className="city-delete-container">
                   <div className="city-delete">
-                    <FontAwesomeIcon icon={faTrash} className="delete-icon" />
+                    <FontAwesomeIcon icon={faTrash} className="delete-icon" onClick={() => handleDelete(city)} />
                   </div>
                 </div>
               )}
