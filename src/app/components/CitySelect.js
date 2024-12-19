@@ -6,6 +6,8 @@ import dynamic from 'next/dynamic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 
+import getUserLocale from "get-user-locale";
+
 
 // Dynamically import AsyncSelect to disable SSR
 const AsyncSelect = dynamic(() => import('react-select/async'), {
@@ -20,15 +22,18 @@ const AsyncSelect = dynamic(() => import('react-select/async'), {
 });
 
 const CitySelect = ({ setSelectedCity }) => {
+  const [userLanguage, setUserLanguage] = useState("");
 
 
   // Fetch cities based on user input
   const fetchCities = async (inputValue) => {
     try {
-      const response = await fetch(`/api/city?name=${inputValue}`);
+      const response = await fetch(`/api/city?name=${inputValue}&lang=${userLanguage}`);
       const data = await response.json();
 
         if (data.geonames && Array.isArray(data.geonames)) {
+          console.log(data.geonames);
+          
             return data.geonames.map((city) => ({
                 value: city.geonameId,
                 label: `${city.name}, ${city.countryName}`,
@@ -36,7 +41,8 @@ const CitySelect = ({ setSelectedCity }) => {
                 countryName: city.countryName,
                 countryCode: city.countryCode,
                 lat: city.lat,
-                lng: city.lng
+                lng: city.lng,
+                fcl: city.fcl
             })).reverse();
         }else{
             return []
@@ -54,6 +60,9 @@ const CitySelect = ({ setSelectedCity }) => {
 
   useEffect(() => {
     setPrefersDarkScheme(window.matchMedia("(prefers-color-scheme: dark)"))
+
+    const userLocale = getUserLocale();
+    setUserLanguage(userLocale.slice(0, 2));
   }, []);
 
   useEffect(() => {
@@ -61,6 +70,7 @@ const CitySelect = ({ setSelectedCity }) => {
   }, [prefersDarkScheme]);
 
   // console.log(dataTheme);
+  console.log(userLanguage);
   
 
   const countrySelectStyle = {

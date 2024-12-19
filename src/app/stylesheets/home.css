@@ -69,6 +69,92 @@
 
 
 
+.control-row{
+    width: 92%;
+    max-width: 500px;
+    margin: auto;
+    margin-top: 20px;
+    height: 55px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(82, 82, 82) transparent; 
+
+    /* Scrollbarなしなら以下を有効にする */
+    /* white-space: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none; */
+}
+@media (prefers-color-scheme: light) {
+    .control-row{
+        scrollbar-color: rgb(207, 207, 207) transparent; 
+    }
+}
+/* スクロールバー全体のスタイル */
+.control-row::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+
+    /* Scrollbarなしなら以下を有効にする */
+    /* display: none; */
+}
+/* スクロールバーのつまむ部分（スライダー）のスタイル */
+.control-row::-webkit-scrollbar-thumb {
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    border-radius: 10px;
+    background-color: rgb(82, 82, 82);
+}
+@media (prefers-color-scheme: light) {
+    .control-row::-webkit-scrollbar-thumb {
+        background-color: rgb(207, 207, 207);
+    }
+}
+/* スクロールバーのトラック部分（背景）のスタイル */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.filter-button{
+    /* width: 90px */
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 500px;
+    border: none;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-right: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: #181818;
+    color: white;
+}
+@media (prefers-color-scheme: light) {
+    .filter-button{
+        background-color: #f2f2f2;
+        color: black;
+    }
+}
+.active{
+    background-color: white;
+    color: black;
+}
+@media (prefers-color-scheme: light) {
+    .active{
+        background-color: black;
+        color: white;
+    }
+}
+.filter-button > div{
+    white-space: nowrap;
+}
+
 
 
 .city-list{
@@ -160,7 +246,20 @@
 
 
 
-
+.wiki-image-container {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 200px;
+  }
+  
+  .wiki-image {
+    width: 100%;
+    height: auto;
+  }
 
 
 
