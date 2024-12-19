@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
+import getUserLocale from "get-user-locale";
 
 import CitySelect from "./components/CitySelect";
 import getFlagEmoji from "./components/GetFlagEmoji";
