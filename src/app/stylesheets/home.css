@@ -175,7 +175,7 @@
     transform: translateX(-50%);
     height: 60px;
     /* width: 100%; */
-    width: 290px;
+    width: 295px;
     padding-left: 5px;
     border-radius: 500px;
     display: flex;
@@ -213,6 +213,7 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
     border: #696969 0.5px solid;
 
     background: rgba(255, 255, 255, 0.04);
+    background-color: #181818;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5.4px);
     -webkit-backdrop-filter: blur(5.4px);
@@ -274,7 +275,7 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
 .city-edit-button{
     width: 40px;
     height: 40px;
-    background-color: black;
+    background-color: white;
     border-radius: 500px;
     display: flex;
     justify-content: center;
@@ -282,9 +283,16 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
     margin-left: 5px;
     cursor: pointer;
 }
+@media (prefers-color-scheme: light) {
+    .city-edit-button{
+        background-color: black;
+        color: white;
+    }
+}
 .edit-icon{
     width: 14px;
     height: 14px;
+    color: black;
 }
 @media (prefers-color-scheme: light) {
     .edit-icon{

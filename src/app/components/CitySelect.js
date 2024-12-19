@@ -78,7 +78,8 @@ const CitySelect = ({ setSelectedCity }) => {
       width: "163px",
       height: "39px",
 
-      background: "rgba(255, 255, 255, 0.04)",
+      backgroundColor: dataTheme === "dark" ? "rgba(255, 255, 255, 0.04)" : "#fff",
+      backgroundColor: dataTheme === "dark" ? "#181818" : "#fff",
       boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
       backdropFilter: "blur(5.4px)",
       webkitBackdropFilter: "blur(5.4px)"
