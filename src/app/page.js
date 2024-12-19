@@ -9,10 +9,16 @@ import getFlagEmoji from "./components/GetFlagEmoji";
 import "./stylesheets/home.css";
 
 export default function Home() {
+  const [userLanguage, setUserLanguage] = useState("");
   const [selectedCity, setSelectedCity] = useState(null);
   const [cityArr, setCityArr] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [filterType, setFilterType] = useState(null);
+
+  useEffect(() => {
+    const userLocale = getUserLocale();
+    setUserLanguage(userLocale.slice(0, 2));
+  }, []);
 
   const handleAdd = () => {
     // console.log(selectedCity);
@@ -178,7 +184,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="city-button">
-                    <a href={`https://en.wikipedia.org/wiki/${city.cityName}`} target="_blank" rel="noreferrer" className="city-wiki-link">
+                    <a href={`https://${userLanguage}.wikipedia.org/wiki/${city.cityName}`} target="_blank" rel="noreferrer" className="city-wiki-link">
                       <FontAwesomeIcon icon={faCircleInfo} className="info-icon" />
                     </a>
                     <a href={`https://www.google.com/maps/search/${city.cityName}`} target="_blank" rel="noreferrer" className="city-map-link">
