@@ -87,6 +87,7 @@ const CitySelect = ({ setSelectedCity }) => {
       boxShadow: 'none',
       width: "163px",
       height: "39px",
+      cursor: "text",
 
       backgroundColor: dataTheme === "dark" ? "rgba(255, 255, 255, 0.04)" : "#fff",
       backgroundColor: dataTheme === "dark" ? "#181818" : "#fff",

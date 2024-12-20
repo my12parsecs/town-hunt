@@ -12,9 +12,36 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+const metaInfo = {
+  title: "Save Places Around the World",
+  description: "Quickly bookmark places.",
+  url: "https://town-hunt.vercel.app",
+};
+
+
 export const metadata = {
-  title: "Town Hunt",
-  description: "Quickly record towns.",
+  title: metaInfo.title,
+  description: metaInfo.description,
+  keywords: ["destination", "travel", "map", "bookmark", "location"],
+  openGraph: {
+    title: metaInfo.title,
+    description: metaInfo.description,
+    url: metaInfo.url,
+    images: [
+      {
+        url: 'https://utfs.io/f/XBVzUJO68SmlrX8z5gM13s50u9ZcTLxUedCh6PlDAnz72REm',
+        width: 500,
+        height: 500,
+        alt: '',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: metaInfo.title,
+    description: metaInfo.description,
+    images: ['https://utfs.io/f/XBVzUJO68SmlrX8z5gM13s50u9ZcTLxUedCh6PlDAnz72REm'],
+  },
 };
 
 export default function RootLayout({ children }) {

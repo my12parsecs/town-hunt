@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { redirect, useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnifyingGlass, faFilter, faSort, faMap, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import getUserLocale from "get-user-locale";
 
 import CitySelect from "./components/CitySelect";
@@ -10,11 +12,16 @@ import getFlagEmoji from "./components/GetFlagEmoji";
 import "./stylesheets/home.css";
 
 export default function Home() {
+  const router = useRouter()
+
   const [userLanguage, setUserLanguage] = useState("");
   const [selectedCity, setSelectedCity] = useState(null);
   const [cityArr, setCityArr] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [filterType, setFilterType] = useState(null);
+  const [isSearching, setIsSearching] = useState(false);
+  const [dropdown, setDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const userLocale = getUserLocale();
@@ -48,9 +55,7 @@ export default function Home() {
     }
   }, []);
 
-  // const displayedCities = isMountain
-  //   ? cityArr.filter(city => city.fcl === "T")
-  //   : cityArr;
+
   const displayedCities = filterType ? cityArr.filter((city) => city.fcl === filterType) : cityArr;
 
   // const [hoveredCity, setHoveredCity] = useState(null);
@@ -80,9 +85,53 @@ export default function Home() {
   //   setWikiImage(null);
   // };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="home-page">
       <div className="home-content">
+        <div className="func-row">
+          <div className="func-left">
+            <input type="text" className="search-input" placeholder="Search Your List" style={isSearching ? {display: "flex"} : {display: "none"}} />
+          </div>
+          <div className="func-right">
+            <div className="func-each">
+              <FontAwesomeIcon icon={faMagnifyingGlass} className="func-each-icon" onClick={() => setIsSearching(!isSearching)} />
+            </div>
+            {/* <div className="func-each">
+              <FontAwesomeIcon icon={faFilter} className="func-each-icon" />
+            </div> */}
+            <div className="func-each">
+              <FontAwesomeIcon icon={faSort} className="func-each-icon" />
+            </div>
+            <div className="func-each">
+              <FontAwesomeIcon icon={faMap} className="func-each-icon" onClick={() => router.push("/map")} />
+            </div>
+            <div className="func-each" ref={dropdownRef}>
+              <FontAwesomeIcon icon={faBars} className="func-each-icon" onClick={() => setDropdown(!dropdown)} />
+              <div className="dropdown-menu" style={dropdown ? {display: "block"} : {display: "none"}}>
+                <div className="dropdown-each" onClick={() => router.push("/about")}>
+                  <FontAwesomeIcon icon={faCircleInfo} className="dropdown-each-icon" />About
+                </div>
+                <div className="dropdown-each" onClick={() => window.open("https://github.com/my12parsecs/town-hunt", "_blank")}>
+                  <FontAwesomeIcon icon={faGithub} className="dropdown-each-icon" />GitHub
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="control-row">
           {/* ["P", "T", "H", "L", "R", "S", "U", "V"], */}
           {/* // P - city, village
@@ -130,7 +179,7 @@ export default function Home() {
               className={`filter-button ${filterType === "R" ? "active" : ""}`}
               onClick={() => setFilterType(filterType === "R" ? null : "R")}
             >
-              <div>{filterType === "R" ? "Road/Train" : "Road/Railway"}</div>
+              <div>{filterType === "R" ? "Road/Railway" : "Road/Railway"}</div>
             </button>
           )}
           {cityArr.some((city) => city.fcl === "S") && (
@@ -227,3 +276,4 @@ export default function Home() {
     </div>
   );
 }
+ 
