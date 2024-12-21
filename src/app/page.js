@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { redirect, useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnifyingGlass, faFilter, faSort, faMap, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnifyingGlass, faFilter, faSort, faMap, faBars, faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import getUserLocale from "get-user-locale";
 
@@ -16,12 +16,23 @@ export default function Home() {
 
   const [userLanguage, setUserLanguage] = useState("");
   const [selectedCity, setSelectedCity] = useState(null);
+
   const [cityArr, setCityArr] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+
   const [filterType, setFilterType] = useState(null);
+
+  const [sortType, setSortType] = useState({type: null, nameOrder: true, countryOrder: true});
+
   const [isSearching, setIsSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef(null);
+
+
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef(null);
+  const [sortMenu, setSortMenu] = useState(false);
+  const sortMenuRef = useRef(null);
 
   useEffect(() => {
     const userLocale = getUserLocale();
@@ -55,8 +66,50 @@ export default function Home() {
     }
   }, []);
 
+  // FILTER
+  // const displayedCities = filterType ? cityArr.filter((city) => city.fcl === filterType) : cityArr;
 
-  const displayedCities = filterType ? cityArr.filter((city) => city.fcl === filterType) : cityArr;
+  // SORT
+  // const handleSort = (type) => {
+  //   setSortType(type); // Update the sort type state
+  // };
+
+  const sortCities = (cities) => {    
+    if (!sortType.type) return cities;
+    if(sortType.type === "name"){
+      return [...cities].sort((a, b) => {
+        if(sortType.nameOrder){
+          return a.cityName.localeCompare(b.cityName);
+        }else{
+          return b.cityName.localeCompare(a.cityName);
+        }
+      })
+    }
+    if(sortType.type === "country"){
+      return [...cities].sort((a, b) => {
+        if(sortType.countryOrder){
+          return a.countryName.localeCompare(b.countryName);
+        }else{
+          return b.countryName.localeCompare(a.countryName);
+        }
+      })
+    }
+    return 0;
+  };
+
+  // const displayedCities = filterType
+  //   ? sortCities(cityArr.filter((city) => city.fcl === filterType))
+  //   : sortCities(cityArr);
+
+  const displayedCities = sortCities(
+    cityArr
+      .filter((city) =>
+        filterType ? city.fcl === filterType : true // Apply filterType if present
+      )
+      .filter((city) =>
+        city.cityName.toLowerCase().includes(searchQuery.toLowerCase()) // Apply search filter
+      )
+  );
 
   // const [hoveredCity, setHoveredCity] = useState(null);
   // const [wikiImage, setWikiImage] = useState(null);
@@ -90,6 +143,13 @@ export default function Home() {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdown(false);
       }
+      if (sortMenuRef.current && !sortMenuRef.current.contains(event.target)) {
+        setSortMenu(false);
+      }
+      if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
+        setIsSearching(false);
+        setSearchQuery("");
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -103,17 +163,27 @@ export default function Home() {
       <div className="home-content">
         <div className="func-row">
           <div className="func-left">
-            <input type="text" className="search-input" placeholder="Search Your List" style={isSearching ? {display: "flex"} : {display: "none"}} />
+            <input type="text" className="search-input" placeholder="Search Your List" style={isSearching ? {display: "flex"} : {display: "none"}} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} ref={searchInputRef} />
           </div>
           <div className="func-right">
             <div className="func-each">
-              <FontAwesomeIcon icon={faMagnifyingGlass} className="func-each-icon" onClick={() => setIsSearching(!isSearching)} />
+              <FontAwesomeIcon icon={faMagnifyingGlass} className="func-each-icon" onClick={() => {setIsSearching(!isSearching); setSearchQuery("")}} />
             </div>
             {/* <div className="func-each">
               <FontAwesomeIcon icon={faFilter} className="func-each-icon" />
             </div> */}
-            <div className="func-each">
-              <FontAwesomeIcon icon={faSort} className="func-each-icon" />
+            <div className="func-each" ref={sortMenuRef}>
+              <FontAwesomeIcon icon={faSort} className="func-each-icon" onClick={() => setSortMenu(!sortMenu)} 
+              // onClick={() => setSortType((prev) => (prev === "name" ? null : "name"))}
+               />
+              <div className="dropdown-menu" style={sortMenu ? {display: "block"} : {display: "none"}}>
+                <div className="dropdown-each" onClick={() => setSortType({type: "name", nameOrder: !sortType.nameOrder, countryOrder: sortType.countryOrder})}>
+                  {sortType.nameOrder ? <FontAwesomeIcon icon={faAngleDown} className="sort-menu-each-icon" /> : <FontAwesomeIcon icon={faAngleUp} className="sort-menu-each-icon" />}Name
+                </div>
+                <div className="dropdown-each" onClick={() => setSortType({type: "country", nameOrder: sortType.nameOrder, countryOrder: !sortType.countryOrder})}>
+                  {sortType.countryOrder ? <FontAwesomeIcon icon={faAngleDown} className="sort-menu-each-icon" /> : <FontAwesomeIcon icon={faAngleUp} className="sort-menu-each-icon" />}Country
+                </div>
+              </div>
             </div>
             <div className="func-each">
               <FontAwesomeIcon icon={faMap} className="func-each-icon" onClick={() => router.push("/map")} />
@@ -198,16 +268,6 @@ export default function Home() {
               <div>{filterType === "U" ? "Undersea" : "Undersea"}</div>
             </button>
           )}
-
-          {/* <button className={`filter-button ${filterType === "T" ? "active" : ""}`} onClick={() => setFilterType(filterType === "T" ? null : "T")}>
-            <div>{filterType === "T" ? "Mountains" : "Mountains"}</div>
-          </button>
-          <button className={`filter-button ${filterType === "P" ? "active" : ""}`} onClick={() => setFilterType(filterType === "P" ? null : "P")}>
-            <div>{filterType === "P" ? "Towns" : "Towns"}</div>
-          </button>
-          <button className={`filter-button ${filterType === "L" ? "active" : ""}`} onClick={() => setFilterType(filterType === "L" ? null : "L")}>
-            <div>{filterType === "L" ? "Parks" : "Parks"}</div>
-          </button> */}
         </div>
 
         {cityArr.length === 0 ? (
@@ -218,7 +278,7 @@ export default function Home() {
         ) : (
           <div className="city-list">
             {console.log(cityArr)}
-            {displayedCities.map((city, index) => (
+            {displayedCities.slice().reverse().map((city, index) => (
               <div className="city-list-container" key={index}>
                 <div className="city-list-row">
                   <div className="city-name">
