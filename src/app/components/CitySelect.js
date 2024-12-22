@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
-
+import { faPen, faLocationDot, faMountain } from '@fortawesome/free-solid-svg-icons';
 import getUserLocale from "get-user-locale";
+
+import getFlagEmoji from "./GetFlagEmoji";
 
 
 // Dynamically import AsyncSelect to disable SSR
@@ -38,11 +39,13 @@ const CitySelect = ({ setSelectedCity }) => {
                 value: city.geonameId,
                 label: `${city.name}, ${city.countryName}`,
                 cityName: city.name,
+                adminName1: city.adminName1,
                 countryName: city.countryName,
                 countryCode: city.countryCode,
                 lat: city.lat,
                 lng: city.lng,
-                fcl: city.fcl
+                fcl: city.fcl,
+                fcodeName: city.fcodeName
             })).reverse();
         }else{
             return []
@@ -72,6 +75,28 @@ const CitySelect = ({ setSelectedCity }) => {
 
   // console.log(dataTheme);
   // console.log(userLanguage);
+
+
+  const customComponents = {
+    Option: ({ data, innerRef, innerProps }) => (
+      <div ref={innerRef} {...innerProps} style={{ padding: "10px", cursor: "pointer" }}>
+        {/* {getFlagEmoji(data.countryCode)} */}
+        {data.fcl === "P" && <FontAwesomeIcon icon={faLocationDot} className="option-icon" />}
+        {data.fcl === "T" && <FontAwesomeIcon icon={faMountain} className="option-icon" />}
+        {data.fcl === "U" && <FontAwesomeIcon icon={faWater} className="option-icon" />}
+        <strong>{data.cityName}</strong>
+        {/* <span className="option-fcodename">{data.fcl !== "P" ? data.fcodeName.charAt(0).toUpperCase() + data.fcodeName.slice(1) : null}</span> */}
+        <br />
+        <div className="option-bottom"><span className="option-flag">{getFlagEmoji(data.countryCode)}</span> {data.fcl !== "P" ? `${data.fcodeName.charAt(0).toUpperCase() + data.fcodeName.slice(1)} in` : null} {data.adminName1 ? `${data.adminName1},` : null} {data.countryName}</div>
+      </div>
+    ),
+    SingleValue: ({ data }) => (
+      <div>
+        <strong>{data.cityName}</strong> - {data.countryName} ({data.countryCode})
+      </div>
+    ),
+  };
+
   
 
   const countrySelectStyle = {
@@ -133,7 +158,7 @@ const CitySelect = ({ setSelectedCity }) => {
       ...provided,
       backgroundColor: dataTheme === "dark" ? "#181818" : '#fff',
       // width: "163px",
-      width: "220px"
+      width: "260px"
     }),
     indicatorSeparator: () => ({
       display: 'none'
@@ -170,6 +195,7 @@ const CitySelect = ({ setSelectedCity }) => {
     <AsyncSelect
       loadOptions={fetchCities}
       styles={countrySelectStyle}
+      components={customComponents}
       isSearchable={true}
     //   onChange={onCityChange}
       onChange={(selectedOption)=>setSelectedCity(selectedOption)}

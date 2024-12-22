@@ -44,3 +44,25 @@ a {
     color-scheme: dark;
   }
 }
+
+
+
+
+
+
+
+
+.option-icon{
+  margin-right: 5px;
+}
+.option-bottom{
+  margin-top: 6px;
+  font-size: 14px;
+}
+.option-flag{
+  margin-top: 7px;
+  font-size: 13px;
+}
+/* .option-fcodename{
+  font-size: 13px;
+} */

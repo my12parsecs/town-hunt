@@ -1,0 +1,9 @@
+[
+    "road",
+    "railroad",
+    "volcano",
+    "mountain",
+    "stream",
+    "monument",
+    "square"
+]
