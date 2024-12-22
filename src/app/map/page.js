@@ -118,7 +118,7 @@ console.log(cityArr);
             <FontAwesomeIcon icon={faHome} className="home-icon" />
         </Link>
 
-      <div className="add-city-row" style={{position: "absolute", bottom: "15px", left: "50%", transform: "translateX(-50%)"}}>
+      <div className="map-add-city-row" style={{position: "absolute", bottom: "15px", left: "50%", transform: "translateX(-50%)"}}>
         <div style={{ display: "flex" }}>
           <CitySelect setSelectedCity={setSelectedCity} isMapPage={true} />
         </div>
