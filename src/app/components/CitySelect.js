@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faLocationDot, faMountain } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faLocationDot, faMountain, faWater, faRoad, faTrain, faLandmark, faSignsPost } from '@fortawesome/free-solid-svg-icons';
 import getUserLocale from "get-user-locale";
 
 import getFlagEmoji from "./GetFlagEmoji";
@@ -26,7 +26,7 @@ const CitySelect = ({ setSelectedCity }) => {
   const [userLanguage, setUserLanguage] = useState("");
 
 
-  // Fetch cities based on user input
+
   const fetchCities = async (inputValue) => {
     try {
       const response = await fetch(`/api/city?name=${inputValue}&lang=${userLanguage}`);
@@ -56,6 +56,17 @@ const CitySelect = ({ setSelectedCity }) => {
     }
   };
 
+  const debouncedFetchCities = (inputValue, callback) => {
+    clearTimeout(debouncedFetchCities.timer); // Clear any pending timer
+    debouncedFetchCities.timer = setTimeout(async () => {
+      const results = await fetchCities(inputValue);
+      callback(results); // Pass the results back to AsyncSelect
+    }, 500); // Adjust debounce delay here
+  };
+
+
+
+
   const [prefersDarkScheme, setPrefersDarkScheme] = useState(true);
   const [dataTheme, setDataTheme] = useState("dark");
 
@@ -83,18 +94,22 @@ const CitySelect = ({ setSelectedCity }) => {
         {/* {getFlagEmoji(data.countryCode)} */}
         {data.fcl === "P" && <FontAwesomeIcon icon={faLocationDot} className="option-icon" />}
         {data.fcl === "T" && <FontAwesomeIcon icon={faMountain} className="option-icon" />}
+        {data.fcl === "H" && <FontAwesomeIcon icon={faWater} className="option-icon" />}
+        {data.fcl === "L" && <FontAwesomeIcon icon={faSignsPost} className="option-icon" />}
+        {data.fcl === "S" && <FontAwesomeIcon icon={faLandmark} className="option-icon" />}
         {data.fcl === "U" && <FontAwesomeIcon icon={faWater} className="option-icon" />}
+        {data.fcl === "V" && <FontAwesomeIcon icon={faTree} className="option-icon" />}
+        {data.fcodeName === "road" && <FontAwesomeIcon icon={faRoad} className="option-icon" />}
+        {data.fcodeName === "railroad" && <FontAwesomeIcon icon={faTrain} className="option-icon" />}
         <strong>{data.cityName}</strong>
         {/* <span className="option-fcodename">{data.fcl !== "P" ? data.fcodeName.charAt(0).toUpperCase() + data.fcodeName.slice(1) : null}</span> */}
         <br />
-        <div className="option-bottom"><span className="option-flag">{getFlagEmoji(data.countryCode)}</span> {data.fcl !== "P" ? `${data.fcodeName.charAt(0).toUpperCase() + data.fcodeName.slice(1)} in` : null} {data.adminName1 ? `${data.adminName1},` : null} {data.countryName}</div>
+        <div className="option-bottom"><span className="option-flag">{getFlagEmoji(data.countryCode)}</span> {data.fcl !== "P" && data.fcodeName ? `${data.fcodeName.charAt(0).toUpperCase() + data.fcodeName.slice(1)} in` : null} {data.adminName1 ? `${data.adminName1},` : null} {data.countryName}</div>
       </div>
     ),
-    SingleValue: ({ data }) => (
-      <div>
-        <strong>{data.cityName}</strong> - {data.countryName} ({data.countryCode})
-      </div>
-    ),
+    // SingleValue: ({ data }) => (
+    //   <div>{data.label}</div>
+    // ),
   };
 
   
@@ -158,7 +173,9 @@ const CitySelect = ({ setSelectedCity }) => {
       ...provided,
       backgroundColor: dataTheme === "dark" ? "#181818" : '#fff',
       // width: "163px",
-      width: "260px"
+      width: "280px",
+      height: "auto",
+      borderRadius: "5px",
     }),
     indicatorSeparator: () => ({
       display: 'none'
@@ -193,7 +210,7 @@ const CitySelect = ({ setSelectedCity }) => {
 
   return (
     <AsyncSelect
-      loadOptions={fetchCities}
+      loadOptions={(inputValue, callback) => debouncedFetchCities(inputValue, callback)}
       styles={countrySelectStyle}
       components={customComponents}
       isSearchable={true}
