@@ -29,7 +29,7 @@ export const metadata = {
     url: metaInfo.url,
     images: [
       {
-        url: 'https://utfs.io/f/XBVzUJO68SmlrX8z5gM13s50u9ZcTLxUedCh6PlDAnz72REm',
+        url: 'https://utfs.io/f/XBVzUJO68SmlXBO3VNF68SmlRODV7F6NTniEb5ZJYULg4Qsv',
         width: 500,
         height: 500,
         alt: '',
@@ -40,7 +40,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: metaInfo.title,
     description: metaInfo.description,
-    images: ['https://utfs.io/f/XBVzUJO68SmlrX8z5gM13s50u9ZcTLxUedCh6PlDAnz72REm'],
+    images: ['https://utfs.io/f/XBVzUJO68SmlXBO3VNF68SmlRODV7F6NTniEb5ZJYULg4Qsv'],
   },
 };
 

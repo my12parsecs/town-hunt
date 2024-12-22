@@ -61,7 +61,7 @@ const CitySelect = ({ setSelectedCity }) => {
     debouncedFetchCities.timer = setTimeout(async () => {
       const results = await fetchCities(inputValue);
       callback(results); // Pass the results back to AsyncSelect
-    }, 500); // Adjust debounce delay here
+    }, 200); // Adjust debounce delay here
   };
 
 
