@@ -74,9 +74,12 @@
     justify-content: space-between;
     align-items: center;
 }
-.func-left{}
+.func-left{
+    padding-right: 20px;
+}
 .search-input{
     height: 37px;
+    flex-grow: 1;
     background: none;
     border: 1px solid #757575;
     border-radius: 8px;

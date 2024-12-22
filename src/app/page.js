@@ -27,6 +27,7 @@ export default function Home() {
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef(null);
+  const searchInputButtonRef = useRef(null);
 
 
   const [dropdown, setDropdown] = useState(false);
@@ -40,11 +41,9 @@ export default function Home() {
   }, []);
 
   const handleAdd = () => {
-    // console.log(selectedCity);
     if (!selectedCity) return;
     const isCityExist = cityArr.some((city) => city.label === selectedCity.label);
     if (isCityExist) return;
-    console.log(selectedCity);
 
     const updatedCityArr = [...cityArr, selectedCity];
     setCityArr(updatedCityArr);
@@ -146,7 +145,7 @@ export default function Home() {
       if (sortMenuRef.current && !sortMenuRef.current.contains(event.target)) {
         setSortMenu(false);
       }
-      if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
+      if (searchInputRef.current && !searchInputRef.current.contains(event.target) && searchInputButtonRef.current && !searchInputButtonRef.current.contains(event.target)) {
         setIsSearching(false);
         setSearchQuery("");
       }
@@ -167,7 +166,11 @@ export default function Home() {
           </div>
           <div className="func-right">
             <div className="func-each">
-              <FontAwesomeIcon icon={faMagnifyingGlass} className="func-each-icon" onClick={() => {setIsSearching(!isSearching); setSearchQuery("")}} />
+              <FontAwesomeIcon icon={faMagnifyingGlass} className="func-each-icon" ref={searchInputButtonRef} onClick={() => {
+                // !setIsSearching(!isSearching);
+                setIsSearching((prev) => !prev)
+                setSearchQuery("")
+                }} />
             </div>
             {/* <div className="func-each">
               <FontAwesomeIcon icon={faFilter} className="func-each-icon" />

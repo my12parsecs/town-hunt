@@ -60,6 +60,7 @@ const CitySelect = ({ setSelectedCity }) => {
 
   useEffect(() => {
     setPrefersDarkScheme(window.matchMedia("(prefers-color-scheme: dark)"))
+    setDataTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
 
     const userLocale = getUserLocale();
     setUserLanguage(userLocale.slice(0, 2));
@@ -70,7 +71,7 @@ const CitySelect = ({ setSelectedCity }) => {
   }, [prefersDarkScheme]);
 
   // console.log(dataTheme);
-  console.log(userLanguage);
+  // console.log(userLanguage);
   
 
   const countrySelectStyle = {
