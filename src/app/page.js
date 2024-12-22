@@ -162,7 +162,7 @@ export default function Home() {
       <div className="home-content">
         <div className="func-row">
           <div className="func-left">
-            <input type="text" className="search-input" placeholder="Search Your List" style={isSearching ? {display: "flex"} : {display: "none"}} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} ref={searchInputRef} />
+            <input type="text" className="search-input" placeholder="Search List" style={isSearching ? {display: "flex"} : {display: "none"}} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} ref={searchInputRef} />
           </div>
           <div className="func-right">
             <div className="func-each">

@@ -132,7 +132,8 @@ const CitySelect = ({ setSelectedCity }) => {
     menu: (provided) => ({
       ...provided,
       backgroundColor: dataTheme === "dark" ? "#181818" : '#fff',
-      width: "163px",
+      // width: "163px",
+      width: "220px"
     }),
     indicatorSeparator: () => ({
       display: 'none'
@@ -171,7 +172,7 @@ const CitySelect = ({ setSelectedCity }) => {
       styles={countrySelectStyle}
       isSearchable={true}
     //   onChange={onCityChange}
-        onChange={(selectedOption)=>setSelectedCity(selectedOption)}
+      onChange={(selectedOption)=>setSelectedCity(selectedOption)}
       placeholder="Search Town"
       menuPlacement="top"
     />
