@@ -326,7 +326,7 @@ export default function Home() {
 
       <div className="add-city-row">
         <div style={{ display: "flex" }}>
-          <CitySelect setSelectedCity={setSelectedCity} />
+          <CitySelect setSelectedCity={setSelectedCity} isMapPage={false} />
         </div>
         <div className="city-add-button" onClick={handleAdd}>
           <FontAwesomeIcon icon={faPlus} className="add-icon" />

@@ -16,6 +16,7 @@ const metaInfo = {
   title: "Bookmark Places Around the World",
   description: "Quickly bookmark places - Towns, Mountains, Landmarks, Lakes, Parks, Roads...",
   url: "https://town-hunt.vercel.app",
+  image: "https://utfs.io/f/XBVzUJO68SmleETAPiagkEfviNmOUGcXW17rB5ndQZ8I6zyt",
 };
 
 
@@ -29,7 +30,7 @@ export const metadata = {
     url: metaInfo.url,
     images: [
       {
-        url: 'https://utfs.io/f/XBVzUJO68SmlXBO3VNF68SmlRODV7F6NTniEb5ZJYULg4Qsv',
+        url: metaInfo.image,
         width: 500,
         height: 500,
         alt: '',
@@ -40,7 +41,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: metaInfo.title,
     description: metaInfo.description,
-    images: ['https://utfs.io/f/XBVzUJO68SmlXBO3VNF68SmlRODV7F6NTniEb5ZJYULg4Qsv'],
+    images: [metaInfo.image],
   },
 };
 

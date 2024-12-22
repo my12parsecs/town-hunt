@@ -22,7 +22,7 @@ const AsyncSelect = dynamic(() => import('react-select/async'), {
     </div>
 });
 
-const CitySelect = ({ setSelectedCity }) => {
+const CitySelect = ({ setSelectedCity, isMapPage }) => {
   const [userLanguage, setUserLanguage] = useState("");
 
 
@@ -114,15 +114,15 @@ const CitySelect = ({ setSelectedCity }) => {
 
   
 
-  const countrySelectStyle = {
+  const countrySelectStyle = !isMapPage ? {
     control: (provided, state) => ({
       display: "flex",
       alignItems: "center",
       border: dataTheme === "dark" ? 0 : "0.5px solid gray",
       cursor: 'pointer',
     //   backgroundColor: dataTheme === "dark" ? "#181818" : "#fff",
-        backgroundColor: "transparent",
-      color: dataTheme === "dark" ? "#fff" : "black",
+        // backgroundColor: "transparent",
+      color: !isMapPage ? dataTheme === "dark" ? "#fff" : "black" : "black",
       borderRadius: "5px",
       border: "#696969 0.5px solid",
       boxShadow: 'none',
@@ -130,11 +130,11 @@ const CitySelect = ({ setSelectedCity }) => {
       height: "39px",
       cursor: "text",
 
-      backgroundColor: dataTheme === "dark" ? "rgba(255, 255, 255, 0.04)" : "#fff",
-      backgroundColor: dataTheme === "dark" ? "#181818" : "#fff",
+      // backgroundColor: dataTheme === "dark" ? "rgba(255, 255, 255, 0.04)" : "#fff",
+      backgroundColor: !isMapPage ? dataTheme === "dark" ? "#181818" : "#fff" : "white",
       boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
       backdropFilter: "blur(5.4px)",
-      webkitBackdropFilter: "blur(5.4px)"
+      webkitBackdropFilter: "blur(5.4px)",
     }),
     valueContainer: (provided, state) => ({
       ...provided,
@@ -145,7 +145,7 @@ const CitySelect = ({ setSelectedCity }) => {
     }),
     singleValue: (provided, state) => ({
       ...provided,
-      color: dataTheme === "dark" ? "#fff" : "black",
+      color: !isMapPage ? dataTheme === "dark" ? "#fff" : "black" : "black",
       padding: '5px 0px',
       borderRadius: '4px',
       fontSize: "16px",
@@ -171,7 +171,7 @@ const CitySelect = ({ setSelectedCity }) => {
     }),
     menu: (provided) => ({
       ...provided,
-      backgroundColor: dataTheme === "dark" ? "#181818" : '#fff',
+      backgroundColor: !isMapPage ? dataTheme === "dark" ? "#181818" : '#fff' : "white",
       // width: "163px",
       width: "280px",
       height: "auto",
@@ -204,8 +204,97 @@ const CitySelect = ({ setSelectedCity }) => {
     }),
     input: (provided) => ({
       ...provided,
-      color: (dataTheme === "dark" ? "white" : "#1E1E1E"),
+      color: !isMapPage ? (dataTheme === "dark" ? "white" : "#1E1E1E") : "black",
     }),
+  } : {
+      control: (provided, state) => ({
+        display: "flex",
+        alignItems: "center",
+        border: dataTheme === "dark" ? 0 : "0.5px solid gray",
+        cursor: 'pointer',
+      //   backgroundColor: dataTheme === "dark" ? "#181818" : "#fff",
+          // backgroundColor: "transparent",
+        color: !isMapPage ? dataTheme === "dark" ? "#fff" : "black" : "black",
+        borderRadius: "5px",
+        border: "#696969 0.5px solid",
+        boxShadow: 'none',
+        width: "163px",
+        height: "39px",
+        cursor: "text",
+  
+        // backgroundColor: dataTheme === "dark" ? "rgba(255, 255, 255, 0.04)" : "#fff",
+        backgroundColor: !isMapPage ? dataTheme === "dark" ? "#181818" : "#fff" : "white",
+        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+        backdropFilter: "blur(5.4px)",
+        webkitBackdropFilter: "blur(5.4px)",
+      }),
+      valueContainer: (provided, state) => ({
+        ...provided,
+        height: '30px',
+        paddingLeft: "10px",
+        paddingTop: "2px",
+        fontSize: "16px",
+      }),
+      singleValue: (provided, state) => ({
+        ...provided,
+        color: !isMapPage ? dataTheme === "dark" ? "#fff" : "black" : "black",
+        padding: '5px 0px',
+        borderRadius: '4px',
+        fontSize: "16px",
+        whiteSpace: 'nowrap',
+        overflow: 'visible',
+        textOverflow: 'clip',
+        lineHeight: '10px',
+      }),
+      option: (provided, state) => ({
+        ...provided,
+        cursor: 'pointer',
+        backgroundColor: state.isFocused
+          ? "#e6e6e6"
+          : "#fff",
+        color: state.isSelected
+          ? "#000"
+          : state.isFocused
+          ? "black"
+          : "black",
+        fontSize: "13px",
+      }),
+      menu: (provided) => ({
+        ...provided,
+        backgroundColor: !isMapPage ? dataTheme === "dark" ? "#181818" : '#fff' : "white",
+        color: "black",
+        // width: "163px",
+        width: "280px",
+        height: "auto",
+        borderRadius: "5px",
+      }),
+      indicatorSeparator: () => ({
+        display: 'none'
+      }),
+      indicatorsContainer: (provided, state) => ({
+        ...provided,
+        height: '20px',
+        padding: "0px",
+        margin: "auto",
+        marginRight: "5px"
+      }),
+      dropdownIndicator: (provided, state) => ({
+        color: state.isSelected
+          ? "#1E1E1E"
+          : state.isFocused
+          ? (dataTheme === "dark" ? "white" : "#1E1E1E")
+          : "#1E1E1E",
+        width: "20px",
+        height: "20px",
+        opacity: "1",
+        transition: "none",
+        borderLeft: "none",
+        padding: "auto"
+      }),
+      input: (provided) => ({
+        ...provided,
+        color: !isMapPage ? (dataTheme === "dark" ? "white" : "#1E1E1E") : "black",
+      }),
   };
 
   return (

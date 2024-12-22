@@ -1,13 +1,15 @@
 
-
 import React from 'react';
+import Link from 'next/link';
 
 import "../stylesheets/about.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
 
 const metaInfo = {
-    title: "About | Save Places Around the World",
-    description: "About Save Places Around the World",
+    title: "About | Bookmark Places Around the World",
+    description: "About Bookmark Places",
 }
 
 export const metadata = {
@@ -38,7 +40,8 @@ const About = () => {
 
   return (
     <div className="about-page">
-      <h1>Save Places Around the World</h1>
+        <div style={{marginTop: "20px", marginBottom: "20px"}}><Link href="/"><FontAwesomeIcon icon={faAngleLeft} style={{width: "20px", height: "20px"}} /></Link></div>
+      <h1> Places Around the World</h1>
       <p>This is a simple Next.js page template using JSX.</p>
     </div>
   );
