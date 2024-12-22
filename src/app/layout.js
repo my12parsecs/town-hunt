@@ -13,8 +13,8 @@ const inter = Inter({
 });
 
 const metaInfo = {
-  title: "Save Places Around the World",
-  description: "Quickly bookmark places.",
+  title: "Bookmark Places Around the World",
+  description: "Quickly bookmark places - Towns, Mountains, Landmarks, Lakes, Parks, Roads...",
   url: "https://town-hunt.vercel.app",
 };
 
