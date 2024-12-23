@@ -4,28 +4,38 @@ import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import CitySelect from '../components/CitySelect';
+import getUserLocale from 'get-user-locale';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faHome } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faHome, faCircleInfo, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+
+import CitySelect from '../components/CitySelect';
+import getFlagEmoji from '../components/GetFlagEmoji';
+
 
 import "../stylesheets/map.css";
 
 const Map = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
+  const popups = useRef([]);
 
   const [prefersDarkScheme, setPrefersDarkScheme] = useState(true);
+  const [userLanguage, setUserLanguage] = useState("");
   const [cityArr, setCityArr] = useState([]);
 
 console.log(cityArr);
 
 
   useEffect(() => {
+    const userLocale = getUserLocale();
+    setUserLanguage(userLocale.slice(0, 2));
+
     setPrefersDarkScheme(window.matchMedia("(prefers-color-scheme: dark)").matches)
     const storedCities = localStorage.getItem("town-hunt-cities");
     if (storedCities) {
       setCityArr(JSON.parse(storedCities));
     }
+
 
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN;
 
@@ -34,64 +44,78 @@ console.log(cityArr);
     map.current = new mapboxgl.Map({
         container: mapContainer.current,
     //   style: 'mapbox://styles/mapbox/streets-v11',
-        style: window.matchMedia("(prefers-color-scheme: dark)").matches ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
+        style: prefersDarkScheme ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
         projection: "mercator",
         center: [139.6917, 35.6895], // Initial map center [longitude, latitude]
         zoom: 1.2, // Initial zoom level
     });
 
+    const handleDrag = () => (map.current.getCanvas().style.cursor = 'grab');
+    const handleDragEnd = () => (map.current.getCanvas().style.cursor = 'default');
+    map.current.on('drag', handleDrag);
+    map.current.on('dragend', handleDragEnd);
 
-     map.current.getCanvas().style.cursor = 'default'; // Use a default or custom cursor style
+    //  map.current.getCanvas().style.cursor = 'default';
 
-     map.current.on('drag', () => {
-        map.current.getCanvas().style.cursor = 'grab';
-     })
-     map.current.on('dragend', () => {
-        map.current.getCanvas().style.cursor = 'default';
-     })
-
-    // map.current.on('mouseenter', () => {
-    //     map.current.getCanvas().style.cursor = 'pointer';
-    //   });
+    //  map.current.on('drag', () => {
+    //     map.current.getCanvas().style.cursor = 'grab';
+    //  })
+    //  map.current.on('dragend', () => {
+    //     map.current.getCanvas().style.cursor = 'default';
+    //  })
 
     return () => {
-      if (map.current) map.current.remove(); // Clean up the map on component unmount
+      if (map.current) map.current.remove();
+      map.current.off('drag', handleDrag);
+      map.current.off('dragend', handleDragEnd);
     };
   }, []);
 
-//   useEffect(() => { 
-//     // if (!map.current) return;
-//     // if (!cityArr.length) return;
-    
 
-//     cityArr.forEach((city) => {
-//         let customMarker = document.createElement('div');
-//         customMarker.className = 'custom-marker';
+  useEffect(() => { 
+    // if (!map.current) return;
+    if (!cityArr.length) return;
 
-//         const marker = new mapboxgl.Marker()
-//           .setLngLat([city.lng, city.lat])
-//           .addTo(map.current);
+    popups.current.forEach((popup) => popup.remove());
+    popups.current = [];
 
-//         const markerElement = marker.getElement();
-//         markerElement.style.cursor = 'pointer';
+    cityArr.forEach((city) => {
+        let customMarker = document.createElement('div');
+        customMarker.className = 'custom-marker';
+
+        const marker = new mapboxgl.Marker()
+          .setLngLat([city.lng, city.lat])
+          .addTo(map.current);
+
+        const markerElement = marker.getElement();
+        markerElement.style.cursor = 'pointer';
   
-//         // Create a popup
-//         const popupContent = document.createElement('div');
-//         popupContent.className = 'popup-content';
-//         popupContent.innerHTML = `
-//           <h3 class="popup-name">${city.cityName}</h3>
-//           <p class="popup-country">${city.countryName}</p>
-//         `;
-//         // <a href="${city}" target="_blank" class="popup-link">Visit</a>
+        // Create a popup
+        const popupContent = document.createElement('div');
+        popupContent.className = 'popup-content';
+        popupContent.innerHTML = `
+          <h3 class="popup-name">${city.cityName}</h3>
+          <p class="popup-country">${getFlagEmoji(city.countryCode)} ${city.countryName}</p>
+          <div class="popup-link-row">
+            <a href="https://${userLanguage}.wikipedia.org/wiki/${city.cityName}" target="_blank" class="popup-link-info">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 24 24" width="24" height="24" fill="currentColor"><path d="M10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10zm0-12a1 1 0 0 0-1 1v5a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1zm0-1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>
+            </a>
+            <a href="https://www.google.com/maps/search/${city.cityName}" target="_blank" class="popup-link-map">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"></path></svg>
+            </a>
+          </div>
+        `;
+        // <a href="${city}" target="_blank" class="popup-link">Visit</a>
   
-//         const popup = new mapboxgl.Popup({ offset: 25 }) // Offset for better alignment
-//           .setDOMContent(popupContent);
+        const popup = new mapboxgl.Popup({ offset: 25 }) // Offset for better alignment
+          .setDOMContent(popupContent);
   
-//         // Link the marker to the popup
-//         marker.setPopup(popup);
+        // Link the marker to the popup
+        marker.setPopup(popup);
 
-//       });
-//   }, [cityArr]);
+        popups.current.push(popup);
+      });
+  }, [cityArr]);
 
 
 
@@ -107,6 +131,9 @@ console.log(cityArr);
     setSelectedCity(null);
 
     localStorage.setItem("town-hunt-cities", JSON.stringify(updatedCityArr));
+
+    popups.current.forEach((popup) => popup.remove());
+    popups.current = [];
   };
 
   return (

@@ -15,16 +15,52 @@
     }
 }
 
+
+.mapboxgl-popup-content {
+    background-color: rgb(0, 0, 0);
+    box-shadow: 6px 6px 6px rgba(1,1,1,.4);
+}
+  
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+    align-self: center;
+    border-bottom: none;
+    border-top-color: rgb(0, 0, 0);
+}
 .mapboxgl-popup{
 }
 .mapboxgl-popup-close-button{
     display: none;
 }
 .popup-content{
-    background-color: red;
+    background-color: rgb(0, 0, 0);
 }
 .popup-name{}
 .popup-country{}
+.popup-link-row{
+    display: flex;
+    margin-top: 5px;
+}
+.popup-link-info{
+    width: 20px;
+    height: 20px;
+    outline: none;
+}
+.popup-link-info > svg{
+    width: 20px;
+    height: 20px;
+    /* filter: invert(1); */
+}
+.popup-link-map{
+    width: 20px;
+    height: 20px;
+    outline: none;
+    margin-left: 3px;
+}
+.popup-link-map > svg{
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+}
 
 
 
@@ -39,8 +75,8 @@
 
 .home-button{
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     width: 50px;
     height: 50px;
     border-radius: 50%;

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { redirect, useRouter } from "next/navigation";
+import Link from 'next/link';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnifyingGlass, faFilter, faSort, faMap, faBars, faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -157,6 +158,10 @@ export default function Home() {
     };
   }, []);
 
+  const goToMap = () => {
+    redirect("/map");
+  }
+
   return (
     <div className="home-page">
       <div className="home-content">
@@ -189,7 +194,9 @@ export default function Home() {
               </div>
             </div>
             <div className="func-each">
-              <FontAwesomeIcon icon={faMap} className="func-each-icon" onClick={() => router.push("/map")} />
+              <a href="/map" className="func-each-icon">
+                <FontAwesomeIcon icon={faMap} className="func-each-icon" />
+              </a>
             </div>
             <div className="func-each" ref={dropdownRef}>
               <FontAwesomeIcon icon={faBars} className="func-each-icon" onClick={() => setDropdown(!dropdown)} />
