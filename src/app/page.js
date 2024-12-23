@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, use } from "react";
 import { redirect, useRouter } from "next/navigation";
 import Link from 'next/link';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -158,9 +158,54 @@ export default function Home() {
     };
   }, []);
 
-  const goToMap = () => {
-    redirect("/map");
-  }
+
+  const randomColorArr = [
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "blue",
+    "purple",
+    "pink",
+    "brown",
+    "aqua",
+    "yellowGreen",
+    "lime",
+    "indigo",
+    "teal",
+    "violet",
+    "cyan",
+    "magenta",
+    "gold",
+    "silver",
+    "coral",
+    "darkBlue",
+    "crimson",
+    "navy",
+    "olive",
+    "maroon",
+    "lavender",
+    "peru",
+    "turquoise",
+    "sienna",
+    "chocolate",
+    "firebrick",
+    "khaki",
+    "plum",
+    "tan",
+    "slateBlue",
+    "deepPink",
+    "forestGreen",
+  ]
+
+  const [randomIndex, setRandomIndex] = useState(null);
+
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * randomColorArr.length);
+    setRandomIndex(randomIndex);
+  }, []);
+
+
 
   return (
     <div className="home-page">
@@ -282,8 +327,8 @@ export default function Home() {
 
         {cityArr.length === 0 ? (
           <div className="no-city-div">
-            <h1 className="title-h1">Town Hunt</h1>
-            <h2 className="title-h2">Quickly record towns.</h2>
+            <h1 className="title-h1">Bookmark Places<span style={{backgroundColor: randomColorArr[randomIndex]}}></span></h1>
+            <h2 className="title-h2">Towns, Mountains, Landmarks, Parks, Roads...</h2>
           </div>
         ) : (
           <div className="city-list">
