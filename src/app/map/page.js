@@ -44,7 +44,7 @@ console.log(cityArr);
     map.current = new mapboxgl.Map({
         container: mapContainer.current,
     //   style: 'mapbox://styles/mapbox/streets-v11',
-        style: prefersDarkScheme ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
+        style: window.matchMedia("(prefers-color-scheme: dark)").matches ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
         projection: "mercator",
         center: [139.6917, 35.6895], // Initial map center [longitude, latitude]
         zoom: 1.2, // Initial zoom level
