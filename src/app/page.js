@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, use } from "react";
 import { redirect, useRouter } from "next/navigation";
 import Link from 'next/link';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnifyingGlass, faFilter, faSort, faMap, faBars, faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnifyingGlass, faFilter, faSort, faMap, faBars, faAngleDown, faAngleUp, faArrowDown, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import getUserLocale from "get-user-locale";
 
@@ -206,6 +206,14 @@ export default function Home() {
   }, []);
 
 
+  const [isHighlighted, setIsHighlighted] = useState(false);
+
+  const handleAddClick = () => {
+    setIsHighlighted(true);
+    setTimeout(() => setIsHighlighted(false), 1000);
+  };
+
+
 
   return (
     <div className="home-page">
@@ -329,6 +337,8 @@ export default function Home() {
           <div className="no-city-div">
             <h1 className="title-h1">Bookmark Places<span style={{backgroundColor: randomColorArr[randomIndex]}}></span></h1>
             <h2 className="title-h2">Towns, Mountains, Landmarks, Parks, Roads...</h2>
+            <Link href="/about" className="title-about title-link"><FontAwesomeIcon icon={faArrowRight} className="title-arrow" />About</Link>
+            <div className="title-about" onClick={handleAddClick}><FontAwesomeIcon icon={faArrowDown} className="title-arrow" />Add Place</div>
           </div>
         ) : (
           <div className="city-list">
@@ -376,7 +386,7 @@ export default function Home() {
         )}
       </div>
 
-      <div className="add-city-row">
+      <div className={`add-city-row ${isHighlighted ? "add-city-row-highlight" : ""}`}>
         <div style={{ display: "flex" }}>
           <CitySelect setSelectedCity={setSelectedCity} isMapPage={false} />
         </div>
