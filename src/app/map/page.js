@@ -46,7 +46,7 @@ console.log(cityArr);
     //   style: 'mapbox://styles/mapbox/streets-v11',
         style: window.matchMedia("(prefers-color-scheme: dark)").matches ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
         projection: "mercator",
-        center: [139.6917, 35.6895], // Initial map center [longitude, latitude]
+        center: [60, 35], // Initial map center [longitude, latitude]
         zoom: 1.2, // Initial zoom level
     });
 
@@ -149,8 +149,8 @@ console.log(cityArr);
         <div style={{ display: "flex" }}>
           <CitySelect setSelectedCity={setSelectedCity} isMapPage={true} />
         </div>
-        <div className="city-add-button" onClick={handleAdd}>
-          <FontAwesomeIcon icon={faPlus} className="add-icon" />
+        <div className="map-city-add-button" onClick={handleAdd}>
+          <FontAwesomeIcon icon={faPlus} className="map-add-icon" />
         </div>
       </div>
     </div>

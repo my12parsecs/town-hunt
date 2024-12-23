@@ -214,16 +214,15 @@ const CitySelect = ({ setSelectedCity, isMapPage }) => {
         cursor: 'pointer',
       //   backgroundColor: dataTheme === "dark" ? "#181818" : "#fff",
           // backgroundColor: "transparent",
-        color: !isMapPage ? dataTheme === "dark" ? "#fff" : "black" : "black",
+        color: dataTheme === "dark" ? "#fff" : "black",
         borderRadius: "5px",
-        border: "#696969 0.5px solid",
         boxShadow: 'none',
         width: "163px",
         height: "39px",
         cursor: "text",
   
         // backgroundColor: dataTheme === "dark" ? "rgba(255, 255, 255, 0.04)" : "#fff",
-        backgroundColor: !isMapPage ? dataTheme === "dark" ? "#181818" : "#fff" : "white",
+        backgroundColor: dataTheme === "dark" ? "#181818" : "#fff",
         boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
         backdropFilter: "blur(5.4px)",
         webkitBackdropFilter: "blur(5.4px)",
@@ -237,7 +236,7 @@ const CitySelect = ({ setSelectedCity, isMapPage }) => {
       }),
       singleValue: (provided, state) => ({
         ...provided,
-        color: !isMapPage ? dataTheme === "dark" ? "#fff" : "black" : "black",
+        color: dataTheme === "dark" ? "#fff" : "black",
         padding: '5px 0px',
         borderRadius: '4px',
         fontSize: "16px",
@@ -261,8 +260,8 @@ const CitySelect = ({ setSelectedCity, isMapPage }) => {
       }),
       menu: (provided) => ({
         ...provided,
-        backgroundColor: !isMapPage ? dataTheme === "dark" ? "#181818" : '#fff' : "white",
-        color: "black",
+        backgroundColor: dataTheme === "dark" ? "#181818" : '#fff',
+        color: dataTheme === "dark" ? "white" : "black",
         // width: "163px",
         width: "280px",
         height: "auto",
@@ -283,7 +282,7 @@ const CitySelect = ({ setSelectedCity, isMapPage }) => {
           ? "#1E1E1E"
           : state.isFocused
           ? (dataTheme === "dark" ? "white" : "#1E1E1E")
-          : "#1E1E1E",
+          : (dataTheme === "dark" ? "white" : "#1E1E1E"),
         width: "20px",
         height: "20px",
         opacity: "1",
@@ -293,7 +292,7 @@ const CitySelect = ({ setSelectedCity, isMapPage }) => {
       }),
       input: (provided) => ({
         ...provided,
-        color: !isMapPage ? (dataTheme === "dark" ? "white" : "#1E1E1E") : "black",
+        color: (dataTheme === "dark" ? "white" : "#1E1E1E"),
       }),
   };
 
