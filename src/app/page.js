@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnifyingGlass, faFilter, faSort, faMap, faBars, faAngleDown, faAngleUp, faArrowDown, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import getUserLocale from "get-user-locale";
+import toast from "react-hot-toast";
 
 import CitySelect from "./components/CitySelect";
 import getFlagEmoji from "./components/GetFlagEmoji";
@@ -51,12 +52,15 @@ export default function Home() {
     setSelectedCity(null);
 
     localStorage.setItem("town-hunt-cities", JSON.stringify(updatedCityArr));
+
+    toast.success("City Added");
   };
 
   const handleDelete = (city) => {
     const updatedCityArr = cityArr.filter((c) => c.value !== city.value);
     setCityArr(updatedCityArr);
     localStorage.setItem("town-hunt-cities", JSON.stringify(updatedCityArr));
+    toast.success("City Deleted");
   };
 
   useEffect(() => {
@@ -111,32 +115,34 @@ export default function Home() {
       )
   );
 
-  // const [hoveredCity, setHoveredCity] = useState(null);
-  // const [wikiImage, setWikiImage] = useState(null);
+  const [hoveredCity, setHoveredCity] = useState(null);
+  const [wikiImage, setWikiImage] = useState(null);
 
-  // async function fetchWikipediaImage(cityName) {
-  //   const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(cityName)}`;
-  //   try {
-  //     const response = await fetch(url);
-  //     if (!response.ok) throw new Error("Failed to fetch Wikipedia data");
-  //     const data = await response.json();
-  //     return data.thumbnail ? data.thumbnail.source : null;
-  //   } catch (error) {
-  //     console.error("Error fetching Wikipedia image:", error);
-  //     return null;
-  //   }
-  // }
+  async function fetchWikipediaImage(cityName) {
+    const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(cityName)}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Failed to fetch Wikipedia data");
+      const data = await response.json();
+      return data.thumbnail ? data.thumbnail.source : null;
+    } catch (error) {
+      console.error("Error fetching Wikipedia image:", error);
+      return null;
+    }
+  }
 
-  // const handleMouseEnter = async (cityName) => {
-  //   setHoveredCity(cityName);
-  //   const image = await fetchWikipediaImage(cityName);
-  //   setWikiImage(image);
-  // };
+  const handleMouseEnter = async (cityName) => {
+    console.log("MOUSE ENTER");
+    
+    setHoveredCity(cityName);
+    const image = await fetchWikipediaImage(cityName);
+    setWikiImage(image);
+  };
 
-  // const handleMouseLeave = () => {
-  //   setHoveredCity(null);
-  //   setWikiImage(null);
-  // };
+  const handleMouseLeave = () => {
+    setHoveredCity(null);
+    setWikiImage(null);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -349,8 +355,8 @@ export default function Home() {
                   <div className="city-name">
                     <div
                       className="city-cityname"
-                      // onMouseEnter={() => handleMouseEnter(city.cityName)}
-                      // onMouseLeave={handleMouseLeave}
+                      onMouseEnter={() => handleMouseEnter(city.cityName)}
+                      onMouseLeave={handleMouseLeave}
                     >
                       {city.cityName}
                     </div>
@@ -367,11 +373,11 @@ export default function Home() {
                     </a>
                   </div>
 
-                  {/* {hoveredCity === city.cityName && wikiImage && (
-                  <div className="wiki-image-container">
-                    <img src={wikiImage} alt={`${city.cityName} Wikipedia`} className="wiki-image" />
-                  </div>
-                )} */}
+                  {hoveredCity === city.cityName && wikiImage && (
+                    <div className="wiki-image-container">
+                      <img src={wikiImage} alt={`${city.cityName} Wikipedia`} className="wiki-image" />
+                    </div>
+                  )}
                 </div>
                 {isEditing && (
                   <div className="city-delete-container">

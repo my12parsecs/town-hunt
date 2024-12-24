@@ -1,3 +1,5 @@
+import { Toaster } from "react-hot-toast";
+
 import { Inter, Geist_Mono } from "next/font/google";
 import "./stylesheets/globals.css";
 
@@ -49,6 +51,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.variable}`}>
+        <Toaster />
         {children}
       </body>
     </html>

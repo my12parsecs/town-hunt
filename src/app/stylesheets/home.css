@@ -316,6 +316,7 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
     width: 100%;
     background-color: #181818;
     border-radius: 10px;
+    position: relative;
 }
 @media (prefers-color-scheme: light) {
     .city-list-row{
@@ -386,17 +387,29 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
 
 .wiki-image-container {
     position: absolute;
+    top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: #fff;
     border: 1px solid #ccc;
+    border-radius: 7px;
     padding: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    width: 200px;
-  }
+    width: 250px;
+
+background: rgba(255, 255, 255, 0.04);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(5.4px);
+-webkit-backdrop-filter: blur(5.4px);
+border: 0.5px solid rgba(255, 255, 255, 0.2);
+}
   
-  .wiki-image {
+.wiki-image {
     width: 100%;
     height: auto;
+    border-radius: 2px;
   }
 
 
