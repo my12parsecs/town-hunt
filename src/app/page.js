@@ -116,6 +116,7 @@ export default function Home() {
   );
 
   const [hoveredCity, setHoveredCity] = useState(null);
+  const [activeCity, setActiveCity] = useState(null);
   const [wikiImage, setWikiImage] = useState(null);
 
   async function fetchWikipediaImage(cityName) {
@@ -131,17 +132,45 @@ export default function Home() {
     }
   }
 
-  const handleMouseEnter = async (cityName) => {
-    console.log("MOUSE ENTER");
-    
-    setHoveredCity(cityName);
+  const handleCityInteraction = async (cityName) => {
+    // If the city is already active, deactivate it
+    if (activeCity === cityName) {
+      setActiveCity(null);
+      setWikiImage(null);
+      return;
+    }
+
+    // Activate the new city and fetch its image
+    setActiveCity(cityName);
     const image = await fetchWikipediaImage(cityName);
     setWikiImage(image);
   };
 
+  const handleMouseEnter = async (cityName) => {
+    // console.log("MOUSE ENTER");
+    
+    // setHoveredCity(cityName);
+    // const image = await fetchWikipediaImage(cityName);
+    // setWikiImage(image);
+    console.log("mouse");
+    
+    if (!('ontouchstart' in window)) {
+      await handleCityInteraction(cityName);
+    }
+  };
+
   const handleMouseLeave = () => {
-    setHoveredCity(null);
-    setWikiImage(null);
+    // setHoveredCity(null);
+    // setWikiImage(null);
+    if (!('ontouchstart' in window)) {
+      setActiveCity(null);
+      setWikiImage(null);
+    }
+  };
+
+  const handleCityClick = async (e, cityName) => {
+    e.preventDefault(); // Prevent any default behavior
+    await handleCityInteraction(cityName);
   };
 
   useEffect(() => {
@@ -357,6 +386,7 @@ export default function Home() {
                       className="city-cityname"
                       onMouseEnter={() => handleMouseEnter(city.cityName)}
                       onMouseLeave={handleMouseLeave}
+                      onClick={(e) => handleCityClick(e, city.cityName)}
                     >
                       {city.cityName}
                     </div>
@@ -373,7 +403,7 @@ export default function Home() {
                     </a>
                   </div>
 
-                  {hoveredCity === city.cityName && wikiImage && (
+                  {activeCity === city.cityName && wikiImage && (
                     <div className="wiki-image-container">
                       <img src={wikiImage} alt={`${city.cityName} Wikipedia`} className="wiki-image" />
                     </div>
