@@ -118,6 +118,7 @@ export default function Home() {
   const [hoveredCity, setHoveredCity] = useState(null);
   const [activeCity, setActiveCity] = useState(null);
   const [wikiImage, setWikiImage] = useState(null);
+  const imageContainerRef = useRef(null);
 
   async function fetchWikipediaImage(cityName) {
     const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(cityName)}`;
@@ -172,6 +173,24 @@ export default function Home() {
     e.preventDefault(); // Prevent any default behavior
     await handleCityInteraction(cityName);
   };
+
+  const handleOutsideClick = (e) => {
+    // If we have an active image and the click wasn't on the image container or the city name
+    if (activeCity && imageContainerRef.current && !imageContainerRef.current.contains(e.target) && 
+        !e.target.closest('.city-cityname')) {
+      setActiveCity(null);
+      setWikiImage(null);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [activeCity]);
+
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -381,12 +400,12 @@ export default function Home() {
             {displayedCities.slice().reverse().map((city, index) => (
               <div className="city-list-container" key={index}>
                 <div className="city-list-row">
-                  <div className="city-name">
+                  <div className="city-name"onClick={(e) => handleCityClick(e, city.cityName)}
+                  >
                     <div
                       className="city-cityname"
                       onMouseEnter={() => handleMouseEnter(city.cityName)}
                       onMouseLeave={handleMouseLeave}
-                      onClick={(e) => handleCityClick(e, city.cityName)}
                     >
                       {city.cityName}
                     </div>
@@ -404,7 +423,7 @@ export default function Home() {
                   </div>
 
                   {activeCity === city.cityName && wikiImage && (
-                    <div className="wiki-image-container">
+                    <div className="wiki-image-container" ref={imageContainerRef}>
                       <img src={wikiImage} alt={`${city.cityName} Wikipedia`} className="wiki-image" />
                     </div>
                   )}
