@@ -160,6 +160,7 @@
     cursor: pointer;
     padding: 6px;
     border-radius: 5px;
+    z-index: 100;
 
 background: rgba(255, 255, 255, 0.12);
 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -397,7 +398,7 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
     padding: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    width: 250px;
+    width: 230px;
 
 background: rgba(255, 255, 255, 0.04);
 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);

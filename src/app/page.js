@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, use } from "react";
 import { redirect, useRouter } from "next/navigation";
 import Link from 'next/link';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnifyingGlass, faFilter, faSort, faMap, faBars, faAngleDown, faAngleUp, faArrowDown, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnifyingGlass, faFilter, faSort, faMap, faBars, faAngleDown, faAngleUp, faArrowDown, faArrowRight, faPlane } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import getUserLocale from "get-user-locale";
 import toast from "react-hot-toast";
@@ -148,12 +148,9 @@ export default function Home() {
   };
 
   const handleMouseEnter = async (cityName) => {
-    // console.log("MOUSE ENTER");
-    
     // setHoveredCity(cityName);
     // const image = await fetchWikipediaImage(cityName);
     // setWikiImage(image);
-    console.log("mouse");
     
     if (!('ontouchstart' in window)) {
       await handleCityInteraction(cityName);
@@ -310,6 +307,9 @@ export default function Home() {
               <div className="dropdown-menu" style={dropdown ? {display: "block"} : {display: "none"}}>
                 <div className="dropdown-each" onClick={() => router.push("/about")}>
                   <FontAwesomeIcon icon={faCircleInfo} className="dropdown-each-icon" />About
+                </div>
+                <div className="dropdown-each" onClick={() => router.push("/trips")}>
+                  <FontAwesomeIcon icon={faPlane} className="dropdown-each-icon" />Trips
                 </div>
                 <div className="dropdown-each" onClick={() => window.open("https://github.com/my12parsecs/town-hunt", "_blank")}>
                   <FontAwesomeIcon icon={faGithub} className="dropdown-each-icon" />GitHub
