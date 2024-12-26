@@ -391,8 +391,15 @@ export default function Home() {
           <div className="no-city-div">
             <h1 className="title-h1">Bookmark Places<span style={{backgroundColor: randomColorArr[randomIndex]}}></span></h1>
             <h2 className="title-h2">Towns, Mountains, Landmarks, Parks, Roads...</h2>
-            <Link href="/about" className="title-about title-link"><FontAwesomeIcon icon={faArrowRight} className="title-arrow" />About</Link>
-            <div className="title-about" onClick={handleAddClick}><FontAwesomeIcon icon={faArrowDown} className="title-arrow" />Add Place</div>
+            <div className="call-to-action-row">
+            <Link href="/about" className="title-about title-link">
+            {/* <FontAwesomeIcon icon={faArrowRight} className="title-arrow" /> */}
+            About</Link>
+            {/* <div className="title-about" onClick={handleAddClick} style={{border: `2px solid ${randomColorArr[randomIndex]}`}}> */}
+              {/* <FontAwesomeIcon icon={faArrowDown} className="title-arrow" /> */}
+              {/* Add Place</div> */}
+            </div>
+
           </div>
         ) : (
           <div className="city-list">

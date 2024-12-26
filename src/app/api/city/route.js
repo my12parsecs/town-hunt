@@ -1,6 +1,8 @@
 import GeoNames from "geonames.js";
 
 export async function GET(request) {
+  console.log("API started");
+  
   const { searchParams } = new URL(request.url);
   const cityName = searchParams.get("name");
   const lang = searchParams.get("lang");

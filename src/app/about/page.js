@@ -41,8 +41,8 @@ const About = () => {
   return (
     <div className="about-page">
         <div style={{marginTop: "20px", marginBottom: "20px"}}><Link href="/"><FontAwesomeIcon icon={faAngleLeft} style={{width: "20px", height: "20px"}} /></Link></div>
-      <h1> Places Around the World</h1>
-      <p>This is a simple Next.js page template using JSX.</p>
+      <h1>Bookmark Places Around the World</h1>
+      <p>Quickly bookmark places - Towns, Mountains, Landmarks, Parks, Roads...</p>
     </div>
   );
 };
