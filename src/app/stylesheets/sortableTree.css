@@ -1,0 +1,69 @@
+
+
+
+
+
+.sortable-tree-row-container{
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+    max-width: 500px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.dnd-sortable-tree_simple_wrapper{
+    margin-bottom: 0px !important;
+}
+.sortable-tree-row{
+    /* 上と同じDiv */
+    /* max-width: 500px; */
+    /* margin: auto; */
+    /* margin-top: 10px; */
+    width: 100%;
+    margin-right: 20px;
+    margin-bottom: 0px;
+    background-color: var(--background);
+    color: white;
+}
+
+.date-line-row{
+    /* background-color: red; */
+}
+.date-line-row > .dnd-sortable-tree_simple_tree-item{
+    border: none;
+    background-color: transparent;
+}
+.dnd-sortable-tree_simple_tree-item{
+    cursor: pointer;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    border-radius: 5px;
+    background-color: var(--gray-background);
+    border: none !important;
+}
+.dnd-sortable-tree_simple_handle{
+    filter: invert(1);
+}
+.dnd-sortable-tree_simple_tree-item-collapse_button{
+    /* PULL DOWN ARROW */
+    filter: invert(1);
+    cursor: pointer;
+    display: none;
+}
+.sortable-tree-text{
+    color: white;
+}
+
+
+
+.sortable-tree-delete-icon-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sortable-tree-delete-icon{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
