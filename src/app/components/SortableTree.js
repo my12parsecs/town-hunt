@@ -7,7 +7,7 @@ import "../stylesheets/sortableTree.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-export const MinimalViable = () => {
+export const MinimalViable = ({newPlace, setNewPlace}) => {
 //   const [items, setItems] = useState(initialViableMinimalData);
     const [items, setItems] = useState(testJson.trip);
 
@@ -25,6 +25,23 @@ export const MinimalViable = () => {
     setItems(updatedItems);
   };
 
+
+  useEffect(() => {
+    if(newPlace){
+      const newItem = {
+        id: newPlace.cityName,
+        value: newPlace.cityName,
+        children: [{
+          id: newPlace.cityName,
+          value: newPlace.cityName,
+          canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
+        }],
+        canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
+      }
+      setItems([...items, newItem]);
+      setNewPlace(null);
+    }
+  }, [newPlace]);
 
 
   return (
