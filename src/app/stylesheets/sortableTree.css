@@ -41,6 +41,7 @@
     border-radius: 5px;
     background-color: var(--gray-background);
     border: none !important;
+    touch-action: none;
 }
 .dnd-sortable-tree_simple_handle{
     filter: invert(1);
@@ -52,7 +53,7 @@
     display: none;
 }
 .sortable-tree-text{
-    color: white;
+    color: var(--foreground);
 }
 
 
