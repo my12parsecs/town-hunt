@@ -47,6 +47,11 @@
 .dnd-sortable-tree_simple_handle{
     filter: invert(1);
 }
+@media (prefers-color-scheme: light) {
+    .dnd-sortable-tree_simple_handle{
+        filter: invert(0);
+    }
+}
 .dnd-sortable-tree_simple_tree-item-collapse_button{
     /* PULL DOWN ARROW */
     filter: invert(1);
