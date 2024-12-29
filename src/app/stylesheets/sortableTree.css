@@ -4,12 +4,15 @@
 
 
 .sortable-tree-row-container{
-    display: flex;
-    justify-content: space-between;
     width: 91%;
     max-width: 500px;
     margin: auto;
     margin-top: 10px;
+    height: 40px;
+}
+.sortable-tree-row-top{
+    display: flex;
+    justify-content: space-between;
 }
 
 .dnd-sortable-tree_simple_wrapper{
@@ -21,7 +24,7 @@
     /* margin: auto; */
     /* margin-top: 10px; */
     width: 100%;
-    margin-right: 15px;
+    margin-right: 10px;
     margin-bottom: 0px;
     background-color: var(--background);
     color: white;
@@ -64,13 +67,53 @@
 
 
 
+.sortable-tree-add-icon-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    /* background-color: var(--gray-background); */
+    border-radius: 500px;
+    /* margin-right: 10px; */
+    cursor: pointer;
+}
+.sortable-tree-add-icon{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
 .sortable-tree-delete-icon-container{
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    /* background-color: var(--gray-background); */
+    border-radius: 500px;
+    cursor: pointer;
 }
 .sortable-tree-delete-icon{
     width: 20px;
     height: 20px;
     cursor: pointer;
+}
+
+
+
+.sortable-tree-row-bottom{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.sortable-tree-add-button{
+    width: 70px;
+    height: 20px;
+    border-radius: 50px;
+    background-color: var(--gray-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

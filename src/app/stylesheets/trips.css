@@ -16,9 +16,9 @@
 }
 .trips-each{
     /* width: 100px; */
-    background-color: rgb(62, 62, 62);
+    background-color: var(--gray-background);
     border-radius: 10px;
-    padding: 15px;
+    padding: 20px;
 }
 .trips-title{
     font-size: 1.3rem;
