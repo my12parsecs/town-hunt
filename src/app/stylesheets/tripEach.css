@@ -24,7 +24,8 @@
     margin-bottom: 4px;
 }
 .each-trip-edit-button{
-    width: 70px;
+    width: 70px !important;
+    min-width: 70px !important;
     height: 35px;
     border-radius: 500px;
     background-color: white;
