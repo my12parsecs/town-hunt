@@ -1,12 +1,13 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { use, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
 import CitySelect from "@/app/components/CitySelect"
 import getFlagEmoji from "@/app/components/GetFlagEmoji"
+import getUserLanguage from "@/app/components/GetUserLanguage"
 import { MinimalViable } from "@/app/components/SortableTree"
 import EachTripList from '@/app/components/EachTripList';
 
@@ -14,6 +15,8 @@ import EachTripList from '@/app/components/EachTripList';
 import "../../stylesheets/tripEach.css"
 
 export default function EachTrip() {
+
+    const [userLanguage, setUserLanguage] = useState("");
 
     const [isEditing, setIsEditing] = useState(false);
 
@@ -35,6 +38,9 @@ export default function EachTrip() {
         });
     };
 
+    useEffect(() => {
+        setUserLanguage(getUserLanguage());
+    }, []);
 
 
 
@@ -117,7 +123,7 @@ export default function EachTrip() {
                         <p>{getFlagEmoji(eachTripJson.trip[0].countryCode)}</p>
                     </div>
                     <div className='each-trip-list-container'>
-                        <EachTripList eachTripJson={eachTripJson} />
+                        <EachTripList eachTripJson={eachTripJson} userLanguage={userLanguage} />
                     </div>
                 </div>
             ) : (

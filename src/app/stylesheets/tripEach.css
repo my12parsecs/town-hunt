@@ -100,6 +100,7 @@
 .each-trip-list-item-same-last{
     border-radius: 10px 10px 0px 0px;
     margin-bottom: -15px;
+    padding-bottom: 0px;
 }
 .each-trip-list-item-same-first{
     border-radius: 0px 0px 10px 10px;

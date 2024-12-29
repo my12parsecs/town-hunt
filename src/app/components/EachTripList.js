@@ -46,7 +46,7 @@ import { faCircleInfo, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 import getFlagEmoji from './GetFlagEmoji';
 
-const EachTripList = ({ eachTripJson }) => {
+const EachTripList = ({ eachTripJson, userLanguage }) => {
     // Group items by their date chunks
     const groupByDate = (trip) => {
         const grouped = [];
@@ -101,8 +101,8 @@ const EachTripList = ({ eachTripJson }) => {
                                         <div className='each-trip-list-item-title-row' style={item.isSameFirst ? {display: "none"} : {}}>
                                             <h3 className='each-trip-list-item-title'>{getFlagEmoji(item.countryCode)} {item.value}</h3>
                                             <div className='each-trip-list-item-buttons'>
-                                                <Link href={`https://wikipedia.org`} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faCircleInfo} className="each-trip-list-item-info-icon"/></Link>
-                                                <Link href={`https://google.com/maps`} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faLocationDot} className="each-trip-list-item-map-icon"/></Link>
+                                                <Link href={`https://${userLanguage}.wikipedia.org/wiki/${item.value}`} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faCircleInfo} className="each-trip-list-item-info-icon"/></Link>
+                                                <Link href={`https://www.google.com/maps/search/${item.value}`} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faLocationDot} className="each-trip-list-item-map-icon"/></Link>
                                             </div>
                                         </div>
                                         {item.children && item.children.length > 0 && (
