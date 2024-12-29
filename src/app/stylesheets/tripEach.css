@@ -1,4 +1,11 @@
-
+:root {
+    --date-border-color: #2b2b2b;
+}
+@media (prefers-color-scheme: light) {
+    :root {
+        --date-border-color: #c7cccc;
+    }
+}
 
 
 
@@ -8,7 +15,7 @@
     max-width: 500px;
     margin: auto;
     margin-bottom: 20px;
-    border-bottom: 1px solid #2b2b2b;
+    border-bottom: 1px solid var(--date-border-color);
 }
 
 
@@ -29,18 +36,23 @@
     min-width: 70px !important;
     height: 35px;
     border-radius: 500px;
-    background-color: white;
-    color: black;
+    background-color: var(--foreground);
+    color: var(--background);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    user-select: none;
+    padding-top: 2px;
+}
+.each-trip-edit-button-done{
+    /* background-color: black; */
+    /* color: white; */
+    background-color: transparent;
+    color: var(--foreground);
+    outline: 1px solid var(--foreground);
 }
 @media (prefers-color-scheme: light) {
-    .each-trip-edit-button{
-        background-color: black;
-        color: white;
-    }
 }
 
 
@@ -58,7 +70,7 @@
     /* background-color: var(--gray-background); */
     width: 30px;
     padding-left: 2px;
-    border: 1px solid #2b2b2b;
+    border: 1px solid var(--date-border-color);
     border-right: none;
     border-bottom: none;
     /* border-radius: 10px; */
@@ -68,14 +80,11 @@
 }
 .each-date-right{
     flex: 1;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding: 15px 15px 15px 15px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    border: 1px solid #2b2b2b;
+    gap: 15px;
+    border: 1px solid var(--date-border-color);
     border-left: none;
     border-bottom: none;
 }
@@ -85,7 +94,7 @@
     /* margin-bottom: 5px; */
     /* border: 1px solid #ccc; */
     border-radius: 10px;
-    padding: 15px;
+    padding: 15px 15px 10px 15px;
     background-color: var(--gray-background);
 }
 .each-trip-list-item-same-last{
@@ -95,8 +104,25 @@
 .each-trip-list-item-same-first{
     border-radius: 0px 0px 10px 10px;
     margin-top: -15px;
+    padding-top: 0px;
+}
+.each-trip-list-item-title-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .each-trip-list-item-title{}
+.each-trip-list-item-buttons{
+}
+.each-trip-list-item-info-icon{
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+}
+.each-trip-list-item-map-icon{
+    width: 18px;
+    height: 18px;
+}
 .each-trip-list-date-line{
     border-top: 1px dashed #ccc;
     height: 5px;
@@ -123,6 +149,7 @@
 
 .each-trip-edit-list{
     margin-top: 50px;
+    width: 100%;
 }
 
 
@@ -143,7 +170,6 @@
         max-width: 500px;
         margin: auto;
         margin-bottom: 20px;
-        border-bottom: 1px solid #2b2b2b;
     }
     .each-trip-info{
         width: 95%;

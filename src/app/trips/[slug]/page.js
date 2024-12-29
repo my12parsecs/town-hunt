@@ -85,6 +85,16 @@ export default function EachTrip() {
                 canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
             },
             { id: "date-line-9", date: '2024-11-06', value: 'Date Line 1', type: "date-line", canHaveChildren: false },
+            // { 
+            //     id: "38457989828958774",
+            //     geonameId: "1234",
+            //     value: 'Amboise',
+            //     countryCode: 'FR',
+            //     countryName: 'France',
+            //     children: [{ id: '980899878', value: 'Amboise Hotel', canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;} }],
+            //     canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
+            // },
+            // { id: "date-line-9987", date: '2024-11-06', value: 'Date Line 1', type: "date-line", canHaveChildren: false },
         ]
     }
 
@@ -116,7 +126,7 @@ export default function EachTrip() {
                         {/* <h1>INPUT {eachTripJson.title}</h1> */}
                         <div className='each-trip-title-row'>
                             <input type="text" className="each-trip-title-input" placeholder="Trip Title" style={{width: "100%"}} value={eachTripJson.title} onChange={(e) => setEachTripJson({...eachTripJson, title: e.target.value})} />
-                            <div onClick={() => setIsEditing(!isEditing)} className='each-trip-edit-button' style={{backgroundColor: "black", color: "white", outline: "1px solid white"}}>{isEditing ? "Done" : "Edit"}</div>
+                            <div onClick={() => setIsEditing(!isEditing)} className={`each-trip-edit-button ${isEditing ? "each-trip-edit-button-done" : ""}`}>{isEditing ? "Done" : "Edit"}</div>
                         </div>
                         <p>{getFlagEmoji(eachTripJson.trip[0].countryCode)}</p>
                     </div>

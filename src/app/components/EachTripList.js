@@ -40,6 +40,10 @@
 
 
 import React from 'react';
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleInfo, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+
 import getFlagEmoji from './GetFlagEmoji';
 
 const EachTripList = ({ eachTripJson }) => {
@@ -84,7 +88,7 @@ const EachTripList = ({ eachTripJson }) => {
 
     return (
         <div className='each-trip-list'>
-            <div>
+            {/* <div> */}
                 {groupedTrips.map((group, index) => (
                     <div key={index} className='each-date-container'>
                         <div className='each-date-left'>
@@ -94,11 +98,17 @@ const EachTripList = ({ eachTripJson }) => {
                             {/* <div className='each-date-right-inner'> */}
                                 {group.items.map((item) => (
                                     <div key={item.id} className={`each-trip-list-item ${item.isSameLast ? "each-trip-list-item-same-last" : ""} ${item.isSameFirst ? "each-trip-list-item-same-first" : ""}`}>
-                                        <h3 className='each-trip-list-item-title' style={item.isSameFirst ? {display: "none"} : {}}>{getFlagEmoji(item.countryCode)} {item.value}</h3>
+                                        <div className='each-trip-list-item-title-row' style={item.isSameFirst ? {display: "none"} : {}}>
+                                            <h3 className='each-trip-list-item-title'>{getFlagEmoji(item.countryCode)} {item.value}</h3>
+                                            <div className='each-trip-list-item-buttons'>
+                                                <Link href={`https://wikipedia.org`} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faCircleInfo} className="each-trip-list-item-info-icon"/></Link>
+                                                <Link href={`https://google.com/maps`} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faLocationDot} className="each-trip-list-item-map-icon"/></Link>
+                                            </div>
+                                        </div>
                                         {item.children && item.children.length > 0 && (
-                                            <div style={{marginLeft: "15px", marginTop: "5px"}}>
+                                            <div style={{marginLeft: "18px"}}>
                                                 {item.children.map((child) => (
-                                                    <div key={child.id} style={{marginTop: "5px", backgroundColor: "#181818", borderRadius: "5px", padding: "10px"}}>
+                                                    <div key={child.id} style={{ borderRadius: "5px", padding: "10px"}}>
                                                         <div>{child.value}</div>
                                                         {child.children && child.children.length > 0 && (
                                                             <div>
@@ -117,7 +127,7 @@ const EachTripList = ({ eachTripJson }) => {
                         </div>
                     </div>
                 ))}
-            </div>
+            {/* </div> */}
         </div>
     );
 };
