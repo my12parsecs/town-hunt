@@ -44,6 +44,7 @@ export default function EachTrip() {
         "trip": [
             {
                 id: '1',
+                geonameId: "878979",
                 value: 'Paris',
                 countryCode: 'FR',
                 countryName: 'France',
@@ -55,6 +56,7 @@ export default function EachTrip() {
             },
             { 
                 id: "2",
+                geonameId: "234097",
                 value: 'Blois',
                 countryCode: 'FR',
                 countryName: 'France',
@@ -65,6 +67,7 @@ export default function EachTrip() {
             // { id: "3", date: '2024-11-05', value: 'Date Change', type: "date-line", canHaveChildren: true },
             { 
                 id: "38457289574",
+                geonameId: "1234",
                 value: 'Amboise',
                 countryCode: 'FR',
                 countryName: 'France',
@@ -72,6 +75,16 @@ export default function EachTrip() {
                 canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
             },
             { id: "date-line-1", date: '2024-11-06', value: 'Date Line 1', type: "date-line", canHaveChildren: false },
+            { 
+                id: "384579898289574",
+                geonameId: "1234",
+                value: 'Amboise',
+                countryCode: 'FR',
+                countryName: 'France',
+                children: [{ id: '9808998', value: 'Amboise Hotel', canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;} }],
+                canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
+            },
+            { id: "date-line-9", date: '2024-11-06', value: 'Date Line 1', type: "date-line", canHaveChildren: false },
         ]
     }
 
