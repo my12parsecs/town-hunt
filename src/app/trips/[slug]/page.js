@@ -27,16 +27,29 @@ export default function EachTrip() {
 
     const [numOfDays, setNumOfDays] = useState(0);
 
+    const [insertId, setInsertId] = useState(null);
+
     const handleAdd = () => {
         if (!selectedCity) return;
         setNewPlace(selectedCity);
     };
 
+    // const generateUniqueId = () => {
+    //     return `item-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+    //   }
+
     const addDateLine = () => {
+        const dateLines = eachTripJson.trip.filter(item => item.type === "date-line");  
+        // Get the highest dateId
+        const maxDateId = dateLines.reduce((max, dateLine) => {
+            const currentId = parseInt(dateLine.dateId);
+            return currentId > max ? currentId : max;
+        }, -1);
+
         setNewPlace({
-            id: "date-line-0",
-            date: '2024-11-05',
-            value: 'Date Line 1',
+            // id: generateUniqueId(), IDは下のコンポネートでgenerateするからここではいらない
+            dateId: maxDateId + 1,
+            value: '',
             type: "date-line",
             canHaveChildren: false,
         });
@@ -85,8 +98,7 @@ export default function EachTrip() {
                 children: [{ id: '6', value: 'Chateau de Blois', canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;} }],
                 canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
             },
-            { id: "date-line-0", dateId: 0, value: 'Date Line 1', type: "date-line", canHaveChildren: false },
-            // { id: "3", date: '2024-11-05', value: 'Date Change', type: "date-line", canHaveChildren: true },
+            { id: "date-line-0", dateId: 0, value: '', type: "date-line", canHaveChildren: false },
             { 
                 id: "38457289574",
                 geonameId: "1234",
@@ -96,7 +108,7 @@ export default function EachTrip() {
                 children: [{ id: '9898', value: 'Chateau de Amboise', canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;} }],
                 canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
             },
-            { id: "date-line-1", dateId: 1, value: 'Date Line 1', type: "date-line", canHaveChildren: false },
+            { id: "date-line-1", dateId: 1, value: '', type: "date-line", canHaveChildren: false },
             { 
                 id: "384579898289574",
                 geonameId: "1234",
@@ -106,7 +118,7 @@ export default function EachTrip() {
                 children: [{ id: '9808998', value: 'Amboise Hotel', canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;} }],
                 canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
             },
-            { id: "date-line-9", dateId: 2, value: 'Date Line 1', type: "date-line", canHaveChildren: false },
+            { id: "date-line-9", dateId: 2, value: '', type: "date-line", canHaveChildren: false },
             { 
                 id: "38457989828958774",
                 geonameId: "1234",
@@ -170,14 +182,20 @@ export default function EachTrip() {
                         </div>
                     </div>
                     <div className='each-trip-edit-list'>
-                        <MinimalViable tripList={eachTripJson.trip} newPlace={newPlace} setNewPlace={setNewPlace} />
+                        <MinimalViable tripList={eachTripJson.trip} newPlace={newPlace} setNewPlace={setNewPlace} insertId={insertId} setInsertId={setInsertId} />
                     </div>
-                    <div className='add-next-day-button'>
-                        <FontAwesomeIcon icon={faPlus} className="add-next-day-button-icon"/>
-                        Next Day
+                    <div className='add-next-day-button' onClick={addDateLine}>
+                        <FontAwesomeIcon icon={faPlus} className="add-next-day-button-icon"/>Add Day
                     </div>
-                    <CitySelect setSelectedCity={setSelectedCity} isMapPage={false} />
-                    <div onClick={handleAdd}>Add</div>
+                    <div className='each-trip-add-container'>
+                        <div className='each-trip-add-select-container'>
+                            <CitySelect setSelectedCity={setSelectedCity} isMapPage={false} />
+                        </div>
+                        <div onClick={handleAdd} className='each-trip-add-button-container'>
+                            <FontAwesomeIcon icon={faPlus} className="add-icon" />
+                        </div>
+                    </div>
+
                 </div>
             )}
         </div>

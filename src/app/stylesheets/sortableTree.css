@@ -36,6 +36,7 @@
 .date-line-row > .dnd-sortable-tree_simple_tree-item{
     border: none;
     background-color: transparent;
+    height: 40px;
 }
 .dnd-sortable-tree_simple_tree-item{
     cursor: pointer;
