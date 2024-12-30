@@ -20,6 +20,11 @@
     margin: auto;
     margin-top: 20px;
 }
+@media (max-width: 450px) {
+    .trips-list{
+        grid-template-columns: 1fr;
+    }
+}
 .trips-each{
     /* width: 100px; */
     background-color: var(--gray-background);
