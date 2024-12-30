@@ -15,7 +15,7 @@
     max-width: 500px;
     margin: auto;
     margin-bottom: 20px;
-    border-bottom: 1px solid var(--date-border-color);
+    /* border-bottom: 1px solid var(--date-border-color); */
 }
 
 
@@ -72,16 +72,20 @@
     margin-top: 50px;
 }
 .each-trip-list{
+    border: 1px solid var(--date-border-color);
+    /* border-bottom: none; */
+    border-radius: 9px;
 }
 .each-date-container{
     display: flex;
     align-items: stretch;
+    border-bottom: 1px solid var(--date-border-color);
 }
 .each-date-left{
     /* background-color: var(--gray-background); */
     width: 35px;
     padding-left: 2px;
-    border: 1px solid var(--date-border-color);
+    /* border: 1px solid var(--date-border-color); */
     border-right: none;
     border-bottom: none;
     /* border-radius: 10px; */
@@ -104,7 +108,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    border: 1px solid var(--date-border-color);
+    /* border: 1px solid var(--date-border-color); */
     border-left: none;
     border-bottom: none;
 }

@@ -90,7 +90,7 @@ const EachTripList = ({ eachTripJson, userLanguage, numOfDays, setNumOfDays }) =
         <div className='each-trip-list'>
             {/* <div> */}
                 {groupedTrips.map((group, index) => (          
-                    <div key={index} className='each-date-container'>
+                    <div key={index} className='each-date-container' style={index === groupedTrips.length - 1 ? { borderBottom: '0px' } : {}}>
                         <div className='each-date-left'>
                             {index === 0 ? (
                                 <div className='each-date-left-inner'>
