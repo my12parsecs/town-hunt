@@ -25,6 +25,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 48px;
 }
 .each-trip-title-row > h1{
     font-size: 2rem;
@@ -52,8 +53,18 @@
     color: var(--foreground);
     outline: 1px solid var(--foreground);
 }
-@media (prefers-color-scheme: light) {
+.each-trip-date-row{
+    margin-top: 2px;
 }
+.each-trip-date-row > p{
+    letter-spacing: 0.5px;
+}
+.each-trip-flag-row{
+    margin-top: 3px;
+}
+
+
+
 
 
 
@@ -68,7 +79,7 @@
 }
 .each-date-left{
     /* background-color: var(--gray-background); */
-    width: 30px;
+    width: 35px;
     padding-left: 2px;
     border: 1px solid var(--date-border-color);
     border-right: none;
@@ -77,6 +88,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.each-date-left-inner{}
+.each-date-left-month{
+    text-align: center;
+    font-size: 0.8rem;
+}
+.each-date-left-day{
+    text-align: center;
+    font-size: 1.2rem;
 }
 .each-date-right{
     flex: 1;
@@ -96,6 +116,10 @@
     border-radius: 10px;
     padding: 15px 15px 10px 15px;
     background-color: var(--gray-background);
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .each-trip-list-item-same-last{
     border-radius: 10px 10px 0px 0px;
@@ -106,6 +130,11 @@
     border-radius: 0px 0px 10px 10px;
     margin-top: -15px;
     padding-top: 0px;
+    padding-bottom: 0px;
+}
+.each-trip-list-item-same-between{
+    border-radius: 0px;
+    margin-bottom: -15px;
 }
 .each-trip-list-item-title-row{
     display: flex;

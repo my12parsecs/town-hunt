@@ -2,7 +2,12 @@
 
 
 
-.trips-page{}
+.trips-page{
+    width: 90%;
+    max-width: 500px;
+    margin: auto;
+    margin-bottom: 20px;
+}
 .trips-nav{}
 
 .trips-list{
@@ -10,10 +15,10 @@
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: auto;
     gap: 20px;
-    width: 92%;
+    width: 100%;
     max-width: 500px;
     margin: auto;
-    margin-top: 60px;
+    margin-top: 20px;
 }
 .trips-each{
     /* width: 100px; */
