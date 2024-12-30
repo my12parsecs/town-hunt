@@ -119,12 +119,23 @@ const EachTripList = ({ eachTripJson, userLanguage, numOfDays, setNumOfDays }) =
                                         {item.children && item.children.length > 0 && (
                                             <div style={{marginLeft: "18px"}}>
                                                 {item.children.map((child) => (
-                                                    <div key={child.id} style={{ borderRadius: "5px", padding: "10px"}}>
+                                                    <div key={child.id} className='each-trip-child-container' style={{ borderRadius: "5px", padding: "10px"}}>
                                                         <div>{child.value}</div>
                                                         {child.children && child.children.length > 0 && (
                                                             <div>
                                                                 {child.children.map((grandchild) => (
-                                                                    <div key={grandchild.id}>{grandchild.value}</div>
+                                                                    <div key={grandchild.id} style={{marginLeft: "20px"}}>
+                                                                        <div>{grandchild.value}</div>
+                                                                        {grandchild.children && grandchild.children.length > 0 && (
+                                                                            <div>
+                                                                                {grandchild.children.map((grandgrandchild) => (
+                                                                                    <div key={grandgrandchild.id} style={{marginLeft: "20px"}}>
+                                                                                        <div>{grandgrandchild.value}</div>
+                                                                                    </div>
+                                                                                ))}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
                                                                 ))}
                                                             </div>
                                                         )}

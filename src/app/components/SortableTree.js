@@ -5,7 +5,7 @@ import { SimpleTreeItemWrapper, SortableTree } from 'dnd-kit-sortable-tree';
 
 import "../stylesheets/sortableTree.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faL, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export const MinimalViable = ({tripList, newPlace, setNewPlace, insertId, setInsertId}) => {
 //   const [items, setItems] = useState(initialViableMinimalData);
@@ -89,7 +89,7 @@ export const MinimalViable = ({tripList, newPlace, setNewPlace, insertId, setIns
         onItemsChanged={handleChange}
         // TreeItemComponent={MinimalTreeItemComponent}
         TreeItemComponent={(props) => (
-            <MinimalTreeItemComponent {...props} items={items} setItems={setItems} />
+            <MinimalTreeItemComponent {...props} items={items} setItems={setItems} insertId={insertId} setInsertId={setInsertId} />
         )}
     />
   );
@@ -98,6 +98,8 @@ export const MinimalViable = ({tripList, newPlace, setNewPlace, insertId, setIns
 const handleInsert = (item, setInsertId) => {
     console.log("handleInsert");
     console.log(item);
+    console.log(item.id);
+    
     setInsertId(item.id);
 };
 
@@ -146,8 +148,8 @@ const MinimalTreeItemComponent = React.forwardRef(function MinimalTreeItemCompon
     return (
         /* you could also use FolderTreeItemWrapper if you want to show vertical lines.  */
         <div className='sortable-tree-row-container'>
-            <div className='sortable-tree-row-top' style={insertId === item.id ? {borderBottom: "1px solid red"} : {}}>
-                <SimpleTreeItemWrapper {...rest} ref={ref} className={`sortable-tree-row ${props.item.type=== "date-line" ? "date-line-row" : "" }`} showDragHandle={true}>
+            <div className='sortable-tree-row-top'>
+                <SimpleTreeItemWrapper {...rest} ref={ref} className={`sortable-tree-row ${props.item.type=== "date-line" ? "date-line-row" : "" }`} showDragHandle={true} manualDrag={true}>
                     <div className='sortable-tree-text'>{props.item.label ? props.item.label : props.item.value}</div>
                 </SimpleTreeItemWrapper>
                 <div className='sortable-tree-add-icon-container'>
@@ -157,6 +159,7 @@ const MinimalTreeItemComponent = React.forwardRef(function MinimalTreeItemCompon
                     <FontAwesomeIcon icon={faTrash} className="sortable-tree-delete-icon" onClick={() => handleDelete(props.item, items, setItems)} />
                 </div>
             </div>
+            <div className='insert-line' style={insertId === item.id ? {display: "flex"} : {display: "none"}}></div>
             {/* <div className='sortable-tree-row-bottom'>
                 <div className='sortable-tree-add-button'>Add</div>
             </div> */}

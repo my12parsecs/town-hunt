@@ -84,7 +84,19 @@ export default function EachTrip() {
                 countryCode: 'FR',
                 countryName: 'France',
                 children: [
-                    { id: '4', value: 'Eiffel Tower', children: [{ id: '7', value: 'Observation Deck', canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;} }], canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;} },
+                    {
+                        id: '4',
+                        value: 'Eiffel Tower', 
+                        children: [
+                            { 
+                                id: '7', 
+                                value: 'Observation Deck', 
+                                children: [{ id: '7-1', value: 'Third Floor', canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;} }],
+                                canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;} 
+                            }
+                        ], 
+                        canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;} 
+                    },
                     { id: '5', value: 'The Louvre', canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;} },
                 ],
                 canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
@@ -180,6 +192,13 @@ export default function EachTrip() {
                         <div className='each-trip-flag-row'>
                             <p>{getFlagEmoji(eachTripJson.trip[0].countryCode)}</p>
                         </div>
+                    </div>
+                    <div style={{marginTop: "20px", display: "flex", alignItems: "center"}}>
+                        Starting Date: <input type="date"
+                        // value={eachTripJson.startDate}
+                        // onChange={(e) => setEachTripJson({...eachTripJson, startDate: e.target.value})}
+                        className='starting-date-input'
+                         />
                     </div>
                     <div className='each-trip-edit-list'>
                         <MinimalViable tripList={eachTripJson.trip} newPlace={newPlace} setNewPlace={setNewPlace} insertId={insertId} setInsertId={setInsertId} />

@@ -103,6 +103,12 @@
     cursor: pointer;
 }
 
+.insert-line{
+    border-top: 1px var(--foreground) solid;
+    margin-top: 5px;
+    /* margin-left: 5px; */
+    /* margin-right: 5px; */
+}
 
 
 .sortable-tree-row-bottom{

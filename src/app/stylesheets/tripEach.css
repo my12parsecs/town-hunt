@@ -69,7 +69,7 @@
 
 
 .each-trip-list-container{
-    margin-top: 50px;
+    margin-top: 20px;
 }
 .each-trip-list{
     border: 1px solid var(--date-border-color);
@@ -165,6 +165,11 @@
     margin-top: 20px;
 }
 
+.each-trip-child-container{
+    /* filter: grayscale(1.7); */
+    /* background-color: lighten(var(--gray-background), 10%); */
+    /* background-color: rgb(28, 28, 28); */
+}
 
 
 
@@ -182,6 +187,21 @@
     border-radius: 5px;
     padding: 3px;
 }
+
+
+.starting-date-input{
+    background-color: var(--background);
+    border: 1px solid var(--date-border-color);
+    border-radius: 5px;
+    height: 24px;
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+
 
 .each-trip-edit-list{
     margin-top: 50px;
