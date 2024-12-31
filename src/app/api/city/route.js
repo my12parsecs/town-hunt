@@ -38,6 +38,8 @@ export async function GET(request) {
       });
 
       console.log("API finished");
+      console.log(result);
+      
       return new Response(JSON.stringify(result), { status: 200 });
     } catch (error) {
       console.error(error);

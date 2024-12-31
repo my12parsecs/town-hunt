@@ -24,18 +24,20 @@ export default function EachTrip() {
 
     const [selectedCity, setSelectedCity] = useState(null);
     const [newPlace, setNewPlace] = useState(null);
-    // const [tripList, setTripList] = useState({
-    //     "title": "",
-    //     "startDate": "",
-    //     "trip": []
+
+    // const [tripList, setTripList] = useState(() => {
+    //     const storedTrip = localStorage.getItem("town-hunt-trip");
+    //     return storedTrip ? JSON.parse(storedTrip) : {
+    //         "title": "Enter Trip Title",
+    //         "startDate": "",
+    //         "trip": []
+    //     };
     // });
-    const [tripList, setTripList] = useState(() => {
-        const storedTrip = localStorage.getItem("town-hunt-trip");
-        return storedTrip ? JSON.parse(storedTrip) : {
-            "title": "Enter Trip Title",
-            "startDate": "",
-            "trip": []
-        };
+    const [isInitialized, setIsInitialized] = useState(false);
+    const [tripList, setTripList] = useState({
+      "title": "Enter Trip Title",
+      "startDate": "",
+      "trip": []
     });
 
     const [numOfDays, setNumOfDays] = useState(0);
@@ -73,7 +75,7 @@ export default function EachTrip() {
             // }],
             canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
         }
-        localStorage.setItem("town-hunt-trip", JSON.stringify({...tripList, trip: [...tripList.trip, newCity]}));
+        window.localStorage.setItem("town-hunt-trip", JSON.stringify({...tripList, trip: [...tripList.trip, newCity]}));
         setTripList({...tripList, trip: [...tripList.trip, newCity]});
     }, [newPlace]);
 
@@ -122,18 +124,27 @@ export default function EachTrip() {
     }, []);
 
 
-    useEffect(() => {
-        // const storedTrips = JSON.parse(localStorage.getItem("town-hunt-trip"));
-        // if (storedTrips) {
-        //     setTripList(storedTrips);
-        // }
-    }, []);
 
 
     useEffect(() => {
-        console.log("PARENT useeffect trip list", tripList);
-        localStorage.setItem("town-hunt-trip", JSON.stringify(tripList));
-    }, [tripList]);
+        const storedTrip = window.localStorage.getItem("town-hunt-trip");
+        if (storedTrip) {
+          try {
+            setTripList(JSON.parse(storedTrip));
+          } catch (e) {
+            console.error("Error parsing stored trip data:", e);
+          }
+        }
+        setIsInitialized(true);
+      }, []); // Runs once on mount
+
+      useEffect(() => {
+        // Only start syncing to localStorage after initial load
+        if (isInitialized) {
+          console.log("PARENT useeffect trip list", tripList);
+          window.localStorage.setItem("town-hunt-trip", JSON.stringify(tripList));
+        }
+      }, [tripList, isInitialized]);
 
 
 
