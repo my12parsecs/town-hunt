@@ -127,6 +127,7 @@ export default function EachTrip() {
 
 
     useEffect(() => {
+        if (typeof window == 'undefined') return;
         const storedTrip = window.localStorage.getItem("town-hunt-trip");
         if (storedTrip) {
           try {
