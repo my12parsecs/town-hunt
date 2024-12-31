@@ -24,36 +24,87 @@ export default function EachTrip() {
 
     const [selectedCity, setSelectedCity] = useState(null);
     const [newPlace, setNewPlace] = useState(null);
+    // const [tripList, setTripList] = useState({
+    //     "title": "",
+    //     "startDate": "",
+    //     "trip": []
+    // });
+    const [tripList, setTripList] = useState(() => {
+        const storedTrip = localStorage.getItem("town-hunt-trip");
+        return storedTrip ? JSON.parse(storedTrip) : {
+            "title": "Enter Trip Title",
+            "startDate": "",
+            "trip": []
+        };
+    });
 
     const [numOfDays, setNumOfDays] = useState(0);
 
     const [insertId, setInsertId] = useState(null);
 
     const handleAdd = () => {
+        console.log("selectedCity", selectedCity);
+        
         if (!selectedCity) return;
         setNewPlace(selectedCity);
     };
 
-    // const generateUniqueId = () => {
-    //     return `item-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
-    //   }
+    useEffect(() => {
+
+        if(!newPlace) return;
+
+        const newCity = {
+            id: `item-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+            value: newPlace.cityName,
+            cityName: newPlace.cityName,
+            adminName1: newPlace.adminName1,
+            countryName: newPlace.countryName,
+            countryCode: newPlace.countryCode,
+            fcl: newPlace.fcl,
+            fcodeName: newPlace.fcodeName,
+            label: newPlace.label,
+            lat: newPlace.lat,
+            lng: newPlace.lng,
+            geonameId: newPlace.value,
+            // children: [{
+            //   id: newPlace.cityName,
+            //   value: newPlace.cityName,
+            //   canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
+            // }],
+            canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
+        }
+        localStorage.setItem("town-hunt-trip", JSON.stringify({...tripList, trip: [...tripList.trip, newCity]}));
+        setTripList({...tripList, trip: [...tripList.trip, newCity]});
+    }, [newPlace]);
+
+    const generateUniqueId = () => {
+        return `item-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+      }
 
     const addDateLine = () => {
-        const dateLines = eachTripJson.trip.filter(item => item.type === "date-line");  
+        const dateLines = tripList.trip.filter(item => item.type === "date-line");  
         // Get the highest dateId
         const maxDateId = dateLines.reduce((max, dateLine) => {
             const currentId = parseInt(dateLine.dateId);
             return currentId > max ? currentId : max;
         }, -1);
+        
 
-        setNewPlace({
-            // id: generateUniqueId(), IDは下のコンポネートでgenerateするからここではいらない
+        const newDateLine = {
+            id: generateUniqueId(),
             dateId: maxDateId + 1,
-            value: '',
+            value: `Date Line ${maxDateId + 2}`,
             type: "date-line",
             canHaveChildren: false,
-        });
+        }
+
+        // setNewPlace(newDateLine);
+        const updatedTrip = [...tripList.trip, newDateLine];
+        setTripList(prev => ({...prev, trip: updatedTrip}));
+        // localStorage.setItem("town-hunt-trip", JSON.stringify({...tripList, trip: [...tripList.trip, newDateLine]}));
+        // setTripList({...tripList, trip: [...tripList.trip, newDateLine]});
     };
+    
 
     useEffect(() => {
         setUserLanguage(getUserLanguage());
@@ -69,6 +120,20 @@ export default function EachTrip() {
         let localizedFormat = require(`dayjs/plugin/localizedFormat`);
         dayjs.extend(localizedFormat)
     }, []);
+
+
+    useEffect(() => {
+        // const storedTrips = JSON.parse(localStorage.getItem("town-hunt-trip"));
+        // if (storedTrips) {
+        //     setTripList(storedTrips);
+        // }
+    }, []);
+
+
+    useEffect(() => {
+        console.log("PARENT useeffect trip list", tripList);
+        localStorage.setItem("town-hunt-trip", JSON.stringify(tripList));
+    }, [tripList]);
 
 
 
@@ -150,43 +215,58 @@ export default function EachTrip() {
             <div className="each-trip-nav">
                 <div style={{marginTop: "20px", marginBottom: "20px"}}><Link href="/trips"><FontAwesomeIcon icon={faAngleLeft} style={{width: "20px", height: "20px"}} /></Link></div>
             </div>
-
+            
 
             {!isEditing ? (
                 <div className='each-trip-content'>
                     <div className='each-trip-info'>
                         <div className='each-trip-title-row'>
-                            <h1>{eachTripJson.title}</h1>
+                            <h1>{tripList.title ? tripList.title : ""}</h1>
                             <div onClick={() => setIsEditing(!isEditing)} className='each-trip-edit-button'>{isEditing ? "Done" : "Edit"}</div>
                         </div>
                         <div className='each-trip-date-row'>
-                            {dayjs(eachTripJson.startDate).format("YYYY") === dayjs(eachTripJson.startDate).add(numOfDays-1, 'day').format("YYYY") ? (
-                                <p>{dayjs(eachTripJson.startDate).format("l")} ~ {dayjs(eachTripJson.startDate).add(numOfDays-1, 'day').format('l')}</p>
+                            {tripList.startDate ? (
+                                numOfDays > 0 ? (
+                                    dayjs(tripList.startDate).format("YYYY") === dayjs(tripList.startDate).add(numOfDays-1, 'day').format("YYYY") ? (
+                                        <p>{dayjs(tripList.startDate).format("l")} ~ {dayjs(tripList.startDate).add(numOfDays-1, 'day').format('l')}</p>
+                                    ) : (
+                                        <p>{dayjs(tripList.startDate).format("l")} ~ {dayjs(tripList.startDate).add(numOfDays-1, 'day').format('l')}</p>
+                                    )
+                                ) : (
+                                    <p>{dayjs(tripList.startDate).format("l")}</p>
+                                )
                             ) : (
-                                <p>{dayjs(eachTripJson.startDate).format("l")} ~ {dayjs(eachTripJson.startDate).add(numOfDays-1, 'day').format('l')}</p>
+                                <p></p>
                             )}
                         </div>
                         <div className='each-trip-flag-row'>
-                            <p>{getFlagEmoji(eachTripJson.trip[0].countryCode)}</p>
+                            <p>{getFlagEmoji(eachTripJson.trip.length > 0 ? eachTripJson.trip[0].countryCode : "")}</p>
                         </div>
                     </div>
                     <div className='each-trip-list-container'>
-                        <EachTripList eachTripJson={eachTripJson} userLanguage={userLanguage} numOfDays={numOfDays} setNumOfDays={setNumOfDays} />
+                        <EachTripList eachTripJson={tripList} userLanguage={userLanguage} numOfDays={numOfDays} setNumOfDays={setNumOfDays} />
                     </div>
                 </div>
             ) : (
                 <div>
                     <div className='each-trip-info'>
-                        {/* <h1>INPUT {eachTripJson.title}</h1> */}
                         <div className='each-trip-title-row'>
-                            <input type="text" className="each-trip-title-input" placeholder="Trip Title" style={{width: "100%"}} value={eachTripJson.title} onChange={(e) => setEachTripJson({...eachTripJson, title: e.target.value})} />
+                            <input type="text" className="each-trip-title-input" placeholder="Enter Trip Title" style={{width: "100%"}} value={tripList.title} onChange={(e) => setTripList({...tripList, title: e.target.value})} />
                             <div onClick={() => setIsEditing(!isEditing)} className={`each-trip-edit-button ${isEditing ? "each-trip-edit-button-done" : ""}`}>{isEditing ? "Done" : "Edit"}</div>
                         </div>
                         <div className='each-trip-date-row'>
-                            {dayjs(eachTripJson.startDate).format("YYYY") === dayjs(eachTripJson.startDate).add(numOfDays-1, 'day').format("YYYY") ? (
-                                <p>{dayjs(eachTripJson.startDate).format("l")} ~ {dayjs(eachTripJson.startDate).add(numOfDays-1, 'day').format('l')}</p>
+                            {tripList.startDate ? (
+                                numOfDays > 0 ? (
+                                    dayjs(tripList.startDate).format("YYYY") === dayjs(tripList.startDate).add(numOfDays-1, 'day').format("YYYY") ? (
+                                        <p>{dayjs(tripList.startDate).format("l")} ~ {dayjs(tripList.startDate).add(numOfDays-1, 'day').format('l')}</p>
+                                    ) : (
+                                        <p>{dayjs(tripList.startDate).format("l")} ~ {dayjs(tripList.startDate).add(numOfDays-1, 'day').format('l')}</p>
+                                    )
+                                ) : (
+                                    <p>{dayjs(tripList.startDate).format("l")}</p>
+                                )
                             ) : (
-                                <p>{dayjs(eachTripJson.startDate).format("l")} ~ {dayjs(eachTripJson.startDate).add(numOfDays-1, 'day').format('l')}</p>
+                                <p>No Date</p>
                             )}
                         </div>
                         <div className='each-trip-flag-row'>
@@ -194,14 +274,14 @@ export default function EachTrip() {
                         </div>
                     </div>
                     <div style={{marginTop: "20px", display: "flex", alignItems: "center"}}>
-                        Starting Date: <input type="date"
-                        // value={eachTripJson.startDate}
-                        // onChange={(e) => setEachTripJson({...eachTripJson, startDate: e.target.value})}
-                        className='starting-date-input'
-                         />
+                        Starting Date: <input type="date" placeholder="YYYY-MM-DD" value={tripList.startDate} onChange={(e) => setTripList({...tripList, startDate: e.target.value})} className='starting-date-input' /><div className='starting-date-clear-button' onClick={() => setTripList({...tripList, startDate: ""})}>Clear</div>
                     </div>
                     <div className='each-trip-edit-list'>
-                        <MinimalViable tripList={eachTripJson.trip} newPlace={newPlace} setNewPlace={setNewPlace} insertId={insertId} setInsertId={setInsertId} />
+                        {tripList && tripList.trip.length > 0 ? (
+                            <MinimalViable tripList={tripList} setTripList={setTripList} newPlace={newPlace} setNewPlace={setNewPlace} insertId={insertId} setInsertId={setInsertId} />
+                        ):(
+                            <div>No Trips</div>
+                        )}
                     </div>
                     <div className='add-next-day-button' onClick={addDateLine}>
                         <FontAwesomeIcon icon={faPlus} className="add-next-day-button-icon"/>Add Day

@@ -76,8 +76,8 @@ const EachTripList = ({ eachTripJson, userLanguage, numOfDays, setNumOfDays }) =
         return classNames.join(' ');
     };
 
-    const groupedTrips = groupByDate(eachTripJson.trip);
-    const startDate = eachTripJson.startDate;
+    const groupedTrips = eachTripJson ? groupByDate(eachTripJson.trip) : [];
+    const startDate = eachTripJson ? eachTripJson.startDate : "";
     const nextDay = dayjs(startDate).add(1, 'day').format('YYYY-MM-DD');
     // console.log(nextDay);
 
@@ -85,22 +85,25 @@ const EachTripList = ({ eachTripJson, userLanguage, numOfDays, setNumOfDays }) =
     useEffect(() => {
         setNumOfDays(groupedTrips.length);
     }, [groupedTrips.length, setNumOfDays]);
+    
+    console.log(eachTripJson);
+    
 
     return (
-        <div className='each-trip-list'>
+        <div className='each-trip-list' style={numOfDays > 0 ? {} : {border: "none"}}>
             {/* <div> */}
                 {groupedTrips.map((group, index) => (          
                     <div key={index} className='each-date-container' style={index === groupedTrips.length - 1 ? { borderBottom: '0px' } : {}}>
                         <div className='each-date-left'>
                             {index === 0 ? (
                                 <div className='each-date-left-inner'>
-                                    <div className='each-date-left-month'>{dayjs(startDate).add(index, 'day').format('MMM')}</div>
-                                    <div className='each-date-left-day'>{dayjs(startDate).add(index, 'day').format('D')}</div>
+                                    <div className='each-date-left-month'>{startDate ? dayjs(startDate).add(index, 'day').format('MMM') : "Day"}</div>
+                                    <div className='each-date-left-day'>{startDate ? dayjs(startDate).add(index, 'day').format('D') : index + 1}</div>
                                 </div>
                             ) : (
                                 <div className='each-date-left-inner'>
-                                    <div className='each-date-left-month'>{dayjs(startDate).add(index, 'day').format('MMM')}</div>
-                                    <div className='each-date-left-day'>{dayjs(startDate).add(index, 'day').format('D')}</div>
+                                    <div className='each-date-left-month'>{startDate ? dayjs(startDate).add(index, 'day').format('MMM') : "Day"}</div>
+                                    <div className='each-date-left-day'>{startDate ? dayjs(startDate).add(index, 'day').format('D') : index + 1}</div>
                                 </div>
                             )}
                             {/* { index !== 0 && group.date ? group.date.slice(8, 10) : ""} */}
@@ -110,7 +113,7 @@ const EachTripList = ({ eachTripJson, userLanguage, numOfDays, setNumOfDays }) =
                                 {group.items.map((item) => (
                                     <div key={item.id} className={getItemClassNames(item)}>
                                         <div className='each-trip-list-item-title-row' style={item.isSameFirst ? {display: "none"} : {}}>
-                                            <h3 className='each-trip-list-item-title'>{getFlagEmoji(item.countryCode)} {item.value}</h3>
+                                            <h3 className='each-trip-list-item-title'>{item.countryCode ? getFlagEmoji(item.countryCode) : ""} {item.value}</h3>
                                             <div className='each-trip-list-item-buttons'>
                                                 <Link href={`https://${userLanguage}.wikipedia.org/wiki/${item.value}`} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faCircleInfo} className="each-trip-list-item-info-icon"/></Link>
                                                 <Link href={`https://www.google.com/maps/search/${item.value}`} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faLocationDot} className="each-trip-list-item-map-icon"/></Link>
@@ -131,6 +134,15 @@ const EachTripList = ({ eachTripJson, userLanguage, numOfDays, setNumOfDays }) =
                                                                                 {grandchild.children.map((grandgrandchild) => (
                                                                                     <div key={grandgrandchild.id} style={{marginLeft: "20px"}}>
                                                                                         <div>{grandgrandchild.value}</div>
+                                                                                        {grandgrandchild.children && grandgrandchild.children.length > 0 && (
+                                                                                            <div>
+                                                                                                {grandgrandchild.children.map((grandgrandgrandchild) => (
+                                                                                                    <div key={grandgrandgrandchild.id} style={{marginLeft: "20px"}}>
+                                                                                                        <div>{grandgrandgrandchild.value}</div>
+                                                                                                    </div>
+                                                                                                ))}
+                                                                                            </div>
+                                                                                        )}
                                                                                     </div>
                                                                                 ))}
                                                                             </div>
