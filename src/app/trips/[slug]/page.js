@@ -127,7 +127,7 @@ export default function EachTrip() {
 
 
     useEffect(() => {
-        if (typeof window == 'undefined') return;
+        // if (typeof window == 'undefined') return;
         const storedTrip = window.localStorage.getItem("town-hunt-trip");
         if (storedTrip) {
           try {
@@ -256,7 +256,13 @@ export default function EachTrip() {
                         </div>
                     </div>
                     <div className='each-trip-list-container'>
-                        <EachTripList eachTripJson={tripList} userLanguage={userLanguage} numOfDays={numOfDays} setNumOfDays={setNumOfDays} />
+                        {tripList.trip.length > 0 ? (
+                            <EachTripList eachTripJson={tripList} userLanguage={userLanguage} numOfDays={numOfDays} setNumOfDays={setNumOfDays} />
+                        ) : (
+                            <div className="each-trip-list-empty">
+                                <p>No Data</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             ) : (
