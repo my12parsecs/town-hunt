@@ -295,10 +295,10 @@ export default function EachTrip() {
                         Starting Date: <input type="date" placeholder="YYYY-MM-DD" value={tripList.startDate} onChange={(e) => setTripList({...tripList, startDate: e.target.value})} className='starting-date-input' /><div className='starting-date-clear-button' onClick={() => setTripList({...tripList, startDate: ""})}>Clear</div>
                     </div>
                     <div className='each-trip-edit-list'>
-                        {tripList ? (
+                        {tripList?.trip?.length > 0 ? (
                             <MinimalViable tripList={tripList} setTripList={setTripList} newPlace={newPlace} setNewPlace={setNewPlace} insertId={insertId} setInsertId={setInsertId} />
-                        ):(
-                            <div>No Trips</div>
+                        ):( 
+                            <div>No Items</div>
                         )}
                     </div>
                     <div className='add-next-day-button' onClick={addDateLine}>
