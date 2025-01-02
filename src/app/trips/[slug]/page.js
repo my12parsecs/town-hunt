@@ -248,7 +248,11 @@ export default function EachTrip() {
                                     <p>{dayjs(tripList.startDate).format("l")}</p>
                                 )
                             ) : (
-                                <p></p>
+                                numOfDays > 0 ? (
+                                    <p>{numOfDays} {numOfDays > 1 ? "Days" : "Day"}</p>
+                                ):(
+                                    <p>No Date</p>
+                                )
                             )}
                         </div>
                         <div className='each-trip-flag-row'>
@@ -256,11 +260,12 @@ export default function EachTrip() {
                         </div>
                     </div>
                     <div className='each-trip-list-container'>
-                        {tripList ? (
+                        {tripList?.trip?.length > 0 ? (
                             <EachTripList eachTripJson={tripList} userLanguage={userLanguage} numOfDays={numOfDays} setNumOfDays={setNumOfDays} />
                         ) : (
                             <div className="each-trip-list-empty">
-                                <p>No Data</p>
+                                <p style={{fontSize: "1.2rem"}}>No Trip Data</p>
+                                {/* <p style={{fontSize: "0.9rem", marginTop: "10px"}}>Edit your trip!</p> */}
                             </div>
                         )}
                     </div>

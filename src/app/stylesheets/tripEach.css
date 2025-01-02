@@ -243,6 +243,21 @@
 }
 
 
+
+.each-trip-list-empty{
+    min-height: 300px;
+    border: 1px solid var(--date-border-color);
+    border-radius: 9px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
 .add-next-day-button{
     width: 120px;
     height: 40px;
