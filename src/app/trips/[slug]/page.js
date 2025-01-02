@@ -68,11 +68,6 @@ export default function EachTrip() {
             lat: newPlace.lat,
             lng: newPlace.lng,
             geonameId: newPlace.value,
-            // children: [{
-            //   id: newPlace.cityName,
-            //   value: newPlace.cityName,
-            //   canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
-            // }],
             canHaveChildren: (dragItem) => {return dragItem.type === "date-line" ? false : true;}
         }
         window.localStorage.setItem("town-hunt-trip", JSON.stringify({...tripList, trip: [...tripList.trip, newCity]}));
@@ -263,10 +258,11 @@ export default function EachTrip() {
                         {tripList?.trip?.length > 0 ? (
                             <EachTripList eachTripJson={tripList} userLanguage={userLanguage} numOfDays={numOfDays} setNumOfDays={setNumOfDays} />
                         ) : (
-                            <div className="each-trip-list-empty">
-                                <p style={{fontSize: "1.2rem"}}>No Trip Data</p>
-                                {/* <p style={{fontSize: "0.9rem", marginTop: "10px"}}>Edit your trip!</p> */}
-                            </div>
+                            isInitialized && (
+                                <div className="each-trip-list-empty">
+                                    <p style={{fontSize: "1.2rem"}}>No Trip Data</p>
+                                </div>
+                            )
                         )}
                     </div>
                 </div>

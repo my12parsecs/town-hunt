@@ -99,10 +99,11 @@ export const MinimalViable = ({tripList, setTripList, newPlace, setNewPlace, ins
         // setNewPlace(null);
         // setTripList({...tripList, trip: [...tripList.trip, newItem]});
         // localStorage.setItem("town-hunt-trip", JSON.stringify(tripList));
-        const updatedItems = [...items, newItem];
-        setItems(updatedItems);
-        setTripList(prevState => ({...prevState, trip: updatedItems}));
-        setNewPlace(null);
+
+        // const updatedItems = [...items, newItem];
+        // setItems(updatedItems);
+        // setTripList(prevState => ({...prevState, trip: updatedItems}));
+        // setNewPlace(null);
     }
   }, [newPlace]);
 
