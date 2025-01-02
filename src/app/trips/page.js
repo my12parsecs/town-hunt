@@ -111,7 +111,6 @@ const Trips = () => {
             {trip.country && <div className="trips-country">{trip.country}</div>}
           </Link>
         ))}
-
         {/* US Road Trip example - you can remove this if not needed */}
         {/* <Link href="/trips/us-road-trip" className="trips-each">
           <div className="trips-title">US Road Trip</div>
@@ -119,6 +118,11 @@ const Trips = () => {
           <div className="trips-country">United States, Canada</div>
         </Link> */}
       </div>
+      {trips.length === 0 && (
+          <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100px"}}>
+            <div>No Trips</div>
+          </div>
+      )}
     </div>
   );
 };
