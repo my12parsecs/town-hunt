@@ -21,7 +21,8 @@ const EachTripList = ({ eachTripJson, userLanguage, numOfDays, setNumOfDays }) =
         let lastGeonameId = null;
         let lastGroupIndex = -1;
 
-        trip.forEach((item) => {
+        trip?.forEach((item) => {
+        // trip.forEach((item) => {
             if (item.type === 'date-line') {
                 if (currentGroup.items.length > 0) {
                     grouped.push({ ...currentGroup });
@@ -86,7 +87,6 @@ const EachTripList = ({ eachTripJson, userLanguage, numOfDays, setNumOfDays }) =
         setNumOfDays(groupedTrips.length);
     }, [groupedTrips.length, setNumOfDays]);
     
-    console.log(eachTripJson);
     
 
     return (
