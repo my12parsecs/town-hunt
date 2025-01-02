@@ -15,6 +15,21 @@
     justify-content: space-between;
     align-items: center;
 }
+.trips-edit-button{
+    width: 70px;
+    height: 35px;
+    background-color: var(--gray-background);
+    color: var(--foreground);
+    border-radius: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    margin-right: 10px;
+    font-size: 0.95rem;
+    padding-top: 1px;
+}
 .trips-new-trip-button{
     width: 100px;
     height: 35px;
@@ -26,6 +41,8 @@
     align-items: center;
     cursor: pointer;
     user-select: none;
+    font-size: 0.95rem;
+    padding-top: 1px;
 }
 
 .trips-list{
@@ -43,11 +60,24 @@
         grid-template-columns: 1fr;
     }
 }
+.trips-each-container{
+    /* background-color: var(--gray-background); */
+    /* border-radius: 10px; */
+    /* padding: 20px; */
+    height: 100%;
+    /* padding: 0; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .trips-each{
     /* width: 100px; */
+    width: 100%;
+    height: auto;
     background-color: var(--gray-background);
     border-radius: 10px;
     padding: 20px;
+    margin: 0;
 }
 .trips-title{
     font-size: 1.25rem;
@@ -57,4 +87,17 @@
 }
 .trips-country{
     font-size: 0.8rem;
+}
+
+.trips-delete-button{
+    width: 100%;
+    height: 30px;
+    background-color: rgba(255, 0, 0, 0.5); /* Semi-transparent red */
+    margin-top: 10px;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
 }

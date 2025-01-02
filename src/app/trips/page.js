@@ -1,58 +1,17 @@
-// import Link from "next/link"
-// import { redirect } from "next/navigation"
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-
-// import "../stylesheets/trips.css"
-
-// export default function Trips() {
-
-//     const addNewTrip = () => {
-//         const newTripKey = `town-hunt-trip-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
-//         localStorage.setItem(newTripKey, JSON.stringify({title: "Enter Trip Title", startDate: "", trip: []}));
-//         redirect(`/trips/${newTripKey}`);
-//     }
-
-//     return (
-//         <div className="trips-page">
-//             {/* <div className="trips-nav"></div> */}
-//             <div className="trips-nav">
-//                 <div style={{marginTop: "20px", marginBottom: "20px"}}><Link href="/"><FontAwesomeIcon icon={faAngleLeft} style={{width: "20px", height: "20px"}} /></Link></div>
-//             </div>
-
-//             <div className="trips-header">
-//                 <h1>Trips</h1>
-//                 <div className="trips-new-trip-button" onClick={addNewTrip}>New Trip</div>
-//             </div>
-
-//             <div className="trips-list">
-//                 <Link href="/trips/us-road-trip" className="trips-each">
-//                     <div className="trips-title">US Road Trip</div>
-//                     <div className="trips-date">Nov13~30</div>
-//                     <div className="trips-country">United States, Canada</div>
-//                 </Link>
-//                 <div className="trips-each">
-//                     <div className="trips-title"></div>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-
-// }
-
 "use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import "../stylesheets/trips.css";
 
 const Trips = () => {
 
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const [trips, setTrips] = useState([]);
   const router = useRouter();
@@ -94,6 +53,11 @@ const Trips = () => {
     router.push(`/trips/${newTripKey}`);
   };
 
+  const deleteTrip = (tripId) => {
+    localStorage.removeItem(tripId);
+    setTrips((prevTrips) => prevTrips.filter((trip) => trip.id !== tripId));
+  };
+
   return (
     <div className="trips-page">
       <div className="trips-nav" style={{marginTop: "20px", marginBottom: "20px"}}>
@@ -104,17 +68,29 @@ const Trips = () => {
 
       <div className="trips-header">
         <h1>Trips</h1>
-        <div className="trips-new-trip-button" onClick={addNewTrip}>New Trip</div>
+        <div style={{display: "flex", alignItems: "center"}}>
+          <div className="trips-edit-button" onClick={() => setIsEditing(!isEditing)}>{isEditing ? "Done" : "Edit"}</div>
+          <div className="trips-new-trip-button" onClick={addNewTrip}>New Trip</div>
+        </div>
       </div>
 
       <div className="trips-list">
-        {trips.map((trip) => (
-          <Link key={trip.id} href={`/trips/${trip.id}`} className="trips-each">
-            <div className="trips-title">{trip.title}</div>
-            {trip.startDate && <div className="trips-date">{trip.startDate}</div>}
-            {trip.country && <div className="trips-country">{trip.country}</div>}
-          </Link>
-        ))}
+        
+          {trips.map((trip) => (
+            <div className="trips-each-container" key={trip.id}>
+              <Link href={`/trips/${trip.id}`} className="trips-each">
+                <div className="trips-title">{trip.title}</div>
+                {trip.startDate && <div className="trips-date">{trip.startDate}</div>}
+                {trip.country && <div className="trips-country">{trip.country}</div>}
+              </Link>
+              {isEditing && (
+                  <div className="trips-delete-button" onClick={() => deleteTrip(trip.id)}>
+                    <FontAwesomeIcon icon={faTrash} style={{width: "15px", height: "15px"}} />
+                  </div>
+              )}
+            </div>
+          ))}
+
         {/* US Road Trip example - you can remove this if not needed */}
         {/* <Link href="/trips/us-road-trip" className="trips-each">
           <div className="trips-title">US Road Trip</div>
