@@ -16,6 +16,8 @@ import "./stylesheets/home.css";
 export default function Home() {
   const router = useRouter()
 
+  const [isInitialized, setIsInitialized] = useState(false);
+
   const [userLanguage, setUserLanguage] = useState("");
   const [selectedCity, setSelectedCity] = useState(null);
 
@@ -68,6 +70,7 @@ export default function Home() {
     if (storedCities) {
       setCityArr(JSON.parse(storedCities));
     }
+    setIsInitialized(true);
   }, []);
 
   // FILTER
@@ -389,17 +392,12 @@ export default function Home() {
 
         {cityArr.length === 0 ? (
           <div className="no-city-div">
-            <h1 className="title-h1">Bookmark Places<span style={{backgroundColor: randomColorArr[randomIndex]}}></span></h1>
+            {/* <h1 className="title-h1">Bookmark Places<span style={{backgroundColor: randomColorArr[randomIndex]}}></span></h1>
             <h2 className="title-h2">Towns, Mountains, Landmarks, Parks, Roads...</h2>
             <div className="call-to-action-row">
             <Link href="/about" className="title-about title-link">
-            {/* <FontAwesomeIcon icon={faArrowRight} className="title-arrow" /> */}
             About</Link>
-            {/* <div className="title-about" onClick={handleAddClick} style={{border: `2px solid ${randomColorArr[randomIndex]}`}}> */}
-              {/* <FontAwesomeIcon icon={faArrowDown} className="title-arrow" /> */}
-              {/* Add Place</div> */}
-            </div>
-
+            </div> */}
           </div>
         ) : (
           <div className="city-list">
@@ -444,6 +442,15 @@ export default function Home() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+        {isInitialized && cityArr.length === 0 && (
+          <div className="no-city-div">
+            <h1 className="title-h1">Bookmark Places<span style={{backgroundColor: randomColorArr[randomIndex]}}></span></h1>
+            <h2 className="title-h2">Towns, Mountains, Landmarks, Parks, Roads...</h2>
+            <div className="call-to-action-row">
+            <Link href="/about" className="title-about title-link">About</Link>
+            </div>    
           </div>
         )}
       </div>
