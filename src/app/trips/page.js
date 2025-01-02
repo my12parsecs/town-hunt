@@ -51,6 +51,9 @@ import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import "../stylesheets/trips.css";
 
 const Trips = () => {
+
+  const [isInitialized, setIsInitialized] = useState(false);
+
   const [trips, setTrips] = useState([]);
   const router = useRouter();
 
@@ -72,6 +75,7 @@ const Trips = () => {
         }
       }
       setTrips(allTrips);
+      setIsInitialized(true);
     };
 
     loadTrips();
@@ -94,7 +98,7 @@ const Trips = () => {
     <div className="trips-page">
       <div className="trips-nav" style={{marginTop: "20px", marginBottom: "20px"}}>
           <Link href="/">
-            <FontAwesomeIcon icon={faAngleLeft} className="w-5 h-5" />
+            <FontAwesomeIcon icon={faAngleLeft} style={{width: "20px", height: "20px"}} />
           </Link>
       </div>
 
@@ -118,11 +122,16 @@ const Trips = () => {
           <div className="trips-country">United States, Canada</div>
         </Link> */}
       </div>
-      {trips.length === 0 && (
+      {isInitialized && trips.length === 0 && (
           <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100px"}}>
             <div>No Trips</div>
           </div>
       )}
+      {/* {trips.length === 0 && (
+          <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100px"}}>
+            <div>No Trips</div>
+          </div>
+      )} */}
     </div>
   );
 };
