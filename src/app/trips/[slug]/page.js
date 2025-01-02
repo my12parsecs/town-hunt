@@ -252,7 +252,7 @@ export default function EachTrip() {
                             )}
                         </div>
                         <div className='each-trip-flag-row'>
-                            <p>{getFlagEmoji(tripList ? tripList.trip[0].countryCode : "")}</p>
+                            <p>{getFlagEmoji(tripList?.trip?.[0]?.countryCode ?? "")}</p>
                         </div>
                     </div>
                     <div className='each-trip-list-container'>
