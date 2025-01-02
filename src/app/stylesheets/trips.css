@@ -17,7 +17,7 @@
 }
 .trips-edit-button{
     width: 70px;
-    height: 35px;
+    height: 36px;
     background-color: var(--gray-background);
     color: var(--foreground);
     border-radius: 500px;
@@ -27,12 +27,12 @@
     cursor: pointer;
     user-select: none;
     margin-right: 10px;
-    font-size: 0.95rem;
+    /* font-size: 0.95rem; */
     padding-top: 1px;
 }
 .trips-new-trip-button{
     width: 100px;
-    height: 35px;
+    height: 36px;
     background-color: var(--foreground);
     color: var(--background);
     border-radius: 500px;
@@ -41,7 +41,7 @@
     align-items: center;
     cursor: pointer;
     user-select: none;
-    font-size: 0.95rem;
+    /* font-size: 0.95rem; */
     padding-top: 1px;
 }
 
