@@ -252,11 +252,11 @@ export default function EachTrip() {
                             )}
                         </div>
                         <div className='each-trip-flag-row'>
-                            <p>{getFlagEmoji(eachTripJson.trip.length > 0 ? eachTripJson.trip[0].countryCode : "")}</p>
+                            <p>{getFlagEmoji(tripList ? tripList.trip[0].countryCode : "")}</p>
                         </div>
                     </div>
                     <div className='each-trip-list-container'>
-                        {tripList.trip.length > 0 ? (
+                        {tripList ? (
                             <EachTripList eachTripJson={tripList} userLanguage={userLanguage} numOfDays={numOfDays} setNumOfDays={setNumOfDays} />
                         ) : (
                             <div className="each-trip-list-empty">
@@ -295,7 +295,7 @@ export default function EachTrip() {
                         Starting Date: <input type="date" placeholder="YYYY-MM-DD" value={tripList.startDate} onChange={(e) => setTripList({...tripList, startDate: e.target.value})} className='starting-date-input' /><div className='starting-date-clear-button' onClick={() => setTripList({...tripList, startDate: ""})}>Clear</div>
                     </div>
                     <div className='each-trip-edit-list'>
-                        {tripList && tripList.trip.length > 0 ? (
+                        {tripList ? (
                             <MinimalViable tripList={tripList} setTripList={setTripList} newPlace={newPlace} setNewPlace={setNewPlace} insertId={insertId} setInsertId={setInsertId} />
                         ):(
                             <div>No Trips</div>
