@@ -10,6 +10,24 @@
 }
 .trips-nav{}
 
+.trips-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.trips-new-trip-button{
+    width: 100px;
+    height: 35px;
+    background-color: var(--foreground);
+    color: var(--background);
+    border-radius: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
 .trips-list{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
