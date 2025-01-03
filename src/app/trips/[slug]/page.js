@@ -392,16 +392,15 @@ export default function EachTrip() {
               {tripList.uniqueCountries && <div className="trips-country">{tripList.uniqueCountries.map((countryCode) => getFlagEmoji(countryCode)).join(" ")}</div>}
             </div>
           </div>
-          <div style={{ marginTop: "20px", display: "flex", alignItems: "center" }}>
+          <div className="each-trip-edit-starting-date-row">
             Starting Date: <input type="date" placeholder="YYYY-MM-DD" value={tripList.startDate} onChange={(e) => setTripList({ ...tripList, startDate: e.target.value })} className="starting-date-input" />
             <div className="starting-date-clear-button" onClick={() => setTripList({ ...tripList, startDate: "" })}>
               Clear
             </div>
           </div>
-          <div className="each-trip-edit-list">{tripList?.trip?.length > 0 ? <MinimalViable tripList={tripList} setTripList={setTripList} newPlace={newPlace} setNewPlace={setNewPlace} insertId={insertId} setInsertId={setInsertId} uniqueCountries={uniqueCountries} setUniqueCountries={setUniqueCountries} /> : <div>No Items</div>}</div>
+          <div className="each-trip-edit-list">{tripList?.trip?.length > 0 ? <MinimalViable tripList={tripList} setTripList={setTripList} newPlace={newPlace} setNewPlace={setNewPlace} insertId={insertId} setInsertId={setInsertId} uniqueCountries={uniqueCountries} setUniqueCountries={setUniqueCountries} /> : <div style={{textAlign: "center"}}>No Items</div>}</div>
           <div className="add-next-day-button" onClick={addDateLine}>
-            <FontAwesomeIcon icon={faPlus} className="add-next-day-button-icon" />
-            Add Day
+            <FontAwesomeIcon icon={faPlus} className="add-next-day-button-icon" />Add Day
           </div>
           <div className="each-trip-add-container">
             <div className="each-trip-add-select-container">

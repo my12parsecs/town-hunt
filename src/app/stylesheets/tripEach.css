@@ -27,13 +27,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 55px !important;
+    /* height: 55px !important; */
 }
 .each-trip-title-row > h1{
     font-size: 2rem;
     /* margin-top: 4px; */
     /* margin-bottom: 4px; */
-    height: 40px !important;
+    /* height: 40px !important; */
 }
 .each-trip-edit-button{
     width: 70px !important;
@@ -58,12 +58,13 @@
 }
 .each-trip-date-row{
     margin-top: 2px;
+    margin-left: 2px;
 }
 .each-trip-date-row > p{
     letter-spacing: 0.3px;
 }
 .each-trip-flag-row{
-    margin-top: 3px;
+    margin-top: 0px;
 }
 
 
@@ -367,5 +368,12 @@ transition: box-shadow 0.3s ease-in-out;
     .each-trip-info{
         width: 95%;
         margin: auto;
+    }
+    .each-trip-edit-starting-date-row{
+        width: 95%;
+        margin: auto;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
     }
 }
