@@ -80,18 +80,20 @@
     margin: 0;
 }
 .trips-title{
-    font-size: 1.25rem;
+    font-size: 1.45rem;
     font-weight: 600;
 }
 .trips-date-row{
     display: flex;
-    margin-top: 4px;
+    margin-top: 5px;
 }
 .trips-date{
     font-size: 0.8rem;
 }
 .trips-country{
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    margin-top: 3px;
+    letter-spacing: 0.4px;
 }
 
 .trips-delete-button{

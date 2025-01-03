@@ -86,8 +86,8 @@ const EachTripList = ({ eachTripJson, userLanguage, numOfDays, setNumOfDays }) =
     useEffect(() => {
         setNumOfDays(groupedTrips.length);
     }, [groupedTrips.length, setNumOfDays]);
-    
-    
+
+
 
     return (
         <div className='each-trip-list' style={numOfDays > 0 ? {} : {border: "none"}}>

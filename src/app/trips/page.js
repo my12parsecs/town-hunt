@@ -5,8 +5,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { getUserLocale } from "get-user-locale";
 import dayjs from "dayjs";
 
+import getFlagEmoji from "@/app/components/GetFlagEmoji";
 import "../stylesheets/trips.css";
 
 const Trips = () => {
@@ -39,7 +41,18 @@ const Trips = () => {
     };
 
     loadTrips();
+
+
+    const userLocale = getUserLocale();
+    let langy = userLocale.slice(0, 2);
+    // langy = "en"
+    require(`dayjs/locale/${langy}`);
+    dayjs.locale(langy);
+
+    let localizedFormat = require(`dayjs/plugin/localizedFormat`);
+    dayjs.extend(localizedFormat);
   }, []);
+
 
   const addNewTrip = () => {
     const newTripId = `${Date.now()}${Math.random().toString(36).substr(2, 5)}`;
@@ -49,6 +62,7 @@ const Trips = () => {
       id: newTripId,
       startDate: "",
       numOfDays: 0,
+      uniqueCountries: [],
       trip: [],
     };
     localStorage.setItem(newTripKey, JSON.stringify(newTrip));
@@ -86,7 +100,7 @@ const Trips = () => {
                   {trip.numOfDays !== 0 && <div className="trips-date">{trip.numOfDays} {trip.numOfDays === 1 ? "Day" : "Days" }</div>}
                   {trip.startDate && <div className="trips-date">&nbsp;- {dayjs(trip.startDate).format("l")} ~{" "}{dayjs(trip.startDate).add(trip.numOfDays - 1, "day").format("l")}</div>}
                 </div>
-                {trip.country && <div className="trips-country">{trip.country}</div>}
+                {trip.uniqueCountries && <div className="trips-country">{trip.uniqueCountries.map((countryCode) => getFlagEmoji(countryCode)).join(" ")}</div>}
               </Link>
               {isEditing && (
                   <div className="trips-delete-button" onClick={() => deleteTrip(trip.id)}>

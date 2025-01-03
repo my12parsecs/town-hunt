@@ -7,7 +7,7 @@ import "../stylesheets/sortableTree.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-export const MinimalViable = ({tripList, setTripList, newPlace, setNewPlace, insertId, setInsertId}) => {
+export const MinimalViable = ({tripList, setTripList, newPlace, setNewPlace, insertId, setInsertId, uniqueCountries, setUniqueCountries}) => {
 //   const [items, setItems] = useState(initialViableMinimalData);
     const [items, setItems] = useState(tripList.trip);
 
@@ -21,6 +21,7 @@ export const MinimalViable = ({tripList, setTripList, newPlace, setNewPlace, ins
 
     useEffect(() => {
         setItems(tripList.trip);
+        setUniqueCountries(getUniqueCountryCodes(tripList));
     }, [tripList.trip]);
 
 
@@ -114,7 +115,7 @@ export const MinimalViable = ({tripList, setTripList, newPlace, setNewPlace, ins
         onItemsChanged={handleChange}
         // TreeItemComponent={MinimalTreeItemComponent}
         TreeItemComponent={(props) => (
-            <MinimalTreeItemComponent {...props} items={items} setItems={setItems} tripList={tripList} setTripList={setTripList} insertId={insertId} setInsertId={setInsertId} />
+            <MinimalTreeItemComponent {...props} items={items} setItems={setItems} tripList={tripList} setTripList={setTripList} insertId={insertId} setInsertId={setInsertId} uniqueCountries={uniqueCountries} setUniqueCountries={setUniqueCountries} />
         )}
     />
   );
@@ -128,7 +129,7 @@ const handleInsert = (item, setInsertId) => {
     setInsertId(item.id);
 };
 
-const handleDelete = (item, items, setItems, tripList, setTripList) => {
+const handleDelete = (item, items, setItems, tripList, setTripList, setUniqueCountries) => {
     // Recursive function to remove an item and its children from the tree
     const deleteItem = (tree, idToDelete) => {
       return tree.filter(item => item.id !== idToDelete).map(item => ({
@@ -162,6 +163,7 @@ const handleDelete = (item, items, setItems, tripList, setTripList) => {
         const updatedItems = reorderDateLines(filteredItems);
         setItems(updatedItems);
         setTripList({...tripList, trip: updatedItems});
+        setUniqueCountries(getUniqueCountryCodesInner(updatedItems));
         // localStorage.setItem("town-hunt-trip", JSON.stringify({...tripList, trip: updatedItems}));
   };
 
@@ -170,7 +172,7 @@ const handleDelete = (item, items, setItems, tripList, setTripList) => {
  */
 const MinimalTreeItemComponent = React.forwardRef(function MinimalTreeItemComponent(props, ref) {
     // const { items, setItems } = props; // Add props for items and setItems
-    const { item, setItems, items, tripList, setTripList, insertId, setInsertId, ...rest } = props; // Extract props to avoid passing them to DOM elements
+    const { item, setItems, items, tripList, setTripList, insertId, setInsertId, uniqueCountries, setUniqueCountries, ...rest } = props; // Extract props to avoid passing them to DOM elements
 
     return (
         /* you could also use FolderTreeItemWrapper if you want to show vertical lines.  */
@@ -183,7 +185,7 @@ const MinimalTreeItemComponent = React.forwardRef(function MinimalTreeItemCompon
                     <FontAwesomeIcon icon={faPlus} className="sortable-tree-add-icon" onClick={() => handleInsert(props.item, setInsertId)} />
                 </div>
                 <div className='sortable-tree-delete-icon-container'>
-                    <FontAwesomeIcon icon={faTrash} className="sortable-tree-delete-icon" onClick={() => handleDelete(props.item, items, setItems, tripList, setTripList)} />
+                    <FontAwesomeIcon icon={faTrash} className="sortable-tree-delete-icon" onClick={() => handleDelete(props.item, items, setItems, tripList, setTripList, setUniqueCountries)} />
                 </div>
             </div>
             <div className='insert-line' style={insertId === item.id ? {display: "flex"} : {display: "none"}}></div>
@@ -204,3 +206,54 @@ const canBeChild = (dragItem, dropItem) => {
 
 
 
+const getUniqueCountryCodes = (tripData) => {
+    if (!tripData?.trip) return new Set();
+    
+    const countrySet = new Set();
+    
+    const processItem = (item) => {
+      // Skip date-line items
+      if (item.type === 'date-line') return;
+      
+      // Add country code if it exists
+      if (item.countryCode) {
+        countrySet.add(item.countryCode);
+      }
+      
+      // Recursively process children
+      if (item.children && item.children.length > 0) {
+        item.children.forEach(processItem);
+      }
+    };
+    
+    // Process all items in the trip array
+    tripData.trip.forEach(processItem);
+    
+    return Array.from(countrySet);
+  };
+
+const getUniqueCountryCodesInner = (tripData) => {
+    if (!tripData) return new Set();
+    
+    const countrySet = new Set();
+    
+    const processItem = (item) => {
+      // Skip date-line items
+      if (item.type === 'date-line') return;
+      
+      // Add country code if it exists
+      if (item.countryCode) {
+        countrySet.add(item.countryCode);
+      }
+      
+      // Recursively process children
+      if (item.children && item.children.length > 0) {
+        item.children.forEach(processItem);
+      }
+    };
+    
+    // Process all items in the trip array
+    tripData.forEach(processItem);
+    
+    return Array.from(countrySet);
+  };

@@ -32,11 +32,13 @@ export default function EachTrip() {
     title: "Enter Trip Title",
     startDate: "",
     numOfDays: 0,
+    uniqueCountries: [],
     trip: [],
   });
   const [tripExists, setTripExists] = useState(true);
 
   const [numOfDays, setNumOfDays] = useState(0);
+  const [uniqueCountries, setUniqueCountries] = useState([]);
 
   const [insertId, setInsertId] = useState(null);
 
@@ -130,6 +132,8 @@ export default function EachTrip() {
     if (storedTrip) {
       try {
         setTripList(JSON.parse(storedTrip));
+        setUniqueCountries(JSON.parse(storedTrip).uniqueCountries);
+        setNumOfDays(JSON.parse(storedTrip).numOfDays);
       } catch (e) {
         console.error("Error parsing stored trip data:", e);
         setTripExists(false);
@@ -145,6 +149,12 @@ export default function EachTrip() {
       setTripList({...tripList, numOfDays: numOfDays});
     }
   }, [numOfDays, isInitialized]);
+
+  useEffect(() => {
+    if(isInitialized && tripExists){
+      setTripList({...tripList, uniqueCountries: uniqueCountries});
+    }
+  }, [uniqueCountries, isInitialized]);
 
   useEffect(() => {
     // Only start syncing to localStorage after initial load
@@ -325,7 +335,8 @@ export default function EachTrip() {
               )}
             </div>
             <div className="each-trip-flag-row">
-              <p>{getFlagEmoji(tripList?.trip?.[0]?.countryCode ?? "")}</p>
+              {/* <p>{getFlagEmoji(tripList?.trip?.[0]?.countryCode ?? "")}</p> */}
+                {tripList.uniqueCountries && <div className="trips-country">{tripList.uniqueCountries.map((countryCode) => getFlagEmoji(countryCode)).join(" ")}</div>}
             </div>
           </div>
           <div className="each-trip-list-container">
@@ -378,7 +389,7 @@ export default function EachTrip() {
               )}
             </div>
             <div className="each-trip-flag-row">
-              <p>{getFlagEmoji(eachTripJson.trip[0].countryCode)}</p>
+              {tripList.uniqueCountries && <div className="trips-country">{tripList.uniqueCountries.map((countryCode) => getFlagEmoji(countryCode)).join(" ")}</div>}
             </div>
           </div>
           <div style={{ marginTop: "20px", display: "flex", alignItems: "center" }}>
@@ -387,7 +398,7 @@ export default function EachTrip() {
               Clear
             </div>
           </div>
-          <div className="each-trip-edit-list">{tripList?.trip?.length > 0 ? <MinimalViable tripList={tripList} setTripList={setTripList} newPlace={newPlace} setNewPlace={setNewPlace} insertId={insertId} setInsertId={setInsertId} /> : <div>No Items</div>}</div>
+          <div className="each-trip-edit-list">{tripList?.trip?.length > 0 ? <MinimalViable tripList={tripList} setTripList={setTripList} newPlace={newPlace} setNewPlace={setNewPlace} insertId={insertId} setInsertId={setInsertId} uniqueCountries={uniqueCountries} setUniqueCountries={setUniqueCountries} /> : <div>No Items</div>}</div>
           <div className="add-next-day-button" onClick={addDateLine}>
             <FontAwesomeIcon icon={faPlus} className="add-next-day-button-icon" />
             Add Day
