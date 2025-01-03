@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
+import dayjs from "dayjs";
 
 import "../stylesheets/trips.css";
 
@@ -47,6 +48,7 @@ const Trips = () => {
       title: "Enter Trip Title",
       id: newTripId,
       startDate: "",
+      numOfDays: 0,
       trip: [],
     };
     localStorage.setItem(newTripKey, JSON.stringify(newTrip));
@@ -80,7 +82,10 @@ const Trips = () => {
             <div className="trips-each-container" key={trip.id}>
               <Link href={`/trips/${trip.id}`} className="trips-each">
                 <div className="trips-title">{trip.title}</div>
-                {trip.startDate && <div className="trips-date">{trip.startDate}</div>}
+                <div className="trips-date-row">
+                  {trip.numOfDays !== 0 && <div className="trips-date">{trip.numOfDays} {trip.numOfDays === 1 ? "Day" : "Days" }</div>}
+                  {trip.startDate && <div className="trips-date">&nbsp;- {dayjs(trip.startDate).format("l")} ~{" "}{dayjs(trip.startDate).add(trip.numOfDays - 1, "day").format("l")}</div>}
+                </div>
                 {trip.country && <div className="trips-country">{trip.country}</div>}
               </Link>
               {isEditing && (

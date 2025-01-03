@@ -31,6 +31,7 @@ export default function EachTrip() {
   const [tripList, setTripList] = useState({
     title: "Enter Trip Title",
     startDate: "",
+    numOfDays: 0,
     trip: [],
   });
   const [tripExists, setTripExists] = useState(true);
@@ -138,6 +139,12 @@ export default function EachTrip() {
     }
     setIsInitialized(true);
   }, []); // Runs once on mount
+
+  useEffect(() => {
+    if(isInitialized && tripExists){
+      setTripList({...tripList, numOfDays: numOfDays});
+    }
+  }, [numOfDays, isInitialized]);
 
   useEffect(() => {
     // Only start syncing to localStorage after initial load
@@ -301,23 +308,10 @@ export default function EachTrip() {
             <div className="each-trip-date-row">
               {tripList.startDate ? (
                 numOfDays > 0 ? (
-                  dayjs(tripList.startDate).format("YYYY") ===
-                  dayjs(tripList.startDate)
-                    .add(numOfDays - 1, "day")
-                    .format("YYYY") ? (
-                    <p>
-                      {dayjs(tripList.startDate).format("l")} ~{" "}
-                      {dayjs(tripList.startDate)
-                        .add(numOfDays - 1, "day")
-                        .format("l")}
-                    </p>
+                  dayjs(tripList.startDate).format("YYYY") === dayjs(tripList.startDate).add(numOfDays - 1, "day").format("YYYY") ? (
+                    <p>{dayjs(tripList.startDate).format("l")} ~{" "}{dayjs(tripList.startDate).add(numOfDays - 1, "day").format("l")}</p>
                   ) : (
-                    <p>
-                      {dayjs(tripList.startDate).format("l")} ~{" "}
-                      {dayjs(tripList.startDate)
-                        .add(numOfDays - 1, "day")
-                        .format("l")}
-                    </p>
+                    <p>{dayjs(tripList.startDate).format("l")} ~{" "}{dayjs(tripList.startDate).add(numOfDays - 1, "day").format("l")}</p>
                   )
                 ) : (
                   <p>{dayjs(tripList.startDate).format("l")}</p>
@@ -376,9 +370,9 @@ export default function EachTrip() {
                         .format("l")}
                     </p>
                   )
-                ) : (
-                  <p>{dayjs(tripList.startDate).format("l")}</p>
-                )
+                ) : (<p>{dayjs(tripList.startDate).format("l")}</p>)
+              ) : numOfDays > 0 ? (
+                <p>{numOfDays} {numOfDays > 1 ? "Days" : "Day"}</p>
               ) : (
                 <p>No Date</p>
               )}
