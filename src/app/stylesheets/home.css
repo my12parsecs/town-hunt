@@ -80,13 +80,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
+    width: 90px;
     height: 40px;
     /* margin: auto; */
     /* margin-top: 15px; */
     background-color: white;
     color: black;
-    border-radius: 5px;
+    border-radius: 500px;
     /* text-decoration: underline; */
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
@@ -172,12 +172,12 @@
 
 .dropdown-menu{
     position: absolute;
-    top: 25px;
-    right: 5px;
-    /* background-color: gray; */
+    top: 29px;
+    right: 3px;
+    width: 115px;
     cursor: pointer;
     padding: 6px;
-    border-radius: 5px;
+    border-radius: 7px;
     z-index: 100;
 
 background: rgba(255, 255, 255, 0.12);
@@ -188,11 +188,11 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
 }
 @media (prefers-color-scheme: light) {
     .dropdown-menu{
-        background: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.7);
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(9.4px);
         -webkit-backdrop-filter: blur(9.4px);
-        border: 0.5px solid rgba(255, 255, 255, 0.5);
+        border: 0.5px solid rgba(210, 210, 210, 0.7);
     }
 }
 .dropdown-each{

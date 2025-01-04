@@ -34,6 +34,7 @@
     /* margin-top: 4px; */
     /* margin-bottom: 4px; */
     /* height: 40px !important; */
+    overflow: hidden;
 }
 .each-trip-edit-button{
     width: 70px !important;
@@ -190,14 +191,27 @@
     border: 1px solid var(--foreground);
     border-radius: 5px;
     padding: 3px;
+    width: 100%;
+    resize: none;
+    /* overflow: hidden; */
+    scrollbar-width: thin;
+    scrollbar-color: rgb(76, 76, 76) transparent; 
+    font-family: var(--font-inter);
 }
-/* @media (prefers-color-scheme: light) {
-    .each-trip-title-input{
-        background-color: var(--background);
-        color: var(--foreground);
-        border: 1px solid var(--date-border-color);
-    }
-} */
+.each-trip-title-input::-webkit-scrollbar {
+    width: 6px;
+    height: 8px;
+}
+  
+/* スクロールバーのつまむ部分（スライダー）のスタイル */
+.each-trip-title-input::-webkit-scrollbar-thumb {
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    background-color: #c7c7c7;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
 
  .each-trip-title-input:focus{
     outline: none;

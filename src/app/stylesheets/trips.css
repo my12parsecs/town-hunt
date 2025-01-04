@@ -85,7 +85,7 @@
 }
 .trips-date-row{
     display: flex;
-    margin-top: 5px;
+    margin-top: 3px;
 }
 .trips-date{
     font-size: 0.9rem;
@@ -106,10 +106,17 @@
     color: white;
     /* border: 1px solid red; */
     margin-top: 8px;
-    border-radius: 7px;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     user-select: none;
+}
+@media (prefers-color-scheme: light) {
+    .trips-delete-button{
+        background-color: rgba(216, 8, 8, 0.906);
+        color: white;
+        /* border: 1px solid rgb(249, 37, 37); */
+    }
 }

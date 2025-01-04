@@ -355,7 +355,7 @@ export default function EachTrip() {
         <div>
           <div className="each-trip-info">
             <div className="each-trip-title-row">
-              <input type="text" className="each-trip-title-input" placeholder="Enter Trip Title" style={{ width: "100%" }} value={tripList.title} onChange={(e) => setTripList({ ...tripList, title: e.target.value })} />
+              <textarea type="text" className="each-trip-title-input" placeholder="Enter Trip Title" style={{ width: "100%" }} value={tripList.title} onChange={(e) => setTripList({ ...tripList, title: e.target.value })} />
               <div onClick={() => setIsEditing(!isEditing)} className={`each-trip-edit-button ${isEditing ? "each-trip-edit-button-done" : ""}`}>
                 {isEditing ? "Done" : "Edit"}
               </div>
