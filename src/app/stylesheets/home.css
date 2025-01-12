@@ -156,11 +156,13 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    user-select: none;
 }
 .func-each-icon{
     cursor: pointer;
     width: 22px;
     height: 22px;
+    user-select: none;
 }
 
 

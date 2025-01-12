@@ -17,7 +17,9 @@
     margin-bottom: 20px;
     /* border-bottom: 1px solid var(--date-border-color); */
 }
-
+.each-trip-nav{
+    user-select: none;
+}
 .each-trip-content{
     margin-top: 10px;
 }
