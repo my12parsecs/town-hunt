@@ -11,23 +11,40 @@ import getFlagEmoji from "./GetFlagEmoji";
 
 
 // Dynamically import AsyncSelect to disable SSR
-const AsyncSelect = dynamic(() => import('react-select/async'), {
-  ssr: false,
-  loading: () => 
-    <div className="loading-select">
+// const AsyncSelect = dynamic(() => import('react-select/async'), {
+//   ssr: false,
+//   loading: () => 
+//     <div className="loading-select">
+//         <div className="loading-placeholder">Search Town</div>
+//         <div className="loading-icon">
+//             <svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" className="css-tj5bde-Svg"><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg>
+//         </div>
+//     </div>
+// });
+
+const AsyncSelect = dynamic(
+  () => import('react-select/async').then((mod) => mod.default),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="loading-select">
         <div className="loading-placeholder">Search Town</div>
         <div className="loading-icon">
-            <svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" className="css-tj5bde-Svg"><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg>
+          <svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" className="css-tj5bde-Svg">
+            <path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path>
+          </svg>
         </div>
-    </div>
-});
+      </div>
+    )
+  }
+);
 
 const CitySelect = ({ setSelectedCity, isMapPage }) => {
   const [userLanguage, setUserLanguage] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
 
 
-
-  const fetchCities = async (inputValue) => {
+  const fetchCities = async (inputValue) => {    
     try {
       const response = await fetch(`/api/city?name=${inputValue}&lang=${userLanguage}`);
       const data = await response.json();
@@ -47,7 +64,7 @@ const CitySelect = ({ setSelectedCity, isMapPage }) => {
                 fcl: city.fcl,
                 fcodeName: city.fcodeName
             })).reverse();
-        }else{
+        }else{          
             return []
         }
     } catch (error) {
@@ -69,6 +86,12 @@ const CitySelect = ({ setSelectedCity, isMapPage }) => {
 
   const [prefersDarkScheme, setPrefersDarkScheme] = useState(true);
   const [dataTheme, setDataTheme] = useState("dark");
+
+  // useEffect(() => {
+  //   setIsMounted(true);
+  // }, []);
+
+  // if (!isMounted) return null;
 
 
 
@@ -104,7 +127,7 @@ const CitySelect = ({ setSelectedCity, isMapPage }) => {
         <strong>{data.cityName}</strong>
         {/* <span className="option-fcodename">{data.fcl !== "P" ? data.fcodeName.charAt(0).toUpperCase() + data.fcodeName.slice(1) : null}</span> */}
         <br />
-        <div className="option-bottom"><span className="option-flag">{getFlagEmoji(data.countryCode)}</span> {data.fcl !== "P" && data.fcodeName ? `${data.fcodeName.charAt(0).toUpperCase() + data.fcodeName.slice(1)} in` : null} {data.adminName1 ? `${data.adminName1},` : null} {data.countryName}</div>
+        <div className="option-bottom"><span className="option-flag">{data.countryCode ? getFlagEmoji(data.countryCode) : ""}</span> {data.fcl !== "P" && data.fcodeName ? `${data.fcodeName.charAt(0).toUpperCase() + data.fcodeName.slice(1)} in` : null} {data.adminName1 ? `${data.adminName1},` : null} {data.countryName}</div>
       </div>
     ),
     // SingleValue: ({ data }) => (
@@ -296,14 +319,37 @@ const CitySelect = ({ setSelectedCity, isMapPage }) => {
       }),
   };
 
+  // return (
+  //   <AsyncSelect
+  //     loadOptions={(inputValue, callback) => debouncedFetchCities(inputValue, callback)}
+  //     styles={countrySelectStyle}
+  //     components={customComponents}
+  //     isSearchable={true}
+  //   //   onChange={onCityChange}
+  //     onChange={(selectedOption)=>setSelectedCity(selectedOption)}
+  //     placeholder="Search Town"
+  //     menuPlacement="top"
+  //   />
+  // );
   return (
     <AsyncSelect
-      loadOptions={(inputValue, callback) => debouncedFetchCities(inputValue, callback)}
+      loadOptions={(inputValue, callback) => {
+        if (typeof inputValue === 'string') {
+          clearTimeout(window.debouncedFetchTimer);
+          window.debouncedFetchTimer = setTimeout(async () => {
+            const results = await fetchCities(inputValue);
+            callback(results);
+          }, 200);
+        }
+      }}
       styles={countrySelectStyle}
       components={customComponents}
       isSearchable={true}
-    //   onChange={onCityChange}
-      onChange={(selectedOption)=>setSelectedCity(selectedOption)}
+      onChange={(selectedOption) => {
+        if (typeof setSelectedCity === 'function') {
+          setSelectedCity(selectedOption);
+        }
+      }}
       placeholder="Search Town"
       menuPlacement="top"
     />

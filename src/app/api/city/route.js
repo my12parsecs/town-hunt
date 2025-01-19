@@ -38,7 +38,7 @@ export async function GET(request) {
       });
 
       console.log("API finished");
-      console.log(result);
+      console.log("API RESULT is this:", result);
       
       return new Response(JSON.stringify(result), { status: 200 });
     } catch (error) {
