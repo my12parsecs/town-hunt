@@ -8,11 +8,12 @@ import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnify
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import getUserLocale from "get-user-locale";
 import toast from "react-hot-toast";
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 
 import CitySelect from "./components/CitySelect";
 import getFlagEmoji from "./components/GetFlagEmoji";
 import "./stylesheets/home.css";
+import { useSession } from "./components/Session";
 
 export default function Home() {
   const router = useRouter();
@@ -241,22 +242,8 @@ export default function Home() {
 
 
 
-  const {data, status, error} = useQuery({
-    queryKey: ['session'],
-    queryFn: async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/session`, {
-        credentials: 'include', // ← これ重要！クッキー送信
-      })
-      console.log("RAW RES FROM SESSION", res);
-      
-      return res.json()
-    },
-  })
-
-
-
-
-  console.log("DATA FROM SESSION", data);
+  const { session, isLoading, error, logout } = useSession()
+  const data = session
   
 
 
@@ -305,7 +292,8 @@ export default function Home() {
               </Link>
             </div>
             {!data?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/google`} className="func-each" style={{marginLeft: "10px"}}>Login</Link>)}
-            {data?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/logout`} className="func-each" style={{marginLeft: "10px"}}>Logout</Link>)}
+            {/* {data?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/logout`} className="func-each" style={{marginLeft: "10px"}}>Logout</Link>)} */}
+            {data?.googleId && (<div onClick={()=>logout()} className="func-each" style={{marginLeft: "10px", cursor: "pointer"}}>Logout</div>)}
             {/* {data?.googleId && (<img src={data.image}></img>)} */}
 
             {/* <div className="func-each" ref={dropdownRef}>
