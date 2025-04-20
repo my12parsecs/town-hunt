@@ -241,9 +241,6 @@ export default function Home() {
 
 
 
-
-
-
   const {data, status, error} = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
@@ -253,11 +250,6 @@ export default function Home() {
       return res.json()
     },
   })
-  
-
-
-
-
 
 
 
