@@ -247,6 +247,8 @@ export default function Home() {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/session`, {
         credentials: 'include', // ← これ重要！クッキー送信
       })
+      console.log("RAW RES FROM SESSION", res);
+      
       return res.json()
     },
   })
@@ -254,7 +256,8 @@ export default function Home() {
 
 
 
-
+  console.log("DATA FROM SESSION", data);
+  
 
 
   return (

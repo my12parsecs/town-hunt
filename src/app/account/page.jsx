@@ -6,6 +6,8 @@ import { useSession } from "../components/Session"
 
 export default function Account() {
     const {session, isLoading, status, error} = useSession()
+    console.log(session);
+    
 
   return (
     <div className="account-page" style={{width: "100%", maxWidth: "500px", margin: "auto"}}>
