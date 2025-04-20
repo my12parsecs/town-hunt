@@ -8,6 +8,7 @@ import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnify
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import getUserLocale from "get-user-locale";
 import toast from "react-hot-toast";
+import { useQuery } from '@tanstack/react-query'
 
 import CitySelect from "./components/CitySelect";
 import getFlagEmoji from "./components/GetFlagEmoji";
@@ -235,6 +236,35 @@ export default function Home() {
     setTimeout(() => setIsHighlighted(false), 1000);
   };
 
+
+
+
+
+
+
+
+
+  const {data, status, error} = useQuery({
+    queryKey: ['session'],
+    queryFn: async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/session`, {
+        credentials: 'include', // ← これ重要！クッキー送信
+      })
+      return res.json()
+    },
+  })
+  
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className="home-page">
       <div className="home-content">
@@ -275,11 +305,15 @@ export default function Home() {
               </div>
             </div>
             <div className="func-each">
-              <a href="/map" className="func-each-icon">
+              <Link href="/map" className="func-each-icon">
                 <FontAwesomeIcon icon={faMap} className="func-each-icon" />
-              </a>
+              </Link>
             </div>
-            <div className="func-each" ref={dropdownRef}>
+            {!data?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/google`} className="func-each" style={{marginLeft: "10px"}}>Login</Link>)}
+            {data?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/logout`} className="func-each" style={{marginLeft: "10px"}}>Logout</Link>)}
+            {/* {data?.googleId && (<img src={data.image}></img>)} */}
+
+            {/* <div className="func-each" ref={dropdownRef}>
               <FontAwesomeIcon icon={faBars} className="func-each-icon" onClick={() => setDropdown(!dropdown)} />
               <div className="dropdown-menu" style={dropdown ? { display: "block" } : { display: "none" }}>
                 <div className="dropdown-each" onClick={() => router.push("/about")}>
@@ -295,7 +329,7 @@ export default function Home() {
                   GitHub
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 

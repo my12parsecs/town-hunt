@@ -3,6 +3,8 @@ import { Toaster } from "react-hot-toast";
 import { Inter, Geist_Mono } from "next/font/google";
 import "./stylesheets/globals.css";
 
+import Provider from "./provider";
+
 // const geistMono = Geist_Mono({
 //   variable: "--font-geist-mono",
 //   subsets: ["latin"],
@@ -52,7 +54,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.variable}`}>
         <Toaster />
-        {children}
+        <Provider>
+          {children}
+        </Provider>
       </body>
     </html>
   );
