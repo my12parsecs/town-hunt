@@ -50,7 +50,7 @@ const CitySelect = ({ setSelectedCity, isMapPage }) => {
       const data = await response.json();
 
         if (data.geonames && Array.isArray(data.geonames)) {
-          console.log(data.geonames);
+          // console.log(data.geonames);
           
             return data.geonames.map((city) => ({
                 value: city.geonameId,

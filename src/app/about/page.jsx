@@ -40,7 +40,8 @@ const About = () => {
 
   return (
     <div className="about-page">
-        <div style={{marginTop: "20px", marginBottom: "20px"}}><Link href="/"><FontAwesomeIcon icon={faAngleLeft} style={{width: "20px", height: "20px"}} /></Link></div>
+        <div style={{marginTop: "20px", marginBottom: "20px"}}><Link href="/"><FontAwesomeIcon icon={faAngleLeft} 
+         /></Link></div>
       <h1>Bookmark Places Around the World</h1>
       <p>Quickly bookmark places - Towns, Mountains, Landmarks, Parks, Roads...</p>
     </div>

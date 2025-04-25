@@ -28,5 +28,9 @@
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.4.1",
     "react-select": "^5.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.14.1",
+    "typescript": "5.8.3"
   }
 }
