@@ -404,3 +404,12 @@
 //     </div>
 //   );
 // }
+
+
+
+
+export default function TripsEach() {
+  return(
+    <div>Trips Each</div>
+  )
+}

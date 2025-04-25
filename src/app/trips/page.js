@@ -122,3 +122,10 @@
 // };
 
 // export default Trips;
+
+
+export default function Trips() {
+  return(
+    <div>Trips</div>
+  )
+}
