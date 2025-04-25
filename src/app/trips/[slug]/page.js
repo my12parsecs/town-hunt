@@ -8,11 +8,11 @@ import { faPlus, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { getUserLocale } from "get-user-locale";
 import dayjs from "dayjs";
 
-import CitySelect from "@/app/components/CitySelect";
-import getFlagEmoji from "@/app/components/GetFlagEmoji";
-import getUserLanguage from "@/app/components/GetUserLanguage";
-import { MinimalViable } from "@/app/components/SortableTree";
-import EachTripList from "@/app/components/EachTripList";
+import CitySelect from "../../components/CitySelect";
+import getFlagEmoji from "../../components/GetFlagEmoji";
+import getUserLanguage from "../../app/components/GetUserLanguage";
+import { MinimalViable } from "../../app/components/SortableTree";
+import EachTripList from "../../app/components/EachTripList";
 
 import "../../stylesheets/tripEach.css";
 
