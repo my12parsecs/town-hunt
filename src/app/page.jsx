@@ -56,7 +56,7 @@ export default async function ServerFetch(){
 
   return (
     <div>
-        <MainPlaceList placeList={data} sessionData={sessionData} />
+        <MainPlaceList placeList={data} sessionData={sessionData} token={token} />
     </div>
   )
 }

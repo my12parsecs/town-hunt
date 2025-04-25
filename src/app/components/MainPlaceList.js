@@ -79,7 +79,7 @@ export default function MainPlaceList(props) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        //   'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${props.token}`,
         },
         credentials: 'include', // Important for cookie authentication
         body: JSON.stringify(newCity),
@@ -111,7 +111,7 @@ export default function MainPlaceList(props) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        //   'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${props.token}`,
         },
         credentials: 'include', // Important for cookie authentication
         body: JSON.stringify(city),
