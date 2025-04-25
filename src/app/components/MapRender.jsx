@@ -172,9 +172,9 @@ export default function MapRender(props) {
     <div className="map-page" style={{ position: "relative" }}>
       <div ref={mapContainer} className="map-container" style={{ width: "100dvw", height: "100dvh" }}></div>
 
-      <Link href="/" className="home-button">
+      <a href="/" className="home-button">
         <FontAwesomeIcon icon={faHome} className="home-icon" />
-      </Link>
+      </a>
 
       <div className="map-add-city-row" style={{ position: "absolute", bottom: "15px", left: "50%", transform: "translateX(-50%)" }}>
         <div style={{ display: "flex" }}>
