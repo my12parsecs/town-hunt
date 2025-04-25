@@ -489,8 +489,7 @@ const displayedCities = (() => {
           </div>
         ) : (
           <div className="city-list">
-            {displayedCities?
-              .slice()
+            {displayedCities?.slice()
               .reverse()
               .map((city, index) => (
                 <div className="city-list-container" key={index}>
