@@ -23,7 +23,6 @@ const metaInfo = {
   image: "https://utfs.io/f/XBVzUJO68SmleETAPiagkEfviNmOUGcXW17rB5ndQZ8I6zyt",
 };
 
-
 export const metadata = {
   title: metaInfo.title,
   description: metaInfo.description,
