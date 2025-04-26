@@ -157,10 +157,8 @@ export default function MainPlaceList(props) {
     setUserLanguage(userLocale.slice(0, 2));
   }, []);
 
-  const handleAdd = () => {
-    console.log(sessionData);
-    
-    if(!sessionData?.userId) return toast("Please login to add a city")
+  const handleAdd = () => {  
+    if(!sessionData?.googleId) return toast("Please login to add a city")
     if (!selectedCity) return toast("Please input a city to add");
     // const { adminName1, ...rest } = selectedCity;
     const {adminName1, value, label, cityName, countryName, countryCode, lat, lng, fcl, fcodeName} = selectedCity;
