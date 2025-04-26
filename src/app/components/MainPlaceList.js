@@ -12,11 +12,11 @@ import getUserLocale from "get-user-locale";
 import toast from "react-hot-toast";
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 
-import CitySelect from "../components/CitySelect";
-import getFlagEmoji from "../components/GetFlagEmoji";
+import CitySelect from "./CitySelect";
+import getFlagEmoji from "./GetFlagEmoji";
 import "../stylesheets/home.css";
-import { useSession } from "../components/Session";
-import { Logout } from "../components/LogInOut";
+import { useSession } from "./Session";
+import { Logout } from "./LogInOut";
 
 export default function MainPlaceList(props) {
   const router = useRouter();
@@ -97,6 +97,7 @@ export default function MainPlaceList(props) {
     },
     onError: (error) => {
       toast.error(`Error adding city: ${error.message}`);
+
     }
   });
 
@@ -153,15 +154,32 @@ export default function MainPlaceList(props) {
 
   const handleAdd = () => {
     if (!selectedCity) return;
-    const isCityExist = cityArr.some((city) => city.label === selectedCity.label);
+    // const { adminName1, ...rest } = selectedCity;
+    const {adminName1, value, label, cityName, countryName, countryCode, lat, lng, fcl, fcodeName} = selectedCity;
+    const stringValue = value.toString();
+    // setSelectedCity({ adminName: adminName1, value: stringValue, label, cityName, countryName, countryCode, lat, lng, fcl, fcodeName });
+    const transformedCity = { 
+      adminName: adminName1, 
+      value: stringValue, 
+      label, 
+      cityName, 
+      countryName, 
+      countryCode, 
+      lat, 
+      lng, 
+      fcl, 
+      fcodeName 
+    };
+
+    const isCityExist = cityArr.some((city) => city.value === selectedCity.value);
     if (isCityExist) return;
 
-    const updatedCityArr = [...cityArr, selectedCity];
+    const updatedCityArr = [...cityArr, transformedCity];
     setCityArr(updatedCityArr);
     setSelectedCity(null);
 
     // localStorage.setItem("town-hunt-cities", JSON.stringify(updatedCityArr));
-    addCityMutation.mutate(selectedCity)
+    addCityMutation.mutate(transformedCity)
     // toast.success("City Added");
   };
 
@@ -506,7 +524,7 @@ const displayedCities = (() => {
                       <a href={`https://${userLanguage}.wikipedia.org/wiki/${city.cityName}`} target="_blank" rel="noreferrer" className="city-wiki-link">
                         <FontAwesomeIcon icon={faCircleInfo} className="info-icon" />
                       </a>
-                      <a href={`https://www.google.com/maps/search/${city.cityName}`} target="_blank" rel="noreferrer" className="city-map-link">
+                      <a href={`https://www.google.com/maps/search/${city.cityName}${city.adminName ? `, ${city.adminName}` : ''}, ${city.countryName}`} target="_blank" rel="noreferrer" className="city-map-link">
                         <FontAwesomeIcon icon={faLocationDot} className="map-icon" />
                       </a>
                     </div>
