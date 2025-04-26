@@ -67,6 +67,11 @@ export default function MainPlaceList(props) {
     }, [props.sessionData]);
 
 
+    const handleLogout = async () => {
+      await Logout();
+      toast.success("Logged out successfully");
+    };
+
 
   // ADD CITY TO BACKEND
   const addCityMutation = useMutation({
@@ -153,7 +158,10 @@ export default function MainPlaceList(props) {
   }, []);
 
   const handleAdd = () => {
-    if (!selectedCity) return;
+    console.log(sessionData);
+    
+    if(!sessionData?.userId) return toast("Please login to add a city")
+    if (!selectedCity) return toast("Please input a city to add");
     // const { adminName1, ...rest } = selectedCity;
     const {adminName1, value, label, cityName, countryName, countryCode, lat, lng, fcl, fcodeName} = selectedCity;
     const stringValue = value.toString();
@@ -179,7 +187,7 @@ export default function MainPlaceList(props) {
     setSelectedCity(null);
 
     // localStorage.setItem("town-hunt-cities", JSON.stringify(updatedCityArr));
-    addCityMutation.mutate(transformedCity)
+    if(sessionData) addCityMutation.mutate(transformedCity)
     // toast.success("City Added");
   };
 
@@ -425,9 +433,10 @@ const displayedCities = (() => {
                 <FontAwesomeIcon icon={faMap} className="func-each-icon" />
               </Link>
             </div>
-            {!sessionData?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/google`} className="func-each" style={{marginLeft: "10px"}}>Login</Link>)}
+            {/* {!sessionData?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/google`} className="login-button" style={{marginLeft: "10px"}}>Login</Link>)} */}
+            {!sessionData?.googleId && (<Link href="/login" className="login-button" style={{marginLeft: "10px"}}>Login</Link>)}
             {/* {data?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/logout`} className="func-each" style={{marginLeft: "10px"}}>Logout</Link>)} */}
-            {sessionData?.googleId && (<div onClick={()=>Logout()} className="func-each" style={{marginLeft: "10px", cursor: "pointer"}}>Logout</div>)}
+            {sessionData?.googleId && (<div onClick={handleLogout} className="logout-button" style={{marginLeft: "10px", cursor: "pointer"}}>Logout</div>)}
 
             {/* <div className="func-each" ref={dropdownRef}>
               <FontAwesomeIcon icon={faBars} className="func-each-icon" onClick={() => setDropdown(!dropdown)} />
@@ -546,7 +555,7 @@ const displayedCities = (() => {
               ))}
           </div>
         )}
-              {isInitialized && cityArr?.length === 0 && (
+              {/* {isInitialized && cityArr?.length === 0 && (
                 <div className="no-city-div">
                   <h1 className="title-h1">
                     Bookmark Places<span style={{ backgroundColor: randomColorArr[randomIndex] }}></span>
@@ -558,7 +567,15 @@ const displayedCities = (() => {
                     </Link>
                   </div>
                 </div>
-              )}
+              )} */}
+        {cityArr?.length === 0 && (
+          <div>
+            <h1 style={{textAlign: "center"}}>Town Hunt</h1>
+            <p style={{textAlign: "center"}}>Login to save places.</p>
+
+            <img src="https://cdn.pixabay.com/photo/2024/06/29/15/16/ai-generated-8861653_640.png" alt="" style={{width: "200px", margin:"auto", marginTop: "10px", display: "flex", justifyContent: "center", alignItems: "center"}} />
+          </div>
+        )}
       </div>
 
       <div className={`add-city-row ${isHighlighted ? "add-city-row-highlight" : ""}`}>

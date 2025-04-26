@@ -222,6 +222,30 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
 }
 
 
+.login-button{
+    background-color: var(--foreground);
+    color: var(--background);
+    width: 65px;
+    height: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    font-size: 15px;
+}
+.logout-button{
+    /* background-color: var(--foreground); */
+    /* color: var(--background); */
+    border: 1px solid #757575;
+    width: 75px;
+    height: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    font-size: 15px;
+}
+
 
 
 
