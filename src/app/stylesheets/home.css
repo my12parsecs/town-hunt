@@ -483,6 +483,7 @@ border: 0.5px solid rgba(255, 255, 255, 0.2);
     /* z-index: 1; */
     /* background-color: black; */
     border-top: 0.5px solid rgb(44, 44, 44);
+    user-select: none;
 
 
 background: rgba(255, 255, 255, 0.04);
@@ -607,6 +608,7 @@ transition: box-shadow 0.3s ease-in-out;
     align-items: center;
     margin-left: 8px;
     cursor: pointer;
+    user-select: none;
 }
 @media (prefers-color-scheme: light) {
     .city-edit-button{
