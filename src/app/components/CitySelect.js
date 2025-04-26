@@ -63,7 +63,8 @@ const CitySelect = ({ setSelectedCity, isMapPage }) => {
                 lng: city.lng,
                 fcl: city.fcl,
                 fcodeName: city.fcodeName
-            })).reverse();
+            }))
+            // .reverse(); //Reverse the order of displaying options
         }else{          
             return []
         }
@@ -192,12 +193,20 @@ const CitySelect = ({ setSelectedCity, isMapPage }) => {
         : "black",
       fontSize: "13px",
     }),
+    menuList: (provided, { options }) => ({
+      ...provided,
+      maxHeight: "160px",
+      height: options.length > 0 ? "200px" : "auto",
+      overflowY: "auto",
+    }),
     menu: (provided) => ({
       ...provided,
       backgroundColor: !isMapPage ? dataTheme === "dark" ? "#181818" : '#fff' : "white",
-      // width: "163px",
-      width: "280px",
+      width: "260px",
+      // height: "300px",
       height: "auto",
+      // maxHeight: "200px",
+      // overflowY: "auto",
       borderRadius: "5px",
     }),
     indicatorSeparator: () => ({
