@@ -151,11 +151,13 @@ export default function MainPlaceList(props) {
 
 
 
-
+  // USER LANGUAGE DETECTION
   useEffect(() => {
-    const userLocale = getUserLocale();
-    setUserLanguage(userLocale.slice(0, 2));
+    // const userLocale = getUserLocale();
+    // setUserLanguage(userLocale.slice(0, 2));
+    setUserLanguage("en")
   }, []);
+
 
   const handleAdd = () => {  
     if(!sessionData?.googleId) return toast("Please login to add a city")
@@ -198,10 +200,10 @@ export default function MainPlaceList(props) {
   };
 
   useEffect(() => {
-    const storedCities = localStorage.getItem("town-hunt-cities");
-    if (storedCities) {
+    // const storedCities = localStorage.getItem("town-hunt-cities");
+    // if (storedCities) {
       // setCityArr(JSON.parse(storedCities));
-    }
+    // }
     setIsInitialized(true);
   }, []);
 

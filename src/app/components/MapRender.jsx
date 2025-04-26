@@ -20,7 +20,7 @@ export default function MapRender(props) {
   const popups = useRef([]);
 
   const [prefersDarkScheme, setPrefersDarkScheme] = useState(true);
-  const [userLanguage, setUserLanguage] = useState("");
+  const [userLanguage, setUserLanguage] = useState("en");
   const [cityArr, setCityArr] = useState(props.placeList);
 
   useEffect(()=>{
@@ -28,8 +28,12 @@ export default function MapRender(props) {
   }, [props.placeList])
 
   useEffect(() => {
+    const browserLang = navigator.language || navigator.userLanguage;
+    setUserLanguage(browserLang.slice(0, 2));
+    
     const userLocale = getUserLocale();
     setUserLanguage(userLocale.slice(0, 2));
+    
 
     setPrefersDarkScheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
     // const storedCities = localStorage.getItem("town-hunt-cities");
@@ -97,7 +101,7 @@ export default function MapRender(props) {
             <a href="https://${userLanguage}.wikipedia.org/wiki/${city.cityName}" target="_blank" class="popup-link-info">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 24 24" width="24" height="24" fill="currentColor"><path d="M10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10zm0-12a1 1 0 0 0-1 1v5a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1zm0-1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>
             </a>
-            <a href="https://www.google.com/maps/search/${city.cityName}" target="_blank" class="popup-link-map">
+            <a href="https://www.google.com/maps/search/${city.cityName}, ${city.countryName}" target="_blank" class="popup-link-map">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"></path></svg>
             </a>
           </div>

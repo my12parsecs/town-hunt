@@ -52,8 +52,6 @@ export default async function ServerFetch(){
     console.error('Fetch error:', error)
   }
 
-  const userLanguage = "JP"  
-
   return (
     <div>
         <MainPlaceList placeList={data} sessionData={sessionData} token={token} />
