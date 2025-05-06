@@ -381,6 +381,8 @@
 
     touch-action: none;
     cursor: grab;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
 }
 .city-list-container:active {
     cursor: grabbing;
