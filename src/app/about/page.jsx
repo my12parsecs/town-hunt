@@ -3,8 +3,11 @@ import React from 'react';
 import Link from 'next/link';
 
 import "../stylesheets/about.css";
+import "../stylesheets/home.css";
+import getFlagEmoji from '../components/GetFlagEmoji';
+import Demo from './demo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faCircleInfo, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 
 const metaInfo = {
@@ -36,6 +39,12 @@ export const metadata = {
   },
 };
 
+
+
+
+
+
+
 const About = () => {
 
   return (
@@ -43,8 +52,17 @@ const About = () => {
       <div style={{marginTop: "20px", marginBottom: "20px"}}>
           <Link href="/"><FontAwesomeIcon icon={faAngleLeft} style={{width: "20px", height: "20px"}} /></Link>
       </div>
-      <h1>Bookmark Places Around the World</h1>
+      {/* <h1>Bookmark Places Around the World</h1> */}
+      <h1>Town Hunt</h1>
       <p>Quickly bookmark places - Towns, Mountains, Landmarks, Parks, Roads...</p>
+
+      {/* <img src="https://utfs.io/f/XBVzUJO68SmleETAPiagkEfviNmOUGcXW17rB5ndQZ8I6zyt" alt="" className='image' /> */}
+
+
+      <p>You can quickly make a list like below.</p>
+
+      <Demo />
+
     </div>
   );
 };

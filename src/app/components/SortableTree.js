@@ -11,7 +11,7 @@ export const MinimalViable = ({tripList, setTripList, newPlace, setNewPlace, ins
 //   const [items, setItems] = useState(initialViableMinimalData);
     const [items, setItems] = useState(tripList.trip);
 
-    console.log("ITEMS", items);
+    // console.log("ITEMS", items);
 
 
   useEffect(() => {

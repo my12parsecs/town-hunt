@@ -1,11 +1,10 @@
 
 
-
-
 import { cookies } from 'next/headers'
 import getFlagEmoji from "./components/GetFlagEmoji";
 import "./stylesheets/home.css";
 import MainPlaceList from './components/MainPlaceList';
+import Test from './components/Test';
 
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,6 +28,7 @@ export default async function ServerFetch(){
   })
   const responseData = await res.json()
   if (!responseData.error || responseData.error !== "Invalid token") {
+    // data = responseData.sort((a, b) => a.sortOrder - b.sortOrder)
     data = responseData
   }
 
@@ -54,20 +54,9 @@ export default async function ServerFetch(){
 
   return (
     <div>
-        <MainPlaceList placeList={data} sessionData={sessionData} token={token} />
+        {/* <MainPlaceList placeList={data} sessionData={sessionData} token={token} /> */}
+        <Test placeList={data} sessionData={sessionData} token={token} />
     </div>
   )
 }
 
-
-
-
-
-  // const session = await fetch(`${BACKEND_DOMAIN}/session`, {
-  //   method: 'GET',
-  //   headers: {
-  //     'Authorization': `Bearer ${token}`  // send token as a Bearer token
-  //   },
-  //   credentials: 'include',  // only needed if you’re using cookies, can omit otherwise
-  // })
-  // const sessionData = await session.json()

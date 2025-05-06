@@ -7,4 +7,24 @@
     max-width: 500px;
     margin: auto;
     margin-top: 20px;
+    margin-bottom: 75px;
+}
+
+img{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+p{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.city-list-container{
+    /* display: flex; */
+    /* flex-direction: column; */
+    cursor: grab;
+}
+.city-list-container:active{
+    cursor: grabbing;
 }

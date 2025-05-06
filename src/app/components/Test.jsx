@@ -1,45 +1,93 @@
-
-
 "use client";
 
-import { useEffect, useState, useRef, use } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnifyingGlass, faFilter, faSort, faMap, faBars, faAngleDown, faAngleUp, faArrowDown, faArrowRight, faPlane } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+
+// DnD Kit imports
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragOverlay } from "@dnd-kit/core";
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
 import getUserLocale from "get-user-locale";
 import toast from "react-hot-toast";
-import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 
 import CitySelect from "./CitySelect";
 import getFlagEmoji from "./GetFlagEmoji";
 import "../stylesheets/home.css";
 import { useSession } from "./Session";
 import { Logout } from "./LogInOut";
+// ... (keep your existing imports)
+
+// Create a sortable item component
+function SortableItem({ city, index, isEditing, handleDelete, userLanguage, activeCity, wikiImage, handleCityClick, handleMouseEnter, handleMouseLeave, imageContainerRef }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: city.value });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    transformOrigin: "0 0", // Add this
+    backgroundColor: "inherit",
+    borderRadius: "8px",
+  };
+
+  return (
+    <div className="city-list-container" ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      <div className="city-list-row">
+        <div className="city-name" onClick={(e) => handleCityClick(e, city.cityName)}>
+          <div className="city-cityname" onMouseEnter={() => handleMouseEnter(city.cityName)} onMouseLeave={handleMouseLeave}>
+            {city.cityName}
+          </div>
+          <div className="city-countryname">
+            {getFlagEmoji(city.countryCode)} {city.countryName}
+          </div>
+        </div>
+        <div className="city-button">
+          <Link href={`https://${userLanguage}.wikipedia.org/wiki/${city.cityName}`} target="_blank" rel="noreferrer" className="city-wiki-link">
+            <FontAwesomeIcon icon={faCircleInfo} className="info-icon" />
+          </Link>
+          <Link href={`https://www.google.com/maps/search/${city.cityName}${city.adminName ? `, ${city.adminName}` : ""}, ${city.countryName}`} target="_blank" rel="noreferrer" className="city-map-link">
+            <FontAwesomeIcon icon={faLocationDot} className="map-icon" />
+          </Link>
+        </div>
+
+        {activeCity === city.cityName && wikiImage && (
+          <div className="wiki-image-container" ref={imageContainerRef}>
+            <img src={wikiImage} alt={`${city.cityName} Wikipedia`} className="wiki-image" />
+          </div>
+        )}
+      </div>
+      {isEditing && (
+        <div className="city-delete-container">
+          <div className="city-delete">
+            <FontAwesomeIcon icon={faTrash} className="delete-icon" onClick={() => handleDelete(city)} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function MainPlaceList(props) {
+  // ... (keep all your existing state and functions until the return statement)
   const router = useRouter();
 
   const queryClient = useQueryClient();
 
-//   const { session, places, isLoading: sessionLoading, error: sessionError, logout } = useSession();
-//   const sessionData = props.sessionData
-  // console.log(session, places);
-
   const [sessionData, setSessionData] = useState(props.sessionData);
-
-
-
-
 
   const [isInitialized, setIsInitialized] = useState(false);
 
   const [userLanguage, setUserLanguage] = useState("");
   const [selectedCity, setSelectedCity] = useState(null);
 
-//   const [cityArr, setCityArr] = useState(props.placeList)
-    const [cityArr, setCityArr] = useState(Array.isArray(props.placeList) ? props.placeList : []);
+  //   const [cityArr, setCityArr] = useState(props.placeList)
+  const [cityArr, setCityArr] = useState(Array.isArray(props.placeList) ? props.placeList : []);
   const [isEditing, setIsEditing] = useState(false);
 
   const [filterType, setFilterType] = useState(null);
@@ -56,138 +104,257 @@ export default function MainPlaceList(props) {
   const [sortMenu, setSortMenu] = useState(false);
   const sortMenuRef = useRef(null);
 
+  // DnD Kit state and functions
+  const [activeId, setActiveId] = useState(null);
+  // const sensors = useSensors(
+  //   useSensor(PointerSensor),
+  //   useSensor(KeyboardSensor, {
+  //     coordinateGetter: sortableKeyboardCoordinates,
+  //   })
+  // );
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      // Use distance-based activation instead of delay
+      activationConstraint: {
+        distance: 2, // Start dragging after moving 8px (adjust as needed)
+        tolerance: 5,
+        modifiers: [
+          (event) => {
+            const target = event.target;
 
+            // More comprehensive interactive element detection
+            const isInteractive =
+              // Standard interactive elements
+              target.tagName.toLowerCase() === "a" ||
+              target.tagName.toLowerCase() === "button" ||
+              target.tagName.toLowerCase() === "input" ||
+              target.tagName.toLowerCase() === "select" ||
+              target.tagName.toLowerCase() === "textarea" ||
+              // ARIA interactive elements
+              target.getAttribute("role") === "button" ||
+              target.getAttribute("role") === "link" ||
+              target.getAttribute("role") === "checkbox" ||
+              target.getAttribute("role") === "radio" ||
+              target.getAttribute("role") === "switch" ||
+              target.getAttribute("role") === "tab" ||
+              // Check ancestors with those roles too
+              target.closest("a") ||
+              target.closest("button") ||
+              target.closest('[role="button"]') ||
+              target.closest('[role="link"]') ||
+              // Elements with pointer cursor
+              window.getComputedStyle(target).cursor === "pointer";
 
-//   const cityArr = props.placeList
-    useEffect(() => {
-        setCityArr(props.placeList);
-    }, [props.placeList]);
-    useEffect(() => {
-        setSessionData(props.sessionData);
-    }, [props.sessionData]);
+            // Track initial position for detecting small movements
+            if (!event.data?.initialClientX && isInteractive) {
+              event.data = {
+                initialClientX: event.clientX,
+                initialClientY: event.clientY,
+                isInteractive,
+              };
+            }
 
+            // Allow small movements on interactive elements without triggering drag
+            if (event.data?.isInteractive) {
+              const deltaX = Math.abs(event.clientX - event.data.initialClientX);
+              const deltaY = Math.abs(event.clientY - event.data.initialClientY);
 
-    const handleLogout = async () => {
-      await Logout();
-      toast.success("Logged out successfully");
-    };
+              // If movement is very small, prevent dragging
+              if (deltaX < 5 && deltaY < 5) {
+                return false;
+              }
+            }
 
+            // Prevent dragging on interactive elements unless significant movement
+            return !isInteractive || (event.data?.isInteractive && event.pressure > 0);
+          },
+        ],
+      },
+    }),
+    // Keep KeyboardSensor unchanged
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragStart = (event) => {
+    setActiveId(event.active.id);
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setCityArr((items) => {
+        const oldIndex = items.findIndex((item) => item.value === active.id);
+        const newIndex = items.findIndex((item) => item.value === over.id);
+        const newItems = arrayMove(items, oldIndex, newIndex);
+
+        // updateOrderMutation.mutate(newItems);
+        // console.log("new Items", newItems);
+        const orderArray = newItems.map((item) => item.id);
+        // console.log("orderArray", orderArray);
+        updateOrderMutation.mutate(orderArray);
+
+        return newItems;
+      });
+    }
+    setActiveId(null);
+  };
+
+  const handleDragCancel = () => {
+    setActiveId(null);
+  };
+
+  // ... (keep all your existing code)
+
+  //   const cityArr = props.placeList
+  useEffect(() => {
+    setCityArr(props.placeList);
+  }, [props.placeList]);
+  useEffect(() => {
+    setSessionData(props.sessionData);
+  }, [props.sessionData]);
+
+  const handleLogout = async () => {
+    await Logout();
+    toast.success("Logged out successfully");
+  };
 
   // ADD CITY TO BACKEND
   const addCityMutation = useMutation({
     mutationFn: async (newCity) => {
-    //   const token = localStorage.getItem("session_token")
-    //   if (!token) {
-    //     throw new Error("No token found in localStorage")
-    //   }
+      //   const token = localStorage.getItem("session_token")
+      //   if (!token) {
+      //     throw new Error("No token found in localStorage")
+      //   }
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/places/add`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${props.token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${props.token}`,
         },
-        credentials: 'include', // Important for cookie authentication
+        credentials: "include", // Important for cookie authentication
         body: JSON.stringify(newCity),
       });
-      
+
       if (!response.ok) {
-        throw new Error('Failed to add city');
+        throw new Error("Failed to add city");
       }
-      
+
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cities'] });
+      queryClient.invalidateQueries({ queryKey: ["cities"] });
       toast.success("City Added");
     },
     onError: (error) => {
       toast.error(`Error adding city: ${error.message}`);
-
-    }
+    },
   });
 
   // DELETE CITY TO BACKEND
   const deleteCityMutation = useMutation({
     mutationFn: async (city) => {
-    //   const token = localStorage.getItem("session_token")
-    //   if (!token) {
-    //     throw new Error("No token found in localStorage")
-    //   }
+      //   const token = localStorage.getItem("session_token")
+      //   if (!token) {
+      //     throw new Error("No token found in localStorage")
+      //   }
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/places/delete`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${props.token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${props.token}`,
         },
-        credentials: 'include', // Important for cookie authentication
+        credentials: "include", // Important for cookie authentication
         body: JSON.stringify(city),
       });
-      
+
       if (!response.ok) {
-        throw new Error('Failed to delete city');
+        throw new Error("Failed to delete city");
       }
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cities'] });
+      queryClient.invalidateQueries({ queryKey: ["cities"] });
       toast.success("City Deleted");
     },
     onError: (error) => {
       toast.error(`Error deleting city: ${error.message}`);
-    }
+    },
   });
-  
 
+  // UPDATE ORDER OF CITIES TO BACKEND
+  const updateOrderMutation = useMutation({
+    mutationFn: async (orderArray) => {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/places/order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${props.token}`,
+        },
+        credentials: "include",
+        body: JSON.stringify(orderArray),
+      });
 
-
-
-
-
-
-
-
-
-
-
-
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to update order");
+      }
+      return response.json();
+    },
+    // Optimistic updates
+    onMutate: async (newOrder) => {
+      await queryClient.cancelQueries(["places", props.token]);
+      const previousData = queryClient.getQueryData(["places", props.token]);
+      queryClient.setQueryData(["places", props.token], newOrder);
+      return { previousData };
+    },
+    onError: (err, newOrder, context) => {
+      queryClient.setQueryData(["places", props.token], context?.previousData);
+      toast.error(err.message);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["places", props.token]);
+    },
+  });
 
   // USER LANGUAGE DETECTION
   useEffect(() => {
     // const userLocale = getUserLocale();
     // setUserLanguage(userLocale.slice(0, 2));
-    setUserLanguage("en")
+    setUserLanguage("en");
   }, []);
 
-
-  const handleAdd = () => {  
-    if(!sessionData?.googleId) return toast("Please login to add a city")
+  const handleAdd = () => {
+    if (!sessionData?.googleId) return toast("Please login to add a city");
     if (!selectedCity) return toast("Please input a city to add");
     // const { adminName1, ...rest } = selectedCity;
-    const {adminName1, value, label, cityName, countryName, countryCode, lat, lng, fcl, fcodeName} = selectedCity;
+    const { adminName1, value, label, cityName, countryName, countryCode, lat, lng, fcl, fcodeName } = selectedCity;
     const stringValue = value.toString();
     // setSelectedCity({ adminName: adminName1, value: stringValue, label, cityName, countryName, countryCode, lat, lng, fcl, fcodeName });
-    const transformedCity = { 
-      adminName: adminName1, 
-      value: stringValue, 
-      label, 
-      cityName, 
-      countryName, 
-      countryCode, 
-      lat, 
-      lng, 
-      fcl, 
-      fcodeName 
+    const transformedCity = {
+      adminName: adminName1,
+      value: stringValue,
+      label,
+      cityName,
+      countryName,
+      countryCode,
+      lat,
+      lng,
+      fcl,
+      fcodeName,
     };
 
     const isCityExist = cityArr.some((city) => city.value === selectedCity.value);
     if (isCityExist) return;
 
-    const updatedCityArr = [...cityArr, transformedCity];
+    const updatedCityArr = [transformedCity, ...cityArr];
     setCityArr(updatedCityArr);
     setSelectedCity(null);
 
     // localStorage.setItem("town-hunt-cities", JSON.stringify(updatedCityArr));
-    if(sessionData) addCityMutation.mutate(transformedCity)
+    if (sessionData) addCityMutation.mutate(transformedCity);
     // toast.success("City Added");
   };
 
@@ -195,25 +362,13 @@ export default function MainPlaceList(props) {
     const updatedCityArr = cityArr.filter((c) => c.value !== city.value);
     setCityArr(updatedCityArr);
     // localStorage.setItem("town-hunt-cities", JSON.stringify(updatedCityArr));
-    deleteCityMutation.mutate(city)
+    deleteCityMutation.mutate(city);
     // toast.success("City Deleted");
   };
 
   useEffect(() => {
-    // const storedCities = localStorage.getItem("town-hunt-cities");
-    // if (storedCities) {
-      // setCityArr(JSON.parse(storedCities));
-    // }
     setIsInitialized(true);
   }, []);
-
-  // FILTER
-  // const displayedCities = filterType ? cityArr.filter((city) => city.fcl === filterType) : cityArr;
-
-  // SORT
-  // const handleSort = (type) => {
-  //   setSortType(type); // Update the sort type state
-  // };
 
   const sortCities = (cities) => {
     if (!sortType.type) return cities;
@@ -238,30 +393,16 @@ export default function MainPlaceList(props) {
     return 0;
   };
 
-  // const displayedCities = filterType
-  //   ? sortCities(cityArr.filter((city) => city.fcl === filterType))
-  //   : sortCities(cityArr);
-  
-
-//   const displayedCities = sortCities(
-//     cityArr?.filter(
-//         (city) => (filterType ? city.fcl === filterType : true) // Apply filterType if present
-//       ).filter(
-//         (city) => city.cityName.toLowerCase().includes(searchQuery.toLowerCase()) // Apply search filter
-//       )
-//   );
-const displayedCities = (() => {
-    if (!Array.isArray(cityArr)) return []; 
+  const displayedCities = (() => {
+    if (!Array.isArray(cityArr)) return [];
     let filteredCities = cityArr;
     // Apply filter by type if needed
     if (filterType) {
-      filteredCities = filteredCities.filter(city => city.fcl === filterType);
+      filteredCities = filteredCities.filter((city) => city.fcl === filterType);
     }
     // Apply search filter if needed
     if (searchQuery) {
-      filteredCities = filteredCities.filter(city => 
-        city.cityName && city.cityName.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      filteredCities = filteredCities.filter((city) => city.cityName && city.cityName.toLowerCase().includes(searchQuery.toLowerCase()));
     }
     // Apply sorting
     return sortCities(filteredCities);
@@ -276,7 +417,7 @@ const displayedCities = (() => {
     const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(cityName)}`;
     try {
       const response = await fetch(url);
-      if (!response.ok) throw new Error("Failed to fetch Wikipedia data");
+      // if (!response.ok) throw new Error("Failed to fetch Wikipedia data");
       const data = await response.json();
       return data.thumbnail ? data.thumbnail.source : null;
     } catch (error) {
@@ -301,7 +442,6 @@ const displayedCities = (() => {
   };
 
   const handleMouseEnter = async (cityName, event) => {
-
     if (!("ontouchstart" in window)) {
       await handleCityInteraction(cityName, event);
     }
@@ -334,9 +474,7 @@ const displayedCities = (() => {
     //   setWikiImage(null);
     // }
     if (!event) return;
-    if (
-      activeCity && imageContainerRef.current && !imageContainerRef.current.contains(event.target) && !event.target.closest(".city-cityname")
-    ) {
+    if (activeCity && imageContainerRef.current && !imageContainerRef.current.contains(event.target) && !event.target.closest(".city-cityname")) {
       setActiveCity(null);
       setWikiImage(null);
     }
@@ -385,17 +523,16 @@ const displayedCities = (() => {
     setTimeout(() => setIsHighlighted(false), 1000);
   };
 
-
-
-
-console.log(cityArr);
-
-  
-
+  // const [mounted, setMounted] = useState(false);
+  // useEffect(() => {
+  //     setMounted(true)
+  // }, []);
+  // if (!mounted) return null;
 
   return (
     <div className="home-page">
       <div className="home-content">
+        {/* ... (keep your existing func-row and control-row) */}
         <div className="func-row">
           <div className="func-left">
             <input type="text" className="search-input" placeholder="Search List" style={isSearching ? { display: "flex" } : { display: "none" }} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} ref={searchInputRef} />
@@ -435,30 +572,19 @@ console.log(cityArr);
               </Link>
             </div>
             {/* {!sessionData?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/google`} className="login-button" style={{marginLeft: "10px"}}>Login</Link>)} */}
-            {!sessionData?.googleId && (<Link href="/login" className="login-button" style={{marginLeft: "10px"}}>Login</Link>)}
+            {!sessionData?.googleId && (
+              <Link href="/login" className="login-button" style={{ marginLeft: "10px" }}>
+                Login
+              </Link>
+            )}
             {/* {data?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/logout`} className="func-each" style={{marginLeft: "10px"}}>Logout</Link>)} */}
-            {sessionData?.googleId && (<div onClick={handleLogout} className="logout-button" style={{marginLeft: "10px", cursor: "pointer"}}>Logout</div>)}
-
-            {/* <div className="func-each" ref={dropdownRef}>
-              <FontAwesomeIcon icon={faBars} className="func-each-icon" onClick={() => setDropdown(!dropdown)} />
-              <div className="dropdown-menu" style={dropdown ? { display: "block" } : { display: "none" }}>
-                <div className="dropdown-each" onClick={() => router.push("/about")}>
-                  <FontAwesomeIcon icon={faCircleInfo} className="dropdown-each-icon" />
-                  About
-                </div>
-                <div className="dropdown-each" onClick={() => router.push("/trips")}>
-                  <FontAwesomeIcon icon={faPlane} className="dropdown-each-icon" />
-                  Trips
-                </div>
-                <div className="dropdown-each" onClick={() => window.open("https://github.com/my12parsecs/town-hunt", "_blank")}>
-                  <FontAwesomeIcon icon={faGithub} className="dropdown-each-icon" />
-                  GitHub
-                </div>
+            {sessionData?.googleId && (
+              <div onClick={handleLogout} className="logout-button" style={{ marginLeft: "10px", cursor: "pointer" }}>
+                Logout
               </div>
-            </div> */}
+            )}
           </div>
         </div>
-
         <div className="control-row">
           {/* ["P", "T", "H", "L", "R", "S", "U", "V"], */}
           {/* // P - city, village
@@ -468,7 +594,7 @@ console.log(cityArr);
           // R - road, railroad
           // S - spot, building, farm
           // U - undersea
-          // V - forest, heath */}          
+          // V - forest, heath */}
           {cityArr && cityArr?.some((city) => city.fcl === "P") && (
             <button className={`filter-button ${filterType === "P" ? "active" : ""}`} onClick={() => setFilterType(filterType === "P" ? null : "P")}>
               <div>{filterType === "P" ? "Town" : "Town"}</div>
@@ -507,75 +633,60 @@ console.log(cityArr);
         </div>
 
         {cityArr?.length === 0 ? (
-          <div className="no-city-div">
-            {/* <h1 className="title-h1">Bookmark Places<span style={{backgroundColor: randomColorArr[randomIndex]}}></span></h1>
-            <h2 className="title-h2">Towns, Mountains, Landmarks, Parks, Roads...</h2>
-            <div className="call-to-action-row">
-            <Link href="/about" className="title-about title-link">
-            About</Link>
-            </div> */}
-          </div>
+          <div className="no-city-div">{/* ... (keep your empty state) */}</div>
         ) : (
-          <div className="city-list">
-            {displayedCities?.slice()
-              .reverse()
-              .map((city, index) => (
-                <div className="city-list-container" key={index}>
-                  <div className="city-list-row">
-                    <div className="city-name" onClick={(e) => handleCityClick(e, city.cityName)}>
-                      <div className="city-cityname" onMouseEnter={() => handleMouseEnter(city.cityName)} onMouseLeave={handleMouseLeave}>
-                        {city.cityName}
-                      </div>
-                      <div className="city-countryname">
-                        {getFlagEmoji(city.countryCode)} {city.countryName}
-                      </div>
-                    </div>
-                    <div className="city-button">
-                      <a href={`https://${userLanguage}.wikipedia.org/wiki/${city.cityName}`} target="_blank" rel="noreferrer" className="city-wiki-link">
-                        <FontAwesomeIcon icon={faCircleInfo} className="info-icon" />
-                      </a>
-                      <a href={`https://www.google.com/maps/search/${city.cityName}${city.adminName ? `, ${city.adminName}` : ''}, ${city.countryName}`} target="_blank" rel="noreferrer" className="city-map-link">
-                        <FontAwesomeIcon icon={faLocationDot} className="map-icon" />
-                      </a>
-                    </div>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onDragCancel={handleDragCancel}
+            id="unique-dnd-context-id" //NEED THIS OR Hydration failed
+          >
+            <SortableContext items={displayedCities.map((city) => city.value)} strategy={verticalListSortingStrategy}>
+              <div className="city-list">
+                {displayedCities?.map((city, index) => (
+                  <SortableItem key={city.value} city={city} index={index} isEditing={isEditing} handleDelete={handleDelete} userLanguage={userLanguage} activeCity={activeCity} wikiImage={wikiImage} handleCityClick={handleCityClick} handleMouseEnter={handleMouseEnter} handleMouseLeave={handleMouseLeave} />
+                ))}
+              </div>
+            </SortableContext>
 
-                    {activeCity === city.cityName && wikiImage && (
-                      <div className="wiki-image-container" ref={imageContainerRef}>
-                        <img src={wikiImage} alt={`${city.cityName} Wikipedia`} className="wiki-image" />
-                      </div>
-                    )}
-                  </div>
-                  {isEditing && (
-                    <div className="city-delete-container">
-                      <div className="city-delete">
-                        <FontAwesomeIcon icon={faTrash} className="delete-icon" onClick={() => handleDelete(city)} />
+            <DragOverlay>
+              {activeId ? (
+                <div
+                  className="city-list-container"
+                  style={{
+                    //   background: 'white',
+                    //   boxShadow: '0 0 10px rgba(0,0,0,0.2)',
+                    cursor: "grabbing",
+                  }}>
+                  <div className="city-list-row">
+                    <div className="city-name">
+                      <div className="city-cityname">{displayedCities.find((city) => city.value === activeId)?.cityName}</div>
+                      <div className="city-countryname">
+                        {getFlagEmoji(displayedCities.find((city) => city.value === activeId)?.countryCode)}&nbsp;{displayedCities.find((city) => city.value === activeId)?.countryName}
                       </div>
                     </div>
-                  )}
-                </div>
-              ))}
-          </div>
-        )}
-              {/* {isInitialized && cityArr?.length === 0 && (
-                <div className="no-city-div">
-                  <h1 className="title-h1">
-                    Bookmark Places<span style={{ backgroundColor: randomColorArr[randomIndex] }}></span>
-                  </h1>
-                  <h2 className="title-h2">Towns, Mountains, Landmarks, Parks, Roads...</h2>
-                  <div className="call-to-action-row">
-                    <Link href="/about" className="title-about title-link">
-                      About
-                    </Link>
                   </div>
                 </div>
-              )} */}
+              ) : null}
+            </DragOverlay>
+          </DndContext>
+        )}
+
         {cityArr?.length === 0 && (
           <div className="no-place-container">
-            <h1 style={{textAlign: "center"}} className="no-place-title">Town Hunt</h1>
-            <p style={{textAlign: "center"}} className="no-place-text">Login to save places.</p>
-            <Link href="/about" style={{textAlign: "center"}} className="no-place-link">What is this?</Link>
+            <h1 style={{ textAlign: "center" }} className="no-place-title">
+              Town Hunt
+            </h1>
+            <p style={{ textAlign: "center" }} className="no-place-text">
+              Login to save places.
+            </p>
+            <Link href="/about" style={{ textAlign: "center" }} className="no-place-link">
+              What is this?
+            </Link>
 
-            <img src="https://cdn.pixabay.com/photo/2024/06/29/15/16/ai-generated-8861653_640.png" alt="" style={{width: "200px", margin:"auto", marginTop: "10px", display: "flex", justifyContent: "center", alignItems: "center"}} />
+            <img src="https://cdn.pixabay.com/photo/2024/06/29/15/16/ai-generated-8861653_640.png" alt="" style={{ width: "200px", margin: "auto", marginTop: "10px", display: "flex", justifyContent: "center", alignItems: "center" }} />
           </div>
         )}
       </div>
