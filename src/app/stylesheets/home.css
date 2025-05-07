@@ -380,12 +380,12 @@
     margin: 15px auto 15px auto;
 
     touch-action: none;
-    cursor: grab;
+    /* cursor: grab; */
     -webkit-user-select: none;
     -webkit-touch-callout: none;
 }
 .city-list-container:active {
-    cursor: grabbing;
+    /* cursor: grabbing; */
   }
 .city-list-row{
     display: flex;
@@ -420,15 +420,17 @@
     margin-top: -1px;
 }
 .city-button{
-    width: 50px;
+    /* width: 50px; */
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: right;
     align-items: center;
-    margin-right: 13px;
+    margin-right: 11px;
 }
 .city-wiki-link{
     width: 18px;
     height: 18px;
+    margin-right: 15px;
 }
 .info-icon{
     width: 18px;
@@ -437,13 +439,33 @@
 .city-map-link{
     width: 18px;
     height: 18px;
+    /* margin-right: 10px; */
 }
 .map-icon{
     width: 18px;
     height: 18px;
 }
+.drag-handle{
+    width: 15px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-left: 21px; */
+    margin-left: 18px;
+    filter: opacity(0.8);
+
+    touch-action: none;
+    cursor: grab;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+.drag-handle:active{
+    cursor: grabbing;
+}
+
 .city-delete-container{
-    width: 35px;
+    width: 30px;
     display: flex;
     justify-content: right;
     align-items: center;

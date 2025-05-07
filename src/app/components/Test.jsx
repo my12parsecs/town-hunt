@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnifyingGlass, faFilter, faSort, faMap, faBars, faAngleDown, faAngleUp, faArrowDown, faArrowRight, faPlane } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faCircleInfo, faPlus, faPen, faCheck, faTrash, faMagnifyingGlass, faFilter, faSort, faMap, faBars, faAngleDown, faAngleUp, faArrowDown, faArrowRight, faPlane, faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
@@ -37,7 +37,7 @@ function SortableItem({ city, index, isEditing, handleDelete, userLanguage, acti
   };
 
   return (
-    <div className="city-list-container" ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div className="city-list-container" ref={setNodeRef} style={style} {...attributes} >
       <div className="city-list-row">
         <div className="city-name" onClick={(e) => handleCityClick(e, city.cityName)}>
           <div className="city-cityname" onMouseEnter={() => handleMouseEnter(city.cityName)} onMouseLeave={handleMouseLeave}>
@@ -54,7 +54,14 @@ function SortableItem({ city, index, isEditing, handleDelete, userLanguage, acti
           <Link href={`https://www.google.com/maps/search/${city.cityName}${city.adminName ? `, ${city.adminName}` : ""}, ${city.countryName}`} target="_blank" rel="noreferrer" className="city-map-link">
             <FontAwesomeIcon icon={faLocationDot} className="map-icon" />
           </Link>
+          {!isEditing && (
+            <div className="drag-handle" {...listeners}>
+              <FontAwesomeIcon icon={faGripVertical} className="drag-icon" />
+            </div>
+          )}
         </div>
+
+
 
         {activeCity === city.cityName && wikiImage && (
           <div className="wiki-image-container" ref={imageContainerRef}>
@@ -112,70 +119,85 @@ export default function MainPlaceList(props) {
   //     coordinateGetter: sortableKeyboardCoordinates,
   //   })
   // );
+
+  // const sensors = useSensors(
+  //   useSensor(PointerSensor, {
+  //     // Use distance-based activation instead of delay
+  //     activationConstraint: {
+  //       distance: 2, // Start dragging after moving 8px (adjust as needed)
+  //       tolerance: 5,
+  //       modifiers: [
+  //         (event) => {
+  //           const target = event.target;
+
+  //           // More comprehensive interactive element detection
+  //           const isInteractive =
+  //             // Standard interactive elements
+  //             target.tagName.toLowerCase() === "a" ||
+  //             target.tagName.toLowerCase() === "button" ||
+  //             target.tagName.toLowerCase() === "input" ||
+  //             target.tagName.toLowerCase() === "select" ||
+  //             target.tagName.toLowerCase() === "textarea" ||
+  //             // ARIA interactive elements
+  //             target.getAttribute("role") === "button" ||
+  //             target.getAttribute("role") === "link" ||
+  //             target.getAttribute("role") === "checkbox" ||
+  //             target.getAttribute("role") === "radio" ||
+  //             target.getAttribute("role") === "switch" ||
+  //             target.getAttribute("role") === "tab" ||
+  //             // Check ancestors with those roles too
+  //             target.closest("a") ||
+  //             target.closest("button") ||
+  //             target.closest('[role="button"]') ||
+  //             target.closest('[role="link"]') ||
+  //             // Elements with pointer cursor
+  //             window.getComputedStyle(target).cursor === "pointer";
+
+  //           // Track initial position for detecting small movements
+  //           if (!event.data?.initialClientX && isInteractive) {
+  //             event.data = {
+  //               initialClientX: event.clientX,
+  //               initialClientY: event.clientY,
+  //               isInteractive,
+  //             };
+  //           }
+
+  //           // Allow small movements on interactive elements without triggering drag
+  //           if (event.data?.isInteractive) {
+  //             const deltaX = Math.abs(event.clientX - event.data.initialClientX);
+  //             const deltaY = Math.abs(event.clientY - event.data.initialClientY);
+
+  //             // If movement is very small, prevent dragging
+  //             if (deltaX < 5 && deltaY < 5) {
+  //               return false;
+  //             }
+  //           }
+
+  //           // Prevent dragging on interactive elements unless significant movement
+  //           return !isInteractive || (event.data?.isInteractive && event.pressure > 0);
+  //         },
+  //       ],
+  //     },
+  //   }),
+  //   // Keep KeyboardSensor unchanged
+  //   useSensor(KeyboardSensor, {
+  //     coordinateGetter: sortableKeyboardCoordinates,
+  //   })
+  // );
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      // Use distance-based activation instead of delay
       activationConstraint: {
-        distance: 2, // Start dragging after moving 8px (adjust as needed)
-        tolerance: 5,
-        modifiers: [
-          (event) => {
-            const target = event.target;
-
-            // More comprehensive interactive element detection
-            const isInteractive =
-              // Standard interactive elements
-              target.tagName.toLowerCase() === "a" ||
-              target.tagName.toLowerCase() === "button" ||
-              target.tagName.toLowerCase() === "input" ||
-              target.tagName.toLowerCase() === "select" ||
-              target.tagName.toLowerCase() === "textarea" ||
-              // ARIA interactive elements
-              target.getAttribute("role") === "button" ||
-              target.getAttribute("role") === "link" ||
-              target.getAttribute("role") === "checkbox" ||
-              target.getAttribute("role") === "radio" ||
-              target.getAttribute("role") === "switch" ||
-              target.getAttribute("role") === "tab" ||
-              // Check ancestors with those roles too
-              target.closest("a") ||
-              target.closest("button") ||
-              target.closest('[role="button"]') ||
-              target.closest('[role="link"]') ||
-              // Elements with pointer cursor
-              window.getComputedStyle(target).cursor === "pointer";
-
-            // Track initial position for detecting small movements
-            if (!event.data?.initialClientX && isInteractive) {
-              event.data = {
-                initialClientX: event.clientX,
-                initialClientY: event.clientY,
-                isInteractive,
-              };
-            }
-
-            // Allow small movements on interactive elements without triggering drag
-            if (event.data?.isInteractive) {
-              const deltaX = Math.abs(event.clientX - event.data.initialClientX);
-              const deltaY = Math.abs(event.clientY - event.data.initialClientY);
-
-              // If movement is very small, prevent dragging
-              if (deltaX < 5 && deltaY < 5) {
-                return false;
-              }
-            }
-
-            // Prevent dragging on interactive elements unless significant movement
-            return !isInteractive || (event.data?.isInteractive && event.pressure > 0);
-          },
-        ],
-      },
+        distance: 8, // Keeps a small distance threshold for better feel
+      }
     }),
-    // Keep KeyboardSensor unchanged
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+
+
+  
 
   const handleDragStart = (event) => {
     setActiveId(event.active.id);
@@ -663,9 +685,20 @@ export default function MainPlaceList(props) {
                   <div className="city-list-row">
                     <div className="city-name">
                       <div className="city-cityname">{displayedCities.find((city) => city.value === activeId)?.cityName}</div>
-                      <div className="city-countryname">
-                        {getFlagEmoji(displayedCities.find((city) => city.value === activeId)?.countryCode)}&nbsp;{displayedCities.find((city) => city.value === activeId)?.countryName}
-                      </div>
+                      <div className="city-countryname">{getFlagEmoji(displayedCities.find((city) => city.value === activeId)?.countryCode)}&nbsp;{displayedCities.find((city) => city.value === activeId)?.countryName}</div>
+                    </div>
+                    <div className="city-button">
+                      <Link href={`https://${userLanguage}.wikipedia.org/wiki/`} target="_blank" rel="noreferrer" className="city-wiki-link">
+                        <FontAwesomeIcon icon={faCircleInfo} className="info-icon" />
+                      </Link>
+                      <Link href={`https://www.google.com/maps/search/`} target="_blank" rel="noreferrer" className="city-map-link">
+                        <FontAwesomeIcon icon={faLocationDot} className="map-icon" />
+                      </Link>
+                      {!isEditing && (
+                        <div className="drag-handle">
+                          <FontAwesomeIcon icon={faGripVertical} className="drag-icon" />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
