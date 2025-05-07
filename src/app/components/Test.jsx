@@ -113,12 +113,12 @@ export default function MainPlaceList(props) {
 
   // DnD Kit state and functions
   const [activeId, setActiveId] = useState(null);
-  // const sensors = useSensors(
-  //   useSensor(PointerSensor),
-  //   useSensor(KeyboardSensor, {
-  //     coordinateGetter: sortableKeyboardCoordinates,
-  //   })
-  // );
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   // const sensors = useSensors(
   //   useSensor(PointerSensor, {
@@ -184,16 +184,16 @@ export default function MainPlaceList(props) {
   //     coordinateGetter: sortableKeyboardCoordinates,
   //   })
   // );
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8, // Keeps a small distance threshold for better feel
-      }
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
+  // const sensors = useSensors(
+  //   useSensor(PointerSensor, {
+  //     activationConstraint: {
+  //       distance: 8, // Keeps a small distance threshold for better feel
+  //     }
+  //   }),
+  //   useSensor(KeyboardSensor, {
+  //     coordinateGetter: sortableKeyboardCoordinates,
+  //   })
+  // );
 
 
 
