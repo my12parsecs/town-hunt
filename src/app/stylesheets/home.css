@@ -379,10 +379,10 @@
     width: 100%;
     margin: 15px auto 15px auto;
 
-    touch-action: none;
+    /* touch-action: none; */
     /* cursor: grab; */
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
+    /* -webkit-user-select: none; */
+    /* -webkit-touch-callout: none; */
 }
 .city-list-container:active {
     /* cursor: grabbing; */
