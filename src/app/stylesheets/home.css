@@ -463,6 +463,10 @@
 .drag-handle:active{
     cursor: grabbing;
 }
+.drag-icon{
+    width: 15px;
+    height: 15px;
+}
 
 .city-delete-container{
     width: 30px;
