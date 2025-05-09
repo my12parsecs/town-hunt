@@ -5,6 +5,7 @@ import getFlagEmoji from "./components/GetFlagEmoji";
 import "./stylesheets/home.css";
 import MainPlaceList from './components/MainPlaceList';
 import Test from './components/Test';
+import ShowToast from './components/ShowToast';
 
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -54,6 +55,7 @@ export default async function ServerFetch(){
 
   return (
     <div>
+        <ShowToast />
         {/* <MainPlaceList placeList={data} sessionData={sessionData} token={token} /> */}
         <Test placeList={data} sessionData={sessionData} token={token} />
     </div>

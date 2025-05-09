@@ -21,7 +21,8 @@ import getFlagEmoji from "./GetFlagEmoji";
 import "../stylesheets/home.css";
 import { useSession } from "./Session";
 import { Logout } from "./LogInOut";
-// ... (keep your existing imports)
+import { debounce } from "lodash";
+
 
 // Create a sortable item component
 function SortableItem({ city, index, isEditing, handleDelete, userLanguage, activeCity, wikiImage, handleCityClick, handleMouseEnter, handleMouseLeave, imageContainerRef }) {
@@ -238,10 +239,16 @@ export default function MainPlaceList(props) {
     setSessionData(props.sessionData);
   }, [props.sessionData]);
 
-  const handleLogout = async () => {
+
+  // const handleLogout = async () => {
+  //   await Logout();
+  //   toast.success("Logged out successfully");
+  // };
+  const handleLogout = debounce(async () => {
     await Logout();
     toast.success("Logged out successfully");
-  };
+  }, 1000, { leading: true, trailing: false });
+
 
   // ADD CITY TO BACKEND
   const addCityMutation = useMutation({

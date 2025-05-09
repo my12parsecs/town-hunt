@@ -258,6 +258,7 @@
     align-items: center;
     border-radius: 50px;
     font-size: 15px;
+    user-select: none;
     margin-right: 3px;
 }
 .logout-button{
@@ -271,6 +272,7 @@
     align-items: center;
     border-radius: 50px;
     font-size: 15px;
+    user-select: none;
 }
 
 

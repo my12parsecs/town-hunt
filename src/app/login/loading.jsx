@@ -5,6 +5,8 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 import Link from "next/link";
 
+import "../stylesheets/login.css";
+
 
 export default function Login() {
 
