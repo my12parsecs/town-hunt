@@ -375,7 +375,8 @@ export default function MainPlaceList(props) {
       fcodeName,
     };
 
-    const isCityExist = cityArr.some((city) => city.value === selectedCity.value);
+    const isCityExist = cityArr.some((city) => city.value == value);
+    toast("City already exists");
     if (isCityExist) return;
 
     const updatedCityArr = [transformedCity, ...cityArr];
