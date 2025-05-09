@@ -258,6 +258,7 @@
     align-items: center;
     border-radius: 50px;
     font-size: 15px;
+    margin-right: 3px;
 }
 .logout-button{
     /* background-color: var(--foreground); */

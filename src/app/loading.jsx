@@ -22,18 +22,13 @@ export default function Loading() {
                     <div className="func-each">
                         <FontAwesomeIcon icon={faSort} className="func-each-icon" />
                     </div>
-                    <div className="func-each">
+                    <div className="func-each" style={{ marginRight: "85px" }}>
                         <Link href="/map" className="func-each-icon">
                             <FontAwesomeIcon icon={faMap} className="func-each-icon" />
                         </Link>
                     </div>
-                    <Link href="/login" className="login-button" style={{ marginLeft: "10px" }}>Login</Link>
-                    {/* {!sessionData?.googleId && (
-                        <Link href="/login" className="login-button" style={{ marginLeft: "10px" }}>Login</Link>
-                    )}
-                    {sessionData?.googleId && (
-                        <div onClick={handleLogout} className="logout-button" style={{ marginLeft: "10px", cursor: "pointer" }}>Logout</div>
-                    )} */}
+                    {/* <Link href="/login" className="login-button" style={{ marginLeft: "10px" }}>Login</Link> */}
+                    {/* <div className="logout-button" style={{ marginLeft: "10px", cursor: "pointer" }}>Logout</div> */}
                 </div>
             </div>
 

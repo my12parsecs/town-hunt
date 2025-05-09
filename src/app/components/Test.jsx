@@ -595,9 +595,7 @@ export default function MainPlaceList(props) {
             </div>
             {/* {!sessionData?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/google`} className="login-button" style={{marginLeft: "10px"}}>Login</Link>)} */}
             {!sessionData?.googleId && (
-              <Link href="/login" className="login-button" style={{ marginLeft: "10px" }}>
-                Login
-              </Link>
+              <Link href="/login" className="login-button" style={{ marginLeft: "10px" }}>Login</Link>
             )}
             {/* {data?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/logout`} className="func-each" style={{marginLeft: "10px"}}>Logout</Link>)} */}
             {sessionData?.googleId && (
