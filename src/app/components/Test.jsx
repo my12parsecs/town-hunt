@@ -562,25 +562,27 @@ export default function MainPlaceList(props) {
   return (
     <div className="home-page">
       <div className="home-content">
-        {/* ... (keep your existing func-row and control-row) */}
         <div className="func-row">
           <div className="func-left">
             <input type="text" className="search-input" placeholder="Search List" style={isSearching ? { display: "flex" } : { display: "none" }} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} ref={searchInputRef} />
           </div>
           <div className="func-right">
-            <div className="func-each">
-              <FontAwesomeIcon
-                icon={faMagnifyingGlass}
-                className="func-each-icon"
-                ref={searchInputButtonRef}
-                onClick={() => {
-                  // !setIsSearching(!isSearching);
-                  setIsSearching((prev) => !prev);
-                  setSearchQuery("");
-                }}
-              />
+            {sessionData?.googleId && (
+              <div className="func-each">
+                <FontAwesomeIcon
+                  icon={faMagnifyingGlass}
+                  className="func-each-icon"
+                  ref={searchInputButtonRef}
+                  onClick={() => {
+                    // !setIsSearching(!isSearching);
+                    setIsSearching((prev) => !prev);
+                    setSearchQuery("");
+                  }}
+                />
             </div>
-            <div className="func-each" ref={sortMenuRef}>
+            )}
+            {sessionData?.googleId && (
+              <div className="func-each" ref={sortMenuRef}>
               <FontAwesomeIcon
                 icon={faSort}
                 className="func-each-icon"
@@ -596,23 +598,27 @@ export default function MainPlaceList(props) {
                 </div>
               </div>
             </div>
-            <div className="func-each">
-              <Link href="/map" className="func-each-icon">
-                <FontAwesomeIcon icon={faMap} className="func-each-icon" />
-              </Link>
-            </div>
-            {/* {!sessionData?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/google`} className="login-button" style={{marginLeft: "10px"}}>Login</Link>)} */}
-            {!sessionData?.googleId && (
-              <Link href="/login" className="login-button" style={{ marginLeft: "10px" }}>Login</Link>
             )}
+            {sessionData?.googleId && (
+              <div className="func-each">
+                <Link href="/map" className="func-each-icon">
+                  <FontAwesomeIcon icon={faMap} className="func-each-icon" />
+                </Link>
+              </div>
+            )}
+
+            {/* {!sessionData?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/google`} className="login-button" style={{marginLeft: "10px"}}>Login</Link>)} */}
+            {/* {!sessionData?.googleId && (
+              <Link href="/login" className="login-button" style={{ marginLeft: "10px" }}>Login</Link>
+            )} */}
             {/* {data?.googleId && (<Link href={`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/logout`} className="func-each" style={{marginLeft: "10px"}}>Logout</Link>)} */}
             {sessionData?.googleId && (
-              <div onClick={handleLogout} className="logout-button" style={{ marginLeft: "10px", cursor: "pointer" }}>
-                Logout
-              </div>
+              <div onClick={handleLogout} className="logout-button" style={{ marginLeft: "10px", cursor: "pointer" }}>Logout</div>
             )}
           </div>
         </div>
+
+
         <div className="control-row">
           {/* ["P", "T", "H", "L", "R", "S", "U", "V"], */}
           {/* // P - city, village
@@ -715,15 +721,12 @@ export default function MainPlaceList(props) {
 
         {cityArr?.length === 0 && (
           <div className="no-place-container">
-            <h1 style={{ textAlign: "center" }} className="no-place-title">
-              Town Hunt
-            </h1>
-            <p style={{ textAlign: "center" }} className="no-place-text">
-              Login to save places.
-            </p>
-            <Link href="/about" style={{ textAlign: "center" }} className="no-place-link">
-              What is this?
-            </Link>
+            <h1 style={{ textAlign: "center" }} className="no-place-title">Town Hunt</h1>
+            <p style={{ textAlign: "center" }} className="no-place-text">Login to save places.</p>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
+              <Link href="/login" className="no-place-login">Login</Link>
+              <Link href="/about" style={{ textAlign: "center" }} className="no-place-link">What is this?</Link>
+            </div>
 
             <img src="https://cdn.pixabay.com/photo/2024/06/29/15/16/ai-generated-8861653_640.png" alt="" style={{ width: "200px", margin: "auto", marginTop: "10px", display: "flex", justifyContent: "center", alignItems: "center" }} />
           </div>

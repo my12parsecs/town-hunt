@@ -385,11 +385,6 @@ const displayedCities = (() => {
     setTimeout(() => setIsHighlighted(false), 1000);
   };
 
-
-
-
-console.log(cityArr);
-
   
 
 

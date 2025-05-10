@@ -18,13 +18,5 @@ img{
 p{
     margin-top: 20px;
     margin-bottom: 20px;
-}
-
-.city-list-container{
-    /* display: flex; */
-    /* flex-direction: column; */
-    cursor: grab;
-}
-.city-list-container:active{
-    cursor: grabbing;
+    font-size: 20px;
 }

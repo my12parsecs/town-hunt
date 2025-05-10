@@ -128,14 +128,28 @@
 .no-place-text{
     font-size: 20px;
 }
-.no-place-link{
-    display: inline-block;
+.no-place-login{
+    background-color: var(--foreground);
+    color: var(--background);
+    width: 69px;
+    height: 35px;
+    display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    width: auto;
-    margin: auto;
-    margin-top: 20px;
+    border-radius: 60px;
+    font-size: 16px;
+    user-select: none;
+    margin-right: 10px;
+}
+.no-place-link{
+    /* display: inline-block; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* text-align: center; */
+    /* width: auto; */
+    /* margin: auto; */
+    /* margin-top: 20px; */
+    margin-left: 10px;
     font-size: 20px;
     text-decoration: dotted underline;
 }

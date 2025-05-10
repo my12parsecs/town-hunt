@@ -47,7 +47,7 @@ export default async function ServerFetch(){
     if (session.ok) {
       const json = await session.json()
       // sessionData = Array.isArray(json) ? json : []
-      sessionData = json
+      sessionData = json      
     }
   } catch (error) {
     console.error('Fetch error:', error)

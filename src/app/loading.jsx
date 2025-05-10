@@ -11,8 +11,8 @@ import CitySelect from "./components/CitySelect";
 export default function Loading() {
     return (
         <div>
-            <div className="func-row">
-                <div className="func-left">
+            {/* <div className="func-row"> */}
+                {/* <div className="func-left">
                     <input type="text" className="search-input" placeholder="Search List" style={{ display: "none" }} />
                 </div>
                 <div className="func-right">
@@ -26,11 +26,11 @@ export default function Loading() {
                         <Link href="/map" className="func-each-icon">
                             <FontAwesomeIcon icon={faMap} className="func-each-icon" />
                         </Link>
-                    </div>
+                    </div> */}
                     {/* <Link href="/login" className="login-button" style={{ marginLeft: "10px" }}>Login</Link> */}
                     {/* <div className="logout-button" style={{ marginLeft: "10px", cursor: "pointer" }}>Logout</div> */}
-                </div>
-            </div>
+                {/* </div>
+            </div> */}
 
             <div className={`add-city-row`}>
                 <div style={{ display: "flex" }}>
